@@ -1,0 +1,143 @@
+# Functions
+
+So far, we've used a few built-in tools like `mean()` - if you're
+coming from a language like SPSS you might think of these tools as "commands",
+but in R we call them **functions**. Functions are basically reusable chunks of
+code, that take a certain set of inputs (also called **arguments**) and either
+produce an output (a **return value**), or just do a task like showing a plot
+(without necessarily producing a value that you can use later). When you plug
+a specific set of inputs into the function and "run" it, we say that you're 
+**calling** the function.
+
+The `mean()` function in R can take a vector of numbers as an input,
+and return a single number as an output:
+
+```{r mean_function_example}
+mean(c(5, 3, 8, 6, 3, 4))
+```
+
+## Arguments
+
+The arguments of a function are the set of inputs it accepts. Some
+of the inputs will be used to calculate the output, while some
+might be different options that affect how the calculation happens.
+
+If we look at the arguments for the default `mean()` function in R,
+accessed by entering `?mean` in the console, we see:
+
+```{r mean_args, eval=FALSE}
+mean(x, trim = 0, na.rm = FALSE, ...)
+```
+
+Since the first argument `x` appears on its own, it's a **mandatory** argument,
+and you have to provide some kind of value for `x`, otherwise you get an
+error:
+
+```{r mean_missing_x, eval = FALSE}
+mean()
+## Error in mean.default() : argument "x" is missing, with no default
+```
+
+Arguments like `trim = 0` are optional when you're calling the function:
+the value after the `=` is the **default value** that will be used if you don't
+explicitly change it. The default values tell you what types of input
+that argument accepts (numeric, logical, character, etc.), but it's also good
+to read the information on the function's help page for more detail.
+
+```{r default_args_example}
+random_scores = sample(1:50, size = 20)
+mean(random_scores)
+# This is the same as above, since this is already the default
+mean(random_scores, trim = 0)
+mean(random_scores, trim = 0.1)
+```
+
+### Positional or Named Arguments
+
+If you provide arguments for a function without specifying an argument name,
+they will be used in order, left to right, i.e. by **position**. R has a 
+`plot(x, y)` function, and if you call it with `plot(1:5, 10:6)`, `1:5`
+will be matched up with `x` and `10:6` will be matched up with `y`. Most
+functions take a vector or dataframe as their first argument, so you often
+end up passing the first argument by position.
+
+If you specify the argument name, you are passing the argument by **name**.
+It doesn't matter which order you pass named arguments in, and you can
+skip over any arguments you don't want to provide. Because the order doesn't
+matter, both of these are equivalent to `plot(1:5, 10:6)`:
+
+```{r named_args_examples, eval=FALSE}
+plot(x = 1:5, y = 10:6)
+plot(y = 10:6, x = 1:5)
+```
+
+You can provide arguments by both position *and* name. Usually, you
+provide one or two positional arguments first, and then as many named
+arguments as you need[^arg-mixing]:
+
+```{r name_and_position_args, eval=FALSE}
+# First two arguments by position, the rest named
+plot(1:5, 10:6, type = "l", main = "A scatter plot")
+```
+
+If in doubt, just name all the arguments.
+
+[^arg-mixing]: You can mix and match positional and named arguments in 
+different ways, but it gets confusing and is not recommended.
+
+## Writing your own functions
+
+You can write your own functions in R. In fact, there's no real difference
+between functions you write yourself and those that are built-in or provided
+by other packages. Generally, using existing functions saves a lot of time
+(and debugging), but there's nothing stopping you from creating your
+own tools if the existing ones don't quite give you what you need.
+
+The basic template for creating a function is:
+
+```{r function_template, eval=FALSE}
+# Just a template, not runnable code
+function(arg, optional_arg = TRUE) {
+   result = arg + 3 
+   if (optional_arg) {
+       result = result + 1
+   }
+   return(result)
+}
+```
+
+We set out what arguments are going to be used within the parentheses `()` after
+`function`. Then, within the braces `{}` (called the **body** of the function),
+we write code to transform the inputs into whatever form we need.
+ `return(result)` specificies that we want the output of the function to
+be the value of the `result` variable[^explicit-return].
+
+[^explicit-return]: `return()` is not strictly needed in R: R will return
+the last value you calculate in the function by default, but `return()`
+makes it clearer.
+
+A simple example of a useful function you might write yourself is:
+
+```{r function_simple_example}
+# It's good to write a quick comment explaining what the
+#   function does and what inputs it needs:
+# get_percent: return the proportion of TRUE values as a percentage
+# Arguments:
+# x: a logical vector
+get_percent = function(x) {
+   percent = sum(x) / length(x) * 100 
+   return(percent)
+}
+
+random_scores = sample(1:50, size = 20)
+get_percent(random_scores > 20)
+```
+
+The advantages of writing functions are:
+
+* If you're doing the same thing multiple times on different pieces of data, 
+  you can create a function and stop writing the same code over and over.
+* A function with a sensible name can make it clearer what is happening
+  in the code: e.g. `get_percent(score)` vs `sum(score) / length(score)`.
+* You can share functions you've written with other people - they're
+  flexible by nature so they're not tied to your specific data. 

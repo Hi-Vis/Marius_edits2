@@ -1,0 +1,349 @@
+# The Basics of R
+
+R is built around a few basic pieces - once you understand them,
+it's easier to understand more complex commands, since everything
+is built from the same basic foundations.
+
+In programming terms, we can refer to the basic pieces that make
+up R as **data types**.
+
+## Basic data types
+
+### Numbers
+
+The **numeric** data type allows you to work with numbers. R can
+do all the basic operations you'd expect: addition, subtraction,
+multiplication and division.
+
+At the most basic level, you can use R as a calculator by doing
+standard operations like `+`, `-`, `/` (division), `*` (multiplication),
+`^` (power)` on numeric data:
+
+```{r numeric_calculator, prompt=TRUE}
+1 + 1
+2.5 * 3
+8^2
+```
+
+R also has an **integer** (whole number) data type. Integers (usually)
+work exactly the same as **numeric** data, so you don't need to worry
+too much about the difference for now. Integers will automatically be
+converted to the more general numeric format when needed:
+
+```{r integer_example}
+# You can specify that data should be integers using "L"
+1L + 1L
+# Automatically converts the result to numeric
+3L + 0.1
+5L / 2
+```
+
+### Characters (text)
+
+The **character** data type allows you to store and manipulate
+text. Character data is created by wrapping text in either single `'` or
+double `"` quotes. In programming terms, we also refer to each chunk of text
+as a **string**:
+
+```{r character_examples}
+"apple"
+# Note: this is still just one string. All the text, including
+#   the spaces, is contained in the same chunk of text
+toupper("three bananas")
+# Get part of a string.
+substr("carrot", 1, 3)
+```
+
+### Logical (True/False)
+
+The **logical** data type is used to represent the True/False result
+of a logical test or comparison. These are represented by the
+special values of `TRUE` and `FALSE` (basically 1 and 0, with special labels
+attached to them). To do logical comparisons, you can use syntax like:
+
+* `==`: equals. Note that you need a double equal sign to compare values,
+  a single equal sign does something different.
+  
+```{r eq_example, prompt=TRUE}
+"a" == "b"
+```
+
+* `<`, `>`: less than, greater than
+
+```{r lt_gt_example, prompt=TRUE}
+3 < 4
+```
+
+* `<=`, `>=`: less than or equal to, greater than or equal to
+
+```{r leq_geq_example, prompt=TRUE}
+10 >= 10
+```
+
+* `!=`: not equal to
+
+```{r neq_example, prompt=TRUE}
+"hello" != "world"
+```
+
+* `!`: not, which reverses the result of another logical test:
+
+```{r not_example, prompt=TRUE}
+! (5 > 3)
+```
+
+## Variables: Storing Results
+
+The results of calculations in R can be stored in **variables**: you
+give a name to the results, and then when you want to look at, use
+or change those results later, you access them using the same name.
+
+You **assign** a value to a variable using either `=` or `<-` (these
+are mostly equivalent, don't worry too much about the difference), putting
+the variable name on the left hand side and the value on the right.
+
+```{r variables_example}
+scale_total = 3 + 8 + 5 + 2 + 4
+# Accessing saved results
+scale_total
+# Using saved results in another calculation
+severe_disorder = scale_total >= 15
+severe_disorder
+# Changing a variable: this will overwrite the old value with the
+#   new one, the old value won't be available unless you've
+#   stored it somewhere else
+scale_total = scale_total + 2
+scale_total
+```
+
+The **expression** on the right hand side might be long and complex,
+but as long as it's valid R code that creates a single value,
+all you're doing is creating a single value and assigning it to
+a name, just like in the simple examples above.
+
+Variable names in R should start with a letter (`a-zA-Z`), and
+can contain letters, numbers, underscores `_` and periods `.`, so
+`model3`, `get.scores`, `ANX_total` are all valid variable names.
+
+### Copying Variables
+
+If you assign an existing value to a new variable, it will
+create a copy. If you change one copy, the other will
+stay as it was:
+
+```{r copy_example}
+a = 3
+b = a
+b = b + 2
+a
+b
+```
+
+This can be useful if you want to test out some changes to your data, or create
+multiple different subsets of the same data.
+
+## Vectors
+
+All the data-types discussed above can be stored in **vectors**[^vectors], which
+are sequences with multiple elements of the same type. Vectors can be
+created using `c(..., ..., ...)` to put together multiple elements.
+
+```{r vector_example, prompt=TRUE}
+c(1, 2, 3, 10)
+```
+
+The number of elements in a vector is the **length**:
+
+```{r vec_length_example, prompt=TRUE}
+length(c("a", "b", "c"))
+```
+
+[^vectors]: Actually, most things in R are vectors, even when they look like
+single values. Even the single elements shown above, like `3`, are just 
+vectors with a length of 1.
+
+
+### Calculating with vectors
+
+R automatically applies most calculations and operations to every element
+of a vector at the same time, so you work with vectors the same way
+you would single values[^for-loops].
+
+[^for-loops]: In other programming languages, you might have to manually
+apply the operation to each element of the sequence, using something
+like a for loop. 
+
+Adding, multipying, or comparing a single value with a vector automatically
+adds, multiplies or compares the single value to every element of the vector.
+The result is a new vector with the same length:
+
+```{r vec_vs_value_examples, prompt=TRUE}
+1 + c(1, 2, 3)
+3 * c(10, 20, 30)
+"banana" == c("apple", "banana", "carrot")
+```
+
+When you work with two vectors of the same length, R automatically
+matches up the first element of one vector with the first element
+of the other, the second element with the second element, and so on:
+
+```{r vec_vec_examples, prompt=TRUE}
+c(1, 2, 3) + c(10, 20, 30)
+c("a", "b", "c") == c("a", "x", "c")
+```
+
+**NB: not recommended!** It's possible to do some tricks with
+vectors of different lengths, but it's generally not needed. Usually,
+you'll either have a single value you want to work with, or vectors
+that are all the same length.
+
+```{r different_length_example, prompt=TRUE}
+# "Clever", but not recommended
+c(0, 1) * c(1, 2, 3, 4, 5, 6, 7, 8)
+```
+
+Most of the time, trying to work with two vectors of different lengths
+will just produce a warning or an error that lets you know something
+is wrong:
+
+```{r different_length_error, prompt=TRUE}
+c(5, 6) * c(3, 8, 4)
+```
+
+#### R is built around vectors
+
+The details above are relevant when you need to do custom calculations
+manually. But of course, R already has plenty of built-in commands,
+and these are all designed to work with vectors. A lot of the time,
+you'll just be feeding vectors into existing commands:
+
+```{r vec_function_examples, prompt=TRUE}
+sum(c(1, 2, 3))
+mean(c(10, 12, 16, 18))
+t.test(c(1, 2, 3, 4), c(1, 2, 3, 5))
+```
+
+### Missing values
+
+All types of vectors allow for missing data, through the special `NA`
+value. 
+
+```{r basic_na_example}
+c(29, NA, 14)
+```
+
+Generally, `NA` values will stay `NA` when you try to calculate 
+with the vector, which makes sense.
+
+```{r na_calculation_example}
+c(29, NA, 14) * 2
+toupper(c("a", NA, "c"))
+# Missing values on either side of the sum will produce
+#   missing values in the result
+c(1, NA, 3) + c(4, 5, NA)
+```
+
+The `is.na()` function can test which values are missing:
+
+```{r is_na_example}
+is.na(c(1, NA, 3))
+```
+
+Functions like `sum()` and `mean()` will produce a missing
+result by default if *any* values in the input are missing. Use the
+`na.rm = TRUE` option (short for "`NA` remove") to ignore the missing values 
+and just use the values that are available:
+
+```{r sum_missing_example}
+mean(c(1, 3, NA, 7, 9))
+mean(c(1, 3, NA, 7, 9), na.rm = TRUE)
+```
+
+Other functions in R will automatically remove missing values, but
+will usually warn you when they do. It's always good to check
+how missing values are being treated, whatever tool you're using.
+
+### Indexing: accessing parts of vectors
+
+To access parts of a vector, use square brackets `[]` after the vector
+and use integers to specify which parts you want to extract. E.g. to 
+extract the second element:
+
+```{r basic_indexing_example}
+c("a", "b", "c", "d")[2]
+```
+
+This is known as **indexing**. Here, 2 is the **index**.
+
+To extract multiple elements, you can use a vector as the index. R
+returns a new vector, containing the elements that match up to the index.
+
+```{r vector_indexing_example}
+c("a", "b", "c", "d")[c(2, 3, 4)]
+# This is a handy shortcut that does the same thing
+c("a", "b", "c", "d")[2:4]
+```
+
+The index can include any number between 1 and the length
+of the vector, in any order. You can also access the same
+element multiple times:
+
+```{r vector_indexing_out_of_order}
+c("a", "b", "c", "d")[c(4, 1, 2, 3, 1, 2)]
+```
+
+### Logical indexing: filtering your data based on conditions
+
+One of the most powerful tools in R is the ability to
+access the subset of your data that meets a condition.
+If you use a **logical** vector with the same length as the index for 
+your vector, R returns a new vector containing just the elements
+where the index was `TRUE`:
+
+```{r basic_logical_indexing}
+c(20, 10, 30)[c(TRUE, FALSE, TRUE)]
+```
+
+This means you can filter the vector using the results of a logical
+test:
+
+```{r logical_indexing_test}
+x = c(20, 10, 30)
+# Same results as above
+x[x >= 20]
+```
+
+This works because the result of `x >= 20` is a logical vector
+`c(TRUE, FALSE, TRUE)`, which works just like it did above. If you're having 
+trouble understanding a complex R expression, you can often pull out the 
+individual parts and test them separately to see how they work.
+
+This kind of logical subsetting is particularly useful
+once you start testing based on other vectors:
+
+```{r logical_indexing_multiple}
+group = c("Control", "Treatment", "Treatment", "Control")
+score = c(6, 5, 7, 4)
+score[group == "Treatment"]
+```
+
+### Changing vectors
+
+To change part of a vector, you can index the vector on the left-hand
+side of the `=`/`<-` symbol and put the replacement on the right-hand
+side. You just need to make sure the replacement is either a single
+value, or the same length as the part you're replacing:
+
+```{r index_assignment}
+x = c(11, 15, 12, 13, 18)
+# Replace a single element
+x[4] = 44
+x
+# Replace multiple elements
+x[2:4] = c(6, 7, 8)
+x
+# Replace based on a test
+x = c(11, 15, 12, 13, 18)
+x[x > 14] = 0
+x
+```

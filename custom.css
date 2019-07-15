@@ -1,0 +1,26 @@
+.book-body {
+    background-color: #f0f1f2;
+}
+
+.book .book-summary {
+    background-color: #323232;
+    color: #ddd;
+}
+
+.book .book-summary ul.summary li a {
+    color: #ddd;
+}
+
+p.caption {
+  color: #777;
+  margin-top: 10px;
+}
+
+.note {
+    background-color: #d0d1d2;
+}
+
+.note p {
+    margin-left: 15px;
+    padding: 10px;
+}
