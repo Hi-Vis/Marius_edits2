@@ -1,0 +1,11 @@
+image: rocker/verse
+
+pages:
+  stage: deploy
+  script:
+  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook', output_dir = 'public')"
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
