@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-biblio-style: apalike
+biblio-style: plain
 link-citations: yes
 description: "An introduction to using R for data management and analysis"
 ---
@@ -42,10 +42,3 @@ Please join us for the first session: [Getting Started With R](#installing)
 Material that I put together for these sessions will be
 added to this blog, which will hopefully grow into
 a useful resource as the sessions continue.
-
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
