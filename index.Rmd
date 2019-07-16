@@ -10,6 +10,8 @@ link-citations: yes
 description: "An introduction to using R for data management and analysis"
 ---
 
+![](Images/rad_logo.png "Rad logo")
+
 # Introduction {-}
 
 This is an experiment in running some short, informal training
