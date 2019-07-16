@@ -92,6 +92,32 @@ attached to them). To do logical comparisons, you can use syntax like:
 ! (5 > 3)
 ```
 
+#### Combining logicals: AND and OR
+
+More complex logical tests can be conducted by combining multiple tests
+with the **and** `&` and **or** `|` operators. 
+
+`&` takes two logicals, e.g. `a & b`,  and returns `TRUE` if both `a` *and* `b` 
+are `TRUE`, and `FALSE` otherwise.
+
+```{r and_examples, options}
+# Both conditions are true: TRUE & TRUE is TRUE
+(2 > 1) & ("a" == "a")
+# Only one condition is true: TRUE & FALSE is FALSE
+(3 >= 3) & ("b" == "a")
+```
+
+`a | b` returns `TRUE` if either `a` *or* `b` is `TRUE`
+
+```{r or_examples, options}
+# FALSE | TRUE is TRUE
+(1 > 2) | ("a" == "a")
+# FALSE | FALSE is FALSE
+(1 > 2) | ("a" == "b")
+```
+
+It's best to wrap each individual test in parentheses `()` to make the logic clear.
+
 ## Variables: Storing Results
 
 The results of calculations in R can be stored in **variables**: you
