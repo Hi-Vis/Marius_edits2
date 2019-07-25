@@ -19,7 +19,7 @@ to that section:
 # Code goes here
 
 ### Load data ##########
-# MOre code here
+# More code here
 ```
 
 First, we'll make sure we have the `carData` package installed - please
@@ -88,3 +88,45 @@ stored as `factor`. `factor` should only be used if you
 have categorical variables with a fixed number of levels (usually
 a small number). If you have text columns, check how they've
 been stored.
+
+## Recoding
+
+Let's go through some basic recoding. First we'll code
+people as either "introverts" or "extroverts" based
+on their scores:
+
+```{r simple_recode_example}
+cow$personality_type = ifelse(
+    test = cow$extraversion > cow$neuroticism,
+    yes = "Extravert",
+    no = "Introvert"
+)
+# Make it a factor
+cow$personality_type = factor(
+    cow$personality_type,
+    levels = c("Introvert", "Extravert")
+)
+```
+
+We've used the `ifelse()` function, which makes it easy to create
+a vector based on a test, picking values from the `yes` argument
+when the test is `TRUE` and from the `no` argument when the test
+is `FALSE`:
+
+![ifelse demonstration](Images/IfElse.png)
+
+We'll also code neuroticism and extraversion
+as either "low" or "high" based on whether they're
+above the mean:
+
+```{r low_high_recodes}
+cow$high_neuroticism = ifelse(
+    cow$neuroticism > mean(cow$neuroticism),
+    "High",
+    "Low"
+)
+cow$high_neuroticism = factor(
+    cow$high_neuroticism,
+    levels = c("Low", "High")
+)
+```
