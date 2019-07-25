@@ -6,8 +6,8 @@ bookdown::gitbook:
       before: |
         <li><a href="./">Rad</a></li>
       after: |
-        <li>This guide was created using R!</li>
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Thanks to the <code>bookdown</code> package</a></li>
+        <li><a style="padding: 4px 15px;" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></li>
+        <li><a style="padding: 4px 15px;" href="https://github.com/rstudio/bookdown" target="blank">Created with R and <code>bookdown</code></a></li>
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:
