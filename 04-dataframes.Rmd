@@ -13,7 +13,9 @@ have a fixed number of **levels**, that are set up when you first
 create a factor vector:
 
 ```{r factor_example}
-sev_factor = factor(sample(c("Moderate", "Severe"), 10, replace=TRUE))
+severity = sample(c("Moderate", "Severe"), 10, replace=TRUE)
+# Setting 'levels' also sets the order of the levels
+sev_factor = factor(severity, levels = c("Moderate", "Severe"))
 sev_factor
 ```
 

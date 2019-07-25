@@ -49,6 +49,7 @@ random_scores = sample(1:50, size = 20)
 mean(random_scores)
 # This is the same as above, since this is already the default
 mean(random_scores, trim = 0)
+# A different setting from the default
 mean(random_scores, trim = 0.1)
 ```
 

@@ -98,7 +98,9 @@ better with **wide** data. Roughly speaking, **long** data means:
 * There is one "observation" of each participant/subject per row - e.g. one 
   survey, one session
 * All the measurements of the same type are in one column - so all the
-  K6 scores, from multiple surveys, would be in a single `K6` column
+  K6 scores, from multiple surveys, would be in a single `K6` column,
+  with an additional `Time` or `Survey` column that identifies which
+  survey they come from.
   
 Example long data:
 
@@ -182,6 +184,8 @@ These rules can mean the difference between this:
 lm1=lm(y~grp+grpTime,mydf,subset=sext1=="m")
 ```
 
+and this:
+
 ```{r well_formatted_code, eval=FALSE}
 male_difference = lm(DepressionScore ~ Group + GroupTimeInteraction,
                      data = interview_data,
@@ -221,7 +225,7 @@ Comments that explain *what* is being done are less useful. People
 who already understand R code should be able to tell what is
 happening just by looking at your code (especially if you're following
 the other advice about writing readable code), so these comments
-can be repetitive:
+can be redundant:
 
 ```{r what_comment_example, eval=FALSE}
 # Calculate the mean of the anxiety scores
@@ -233,7 +237,8 @@ was tricky to get working, and you need to explain it so other
 people don't run into the same issue: 
 
 ```{r what_tricky_example, eval=FALSE}
-# This fails to converge if we don't set the fix_missing=TRUE option
+# (Example only, do not run)
+# This fails to converge if we don't set the fix_missing option
 drinking_model = logit_regression(Drink ~ Group, fix_missing=TRUE)
 ```
 
@@ -287,12 +292,17 @@ categorical variables, i.e. factors, using `haven`'s `as_factor()` function:
 survey_one = haven::as_factor(survey_one, levels = "both")
 ```
 
+The `levels = "both"` option puts both the numeric value and the text label
+into the factor labels, like `"[0] No"`, `"[1] Yes"`. As you get more
+comfortable with R you may want to just use `levels = "labels"` so you
+just get the text labels like `"No"`, `"Yes"`.
+
 You may need to convert your data [from wide to long](#wide-to-long), since
 SPSS prefers wide and R prefers long.
 
 The `haven` package can also read SAS and Stata data, and there are
 packages like `readxl` for Excel files. It's generally easy to read
-your data into R from any format designed for tabular data.
+your data into R from any format designed for tables of data.
 
 ## Here be dragons: the bad parts of R
 
@@ -310,11 +320,12 @@ personal list of tools to **avoid** includes:
     that wouldn't be possible if they were kept in the dataset.
 * `get()` and `assign()`: These allow you to look up and create variable
   names using strings, so instead of looking up `model3`, you can
-  programmatically create the variable name `get(paste0("model", model_num))`.
+  programmatically create the variable name like 
+  `get(paste0("model", model_num))`.
   - Again, you can end up with *a lot* of variables in your environment.
   - People often use these when they want to run 100 different versions
-    of a model (there are good reasons to do this). Instead of creating
+    of a model (there are sometimes good reasons to do this). Instead of creating
     100 different variables called `model1`, `model2`, ..., `model100`, it's
     usually possible to save these in a single `list` or dataframe. Saving
-    them all in a list means it's much easier to then process and work
+    them all in a list means it's much easier to process and work
     with the results.
