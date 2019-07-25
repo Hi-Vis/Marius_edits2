@@ -113,7 +113,7 @@ a vector based on a test, picking values from the `yes` argument
 when the test is `TRUE` and from the `no` argument when the test
 is `FALSE`:
 
-![ifelse demonstration](Images/IfElse.png)
+![](Images/IfElse.png "ifelse demonstration")
 
 We'll also code neuroticism and extraversion
 as either "low" or "high" based on whether they're
