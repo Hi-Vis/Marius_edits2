@@ -130,3 +130,31 @@ cow$high_neuroticism = factor(
     levels = c("Low", "High")
 )
 ```
+
+## Utterly pointless flashy stuff
+
+Impress your friends/supervisors!
+
+```{r rayshade_code, eval=FALSE}
+# install with 
+# devtools::install_github("tylermorganwall/rayshader")
+library(rayshader)
+library(rgl)
+
+hex_gg = ggplot(cow, aes(x = extraversion, y = neuroticism)) +
+    stat_bin_hex(aes(fill = stat(ndensity)), 
+                  geom = "hex", bins = 10) +
+    scale_fill_viridis_c(option = "B") +
+    labs(x = "Extraversion", y = "Neuroticism", fill = "") +
+    theme_minimal()    
+hex_gg
+
+plot_gg(
+    hex_gg,
+    width = 4, height = 4,
+    multicore = TRUE,
+    preview = FALSE,
+    windowsize = c(800, 800)
+)
+render_movie("Images/flashy.mp4")
+```
