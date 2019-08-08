@@ -131,6 +131,86 @@ cow$high_neuroticism = factor(
 )
 ```
 
+Since the example dataset we're using doesn't have
+quite enough variables, let's also create a new one
+(not recommended in actual data):
+
+```{r create_var_example}
+# Advanced code: run this but don't worry too much about what
+#   it's doing
+set.seed(1)
+cow$depression = round(
+  19 + 
+  0.5 * cow$neuroticism +
+  -0.8 * cow$extraversion +
+  0.5 * (cow$sex == "female") +
+  rnorm(nrow(cow), sd = 3)
+)
+```
+
+## Descriptive Statistics
+
+Before doing any actual analysis it's always good to use
+descriptive statistics to look at the data and get a sense
+of what each variable looks like.
+
+### Quick data summary
+
+You can get a good overview of the entire dataset using
+`summary()`:
+
+```{r summary_df_example}
+summary(cow)
+```
+
+### Frequency tables
+
+You can count frequencies of categorical variables with
+`table()`:
+
+```{r freq_table_example}
+table(cow$sex)
+table(cow$volunteer)
+```
+
+### Histograms: distributions of continuous variables
+
+Histograms are good for checking the range of scores
+for a continuous variable to see if there are any
+issues like skew, outlying scores etc.. Use `hist()`
+to plot the histogram for a variable:
+
+```{r hist_example, fig.width=4, fig.height=3}
+hist(cow$neuroticism)
+```
+
+### Scatterplots: relationship between two continuous variables
+
+Scatterplots are useful for getting a sense of whether or
+not there's a relationship between two continuous variables.
+The basic `plot()` function in R is quite flexible, so to
+produce a scatter plot we just give it the two variables
+and use `type = 'p'` to indicate we want to plot points.
+
+```{r scatter_example, fig.width = 5, fig.height = 4}
+plot(cow$neuroticism, cow$depression, type='p')
+```
+
+This plot doesn't look great - we'll cover ways to produce
+better plots later. But you can see there's a positive
+correlation between neuroticism and depression.[^fakedata]
+To check the correlation we can use `cor()`:
+
+```{r correlation_example}
+cor(cow$neuroticism, cow$depression)
+```
+
+[^fakedata]: Keen readers will notice that the positive correlation is
+there because we put it there when generating the fake depression
+variable.
+
+## Analysis
+
 ## Utterly pointless flashy stuff
 
 Impress your friends/supervisors!
