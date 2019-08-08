@@ -211,30 +211,32 @@ variable.
 
 ## Analysis
 
-## Utterly pointless flashy stuff
+## Pointless flashy nonsense:
 
-Impress your friends/supervisors!
+Impress your friends and supervisors!
 
-```{r rayshade_code, eval=FALSE}
-# install with 
-# devtools::install_github("tylermorganwall/rayshader")
-library(rayshader)
+**NOTE:** Don't try to run this code (for now), it requires some
+libraries that are tricky to install.
+
+```{r flashy_example, eval=FALSE}
 library(rgl)
+library(rayshader)
 
-hex_gg = ggplot(cow, aes(x = extraversion, y = neuroticism)) +
-    stat_bin_hex(aes(fill = stat(ndensity)), 
-                  geom = "hex", bins = 10) +
+hex_gg = ggplot(cow, aes(x =  neuroticism, y = extraversion)) +
+    stat_bin_hex(aes(fill = stat(density), colour = stat(density)), 
+                 bins = 10,
+                 size = 1) +
     scale_fill_viridis_c(option = "B") +
-    labs(x = "Extraversion", y = "Neuroticism", fill = "") +
-    theme_minimal()    
+    scale_color_viridis_c(option = "B", guide = "none") +
+    labs(x = "Neuroticism", y = "Extraversion", fill = "",
+         colour = "") +
+    theme_minimal()
 hex_gg
 
-plot_gg(
-    hex_gg,
-    width = 4, height = 4,
-    multicore = TRUE,
-    preview = FALSE,
-    windowsize = c(800, 800)
-)
-render_movie("Images/flashy.mp4")
+plot_gg(hex_gg, multicore = TRUE, windowsize = c(800, 800))
+render_movie("silly.mp4", phi = 40, theta = 30)
 ```
+
+<video autoplay loop muted playsinline>
+  <source src="Images/silly.webm" type="video/webm">
+</video>
