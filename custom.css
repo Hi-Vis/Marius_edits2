@@ -17,8 +17,8 @@ p.caption {
 }
 
 .note p::before {
-    content: "✅ ";
-    padding-left: 5px;
+    content: "✅ Tip: ";
+    font-weight: 800;
 }
 
 .note p {
