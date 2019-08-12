@@ -11,15 +11,18 @@ click the download link for either Windows or Mac OS X.
 
 ### Windows instructions
 
-* Click `"Download R for Windows"`
+* Click [Download R for Windows](https://cran.r-project.org/bin/windows/)
 * Click `"base"`, and download.
 * Run the installer and install - you shouldn't need to change any
   of the options.
   
 ### Mac OS X instructions
 
-Pending. I don't use Mac so I'm not aware if there are any quirks
-to be aware of.
+* Click [Download R for (Mac) OS X](https://cran.r-project.org/bin/macosx/)
+* Download the `.pkg` file for the latest release
+* Open the installer and go through it:
+  - "Install for all users" (the default) should be fine (if you have
+    install rights on your machine)
 
 ## Installing RStudio
 
@@ -30,6 +33,12 @@ and see all the output and plots presented in the same window.
 Head to the [RStudio website](https://www.rstudio.com/products/rstudio/download/) 
 to download it: the free version is 100% fine and isn't missing any
 important features.
+
+### Mac OS X notes
+
+RStudio offers to install some "command line tools" the first time you
+open it - go ahead and install them. You won't need them right now
+but they do contain some useful tools like `git`.
 
 ## Running RStudio
 
