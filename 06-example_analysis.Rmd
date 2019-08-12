@@ -22,12 +22,15 @@ to that section:
 # More code here
 ```
 
-First, we'll make sure we have the `carData` package installed - please
-copy and run this code in your console:
+First, we'll make sure we have the `carData` and `sjPlot` packages
+installed - please copy and run this code in your console (don't
+worry if you don't understand it for now):
 
-```{r install_cardata, eval=FALSE}
-if (! require("carData", character.only = TRUE)) {
-  install.packages(c("car", "carData"))
+```{r install_eg_packages, eval=FALSE}
+for (req_package in c("car", "carData", "sjPlot", "effects")) {
+    if (! require(req_package, character.only = TRUE)) {
+      install.packages(req_package)
+    }
 }
 ```
 
@@ -37,11 +40,11 @@ The first step in any analyses is to load any libraries we're going
 to use. If you're part way through an analysis and realise you're going
 to use another library, go back and add it to the top of the script.
 
-For now, we're only using the `ggplot2` library, which produces
-nice looking plots.
+For now, we're only using the `sjPlot` library, which produces
+nice looking plots from regression models.
 
 ```{r load_libraries}
-library(ggplot2)
+library(sjPlot)
 ```
 
 ## Loading data
@@ -210,6 +213,151 @@ there because we put it there when generating the fake depression
 variable.
 
 ## Analysis
+
+### T-test
+
+We can conduct a simple *t* test of the differences in depression
+scores between males and females using the `t.test()` function.
+We can get the vector of scores for males and females by subsetting
+and passing them to the function:
+
+```{r t_test_vectors_example}
+dep_sex_test = t.test(cow$depression[cow$sex == "male"],
+                      cow$depression[cow$sex == "female"])
+dep_sex_test
+```
+
+Since we've saved the model object (basically a `list`) to a variable, we can 
+access the values we're most interested in if we need to use them again:
+
+```{r t_test_values}
+dep_sex_test$p.value
+```
+
+To discover what values are available, you can look at the **Value**
+section of the `?t.test` help page, or just type `dep_sex_test$` and
+let RStudio bring up the list of suggestions.
+
+### Formulas: a simple mini-language for expressing models
+
+If we look at `?t.test`, we can see that there are actually
+two different options for running a test: either pass two separate 
+vectors of scores representing the groups we want to compare,
+or use a **formula**.
+
+Formulas in R allow you to spell out models using a compact syntax,
+allowing you to focus on the overall structure of your model. Formulas
+in R contain `~` (a "tilde"), with the outcome on the left of the `~` and
+the predictors in the model on the right. For our t-test we have
+`depression` as the outcome and `sex` as the grouping variable (our only
+"predictor"). Running a *t* test with a formula looks like:
+
+```{r t_test_formula_example}
+t.test(depression ~ sex, data = cow)
+```
+
+When we're using a formula, we can usually use a `data =` argument
+to say where all the variables in the model come from. R will automatically
+look them up in the dataframe, without us having to access them manually.
+
+### Regression
+
+We can also run a simple linear regression, prediction `depression`
+(our outcome) using `neuroticism`, `extraversion` and `sex`. In R,
+linear regression can be done using `lm()` (short for **l**inear
+**m**odel). Our model looks like:
+
+```{r r_regress_example}
+dep_reg = lm(depression ~ neuroticism + extraversion + sex,
+             data = cow)
+summary(dep_reg)
+```
+
+#### Formula syntax
+
+The syntax you use in formulas is special, and it doesn't
+necessarily mean the same thing as it would in regular R. For example
+`+` doesn't mean "add these values together", it just means "also
+include this predictor". The most important symbols in formula syntax
+are:
+
+* `+`: just used to separate each individual predictor
+* `time:group`: `:` creates an interaction term between two variables,
+  and only that interaction term.
+* `time*group`: `*` creates an interaction term between two variables,
+  and also includes the individual main effects (`time` and `group` in
+  this example). Usually more useful than `:` because interactions
+  generally don't make sense without the main effects.
+* `1`: when you use `1` as a predictor on its own, it means "include
+  an intercept in the model". This is the default so you don't
+  have to include it. Intercepts make sense in most models.
+* `0`: signals that you don't want to fit an intercept. Not recommended
+  most of the time.
+
+#### Working with a fitted model
+
+Once we've saved a fitted model to a variable, we can use it,
+check it and save it in lots of different ways. The most
+useful way is to call `summary(model)` like we did above,
+which produces a summary table for the coefficients along
+with a few useful statistics like $R^2$.
+
+There are also hundreds of different functions that people
+have written to work with models and provide useful output,
+both built in to R and available in packages. When possible,
+look for a function that's already been written - there's no need
+to reinvent the wheel. But if you want something that's not covered,
+all the data you need is available, and you can use it to produce
+exactly what you need.
+
+`plot(model)` 
+(a built in command)
+produces a few standard diagnostic plots that do things
+like check the normality of your residuals and whether
+particular outliers are affecting the fit:
+
+```{r plot_lm_example}
+# This temporarily switches R's plotting to a 2x2 layout
+par(mfrow = c(2, 2))
+plot(dep_reg)
+# Switch plots back to normal
+par(mfrow = c(1, 1))
+```
+
+```{block, type='note'}
+If you wanted to create the first plot from scratch,
+you could plot `fitted(dep_reg)` against `resid(dep_reg)`.
+```
+
+`plot_model` from the `sjPlot` package can give
+us a nice visualisation of the effects in our model, automatically
+choosing the right kind of plot for :
+
+```{r plot_model_example}
+plot_model(dep_reg, 
+           # We want to see the effect of each predictor,
+           #   but lots of other plot types are available
+           type = "eff",
+           terms = "neuroticism")
+
+plot_model(dep_reg, 
+           # We want to see the effect of each predictor,
+           #   but lots of other plot types are available
+           type = "eff",
+           terms = "sex")
+```
+
+You're also not stuck with the default presentation
+of results from `summary()`, as there are lots of ways
+to turn your model into a nice-looking table for publication.
+`tab_model()`, also from the `sjPlot` package, produces
+good tables for regression models:
+
+```{r tab_model_example,eval=FALSE}
+tab_model(dep_reg)
+```
+
+![Example tab_model output](Images/tab_model.png)
 
 ## Pointless flashy nonsense:
 
