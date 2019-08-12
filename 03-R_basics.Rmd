@@ -118,6 +118,25 @@ are `TRUE`, and `FALSE` otherwise.
 
 It's best to wrap each individual test in parentheses `()` to make the logic clear.
 
+## Converting between types
+
+Occasionally your data will be read in from a file as the wrong type.
+You might be able to fix this by changing the way you read in the file,
+but otherwise you should **convert** the data to the type that makes
+the most sense (you might have to clean up some invalid values first).
+
+Functions like `as.character()`, `as.numeric()` and `as.logical()` will
+convert data to the relevant type. Probably the most common type conversion
+you'll have to do is when `numeric` data gets treated as text and is stored
+as `character`. Numeric operations like addition won't work until you fix
+this:
+
+```{r numeric_wrong_type, error=TRUE}
+"1" + 1
+one_fixed = as.numeric("1")
+one_fixed + 1
+```
+
 ## Variables: Storing Results
 
 The results of calculations in R can be stored in **variables**: you
