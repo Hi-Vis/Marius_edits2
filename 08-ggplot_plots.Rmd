@@ -1,0 +1,147 @@
+# Better plots with `ggplot2`
+
+R's plotting tools are very good, and in particular, there's
+a great library called `ggplot2` that allows you to put together
+a huge variety out of plots using a simple system and some
+common pieces.
+
+`ggplot2` is loaded whenever you use `library(tidyverse)`,
+but you can also load it individually:
+
+```{r load_ggplot_again, options}
+library(ggplot2)
+
+cow = carData::Cowles
+```
+
+## Using `ggplot2` properly
+
+`ggplot2` will always work best if:
+
+* Everything you want to show in the plot is
+  in a single dataframe.
+* Each aspect of the plot is represented by a single
+  column.
+* Each column has the right data type, depending
+  on whether it's categorical or continuous
+  (`factor` or `numeric`).
+
+You can make plots work if you don't have have those
+things, but they will be much clunkier to put together. 
+Take the time to put the data into the right shape
+before you try to produce a plot.
+
+## Mapping aesthetics
+
+The most important concept in `ggplot2` is **mapping**
+each variable in the data to an **aesthetic** feature
+of the plot. A wide variety of plots can be put together
+using a small number of common aesthetics. The aesthetic
+mapping for a plot is set up using the `aes()` function.
+
+Think about a scatterplot - one variable is mapped
+to the position along the x-axis, and another
+is mapped to the position along the y-axis. So
+a basic scatterplot in ggplot is:
+
+```{r basic_ggplot_scatterplot, fig.width=4, fig.height=3}
+ggplot(cow, aes(x = neuroticism, y = extraversion)) +
+    geom_point()
+```
+
+You could also map another variable to the colour of the points:
+
+```{r ggplot_scatter_colours, fig.width=4, fig.height=3}
+ggplot(cow, 
+       aes(x = neuroticism, y = extraversion, colour = sex)) +
+    geom_point()
+```
+
+Sometimes you want to change the look of *everything* in the plot,
+without it being specific to individual data points. In that
+case, you don't put it in the `aes()` mapping. Everything
+that's connected to the data should still go in `aes()`. For
+example, when scatterplots have lots of points it helps
+to make them transparent so you can see how many points
+are overlapping:
+
+```{r ggplot_scatter_alpha, fig.width=4, fig.height=3}
+ggplot(cow, 
+       aes(x = neuroticism, y = extraversion, colour = sex)) +
+    geom_point(alpha = 0.4)
+```
+
+## geoms: representing the data with different components
+
+`ggplot2` doesn't have functions for specific kinds of plots
+like a "boxplot" or "bar chart". It does have all the components
+you need to put these together though.
+
+A boxplot will usually have:
+
+* A categorical variable mapped to `x`
+* A continuous variable mapped to `y`
+* Possibly extra variables mapped to the "fill colour" of
+  the boxes.
+  
+```{r ggplot_boxplot_example, fig.width = 4, fig.height=3}
+ggplot(cow, aes(x = sex, y = extraversion, fill = volunteer)) +
+    geom_boxplot()
+```
+
+A bar chart will usually have:
+
+* A discrete variable mapped to `x`
+* Another variable mapped to `fill` that defines
+  the subgroups.
+* No variable mapped to `y`: `y` in a bar chart is
+  normally just the count (number of rows) in
+  each subgroup.
+* The bars for the subgroups either "stacked" on top
+  of each other or side by side (ggplot2 calls this
+  "dodging")
+  
+```{r ggplot_bar_example, fig.width=4, fig.height=3}
+ggplot(cow, aes(x = sex, fill = volunteer)) +
+    geom_bar(position = "dodge")
+```
+
+We've done some very standard plot types here
+to help illustrate how each plot can be broken down
+into its aesthetic mappings, but the real power
+of ggplot is that you aren't tied to the standard
+kinds of plots - you can mix and match their
+components to produce a unique plot that shows
+exactly what you want.
+
+## Combining geoms
+
+Here we'll produce a plot that shows:
+
+* The individual data points ("jittered" a bit so they
+  don't all overlap)
+* Contours that show how dense the points are
+* A "line of best fit" that shows the overall relationship
+  between two variables
+  
+When you plot multiple geoms, the order you put them
+together defines which element will be on top - the
+first geom is on the bottom.
+
+```{r ggplot_complex_example, message=FALSE}
+ggplot(cow, aes(x = neuroticism, y = extraversion)) +
+    stat_density_2d(aes(fill = stat(level)),
+                    geom = "polygon",
+                    alpha = 0.6) +
+    geom_jitter(alpha = 0.5) +
+    geom_smooth(colour = "red") +
+    scale_fill_viridis_c() +
+    theme_bw()
+```
+
+This plot is probably a little bit too "busy" to be really useful -
+it's up to you to figure out what aspects of the data are most useful
+to represent in a plot.
+
+## Other packages use `ggplot2` too
+
