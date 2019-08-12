@@ -131,7 +131,11 @@ ggplot(iris, aes(x = Petal.Length, y = Petal.Width, colour = Species)) +
 As you try out different analyses and tasks in R, you'll
 come across recommendations for other packages - there are
 no major drawbacks to trying them out, so feel free to install and have
-a look. It's worth trying to keep the number of packages
-in a single analysis low to avoid overlap and some occasional conflicts
-between packages, so check if there any you're loading that aren't need anymore.
+a look - there are some great packages out there.
+
+However, it's worth trying to keep the number of packages **in a single
+analysis** low to avoid overlap and keep things simple. (you do also get
+occasional conflicts between packages where they don't play nice with each
+other) between packages, so if you're loading a lot of package in your analysis
+it's worth checking if you can get rid of some of them.
 
