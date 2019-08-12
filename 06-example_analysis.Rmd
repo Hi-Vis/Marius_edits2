@@ -94,9 +94,25 @@ been stored.
 
 ## Recoding
 
-Let's go through some basic recoding. First we'll code
-people as either "introverts" or "extroverts" based
-on their scores:
+Let's go through some basic recoding. First we'll create a variable
+to show whether someone is above or below the mean for extraversion.
+We'll do this manually first, using the tools we've covered so far:
+
+```{r manual_recode_example, options}
+# Create a vector that's all "Low" to start with
+cow$high_extraversion = "Low"
+# Replace the values where extraversion is high
+cow$high_extraversion[cow$extraversion > mean(cow$extraversion)] = "High"
+# Make it a factor
+cow$high_extraversion = factor(
+    cow$high_extraversion,
+    levels = c("Low", "High")
+)
+```
+
+Next we'll code people as either "introverts" or "extroverts" based
+on their scores. We'll use a function called `ifelse()` to do this,
+which makes the process we carried out above a bit more automatic:
 
 ```{r simple_recode_example}
 cow$personality_type = ifelse(
@@ -111,7 +127,7 @@ cow$personality_type = factor(
 )
 ```
 
-We've used the `ifelse()` function, which makes it easy to create
+`ifelse()` makes it easy to create
 a vector based on a test, picking values from the `yes` argument
 when the test is `TRUE` and from the `no` argument when the test
 is `FALSE`:
@@ -173,7 +189,7 @@ You can count frequencies of categorical variables with
 
 ```{r freq_table_example}
 table(cow$sex)
-table(cow$volunteer)
+table(cow$sex, cow$volunteer)
 ```
 
 ### Histograms: distributions of continuous variables
@@ -272,6 +288,22 @@ dep_reg = lm(depression ~ neuroticism + extraversion + sex,
              data = cow)
 summary(dep_reg)
 ```
+
+#### Why was that so easy?
+
+The regression model above was simple to fit because:
+
+* We had all our data in a nice clean dataframe (in **long** format)
+* All our continuous variables were coded as numeric
+* All our categorical variables (`sex`) were coded as factors
+
+Most of the setup for running models in R happens beforehand. Factors
+will be treated as discrete variables, and numeric variables as
+continuous variables, so make sure all your variables are the
+right type before you try to fit a model.
+
+If you don't have variables coded the right way, go back up
+to the "recoding" section of your script and fix them there.
 
 #### Formula syntax
 
