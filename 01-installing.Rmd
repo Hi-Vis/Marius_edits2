@@ -31,8 +31,8 @@ interface that makes it easy to save and run scripts,
 and see all the output and plots presented in the same window.
 
 Head to the [RStudio website](https://www.rstudio.com/products/rstudio/download/) 
-to download it: the free version is 100% fine and isn't missing any
-important features.
+to download the free version of **RStudio Desktop**: the free version is 100% 
+fine and isn't missing any important features.
 
 ### Mac OS X notes
 
