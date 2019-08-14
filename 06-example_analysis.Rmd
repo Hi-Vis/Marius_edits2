@@ -167,6 +167,19 @@ cow$depression = round(
 )
 ```
 
+We'll recode this "depression" score into categories using
+`cut()`, which allows us to divide up scores into
+more than two categories:
+
+```{r cut_recode_example}
+cow$depression_diagnosis = cut(
+    cow$depression,
+    breaks = c(0, 20, 25, 33),
+    labels = c("None", "Mild", "Severe"),
+    include.lowest = TRUE
+)
+```
+
 ## Descriptive Statistics
 
 Before doing any actual analysis it's always good to use
@@ -363,7 +376,8 @@ you could plot `fitted(dep_reg)` against `resid(dep_reg)`.
 
 `plot_model` from the `sjPlot` package can give
 us a nice visualisation of the effects in our model, automatically
-choosing the right kind of plot for :
+choosing the right kind of plot for the predictor depending on
+whether it's continuous or categorical:
 
 ```{r plot_model_example}
 plot_model(dep_reg, 
@@ -373,8 +387,6 @@ plot_model(dep_reg,
            terms = "neuroticism")
 
 plot_model(dep_reg, 
-           # We want to see the effect of each predictor,
-           #   but lots of other plot types are available
            type = "eff",
            terms = "sex")
 ```

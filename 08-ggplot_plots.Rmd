@@ -12,6 +12,15 @@ but you can also load it individually:
 library(ggplot2)
 
 cow = carData::Cowles
+# Recreating the depression variable from before
+set.seed(1)
+cow$depression = round(
+  19 + 
+  0.5 * cow$neuroticism +
+  -0.8 * cow$extraversion +
+  0.5 * (cow$sex == "female") +
+  rnorm(nrow(cow), sd = 3)
+)
 ```
 
 ## Using `ggplot2` properly
@@ -45,7 +54,7 @@ is mapped to the position along the y-axis. So
 a basic scatterplot in ggplot is:
 
 ```{r basic_ggplot_scatterplot, fig.width=4, fig.height=3}
-ggplot(cow, aes(x = neuroticism, y = extraversion)) +
+ggplot(cow, aes(x = neuroticism, y = depression)) +
     geom_point()
 ```
 
@@ -53,21 +62,22 @@ You could also map another variable to the colour of the points:
 
 ```{r ggplot_scatter_colours, fig.width=4, fig.height=3}
 ggplot(cow, 
-       aes(x = neuroticism, y = extraversion, colour = sex)) +
+       aes(x = neuroticism, y = depression, colour = sex)) +
     geom_point()
 ```
 
 Sometimes you want to change the look of *everything* in the plot,
 without it being specific to individual data points. In that
-case, you don't put it in the `aes()` mapping. Everything
-that's connected to the data should still go in `aes()`. For
+case, you don't put it in the `aes()` mapping, you **set it as an
+argument for the geom you want to change**. Everything
+that **varies based on data** should still go in `aes()`. For
 example, when scatterplots have lots of points it helps
 to make them transparent so you can see how many points
 are overlapping:
 
 ```{r ggplot_scatter_alpha, fig.width=4, fig.height=3}
 ggplot(cow, 
-       aes(x = neuroticism, y = extraversion, colour = sex)) +
+       aes(x = neuroticism, y = depression, colour = sex)) +
     geom_point(alpha = 0.4)
 ```
 
@@ -85,7 +95,7 @@ A boxplot will usually have:
   the boxes.
   
 ```{r ggplot_boxplot_example, fig.width = 4, fig.height=3}
-ggplot(cow, aes(x = sex, y = extraversion, fill = volunteer)) +
+ggplot(cow, aes(x = sex, y = depression, fill = volunteer)) +
     geom_boxplot()
 ```
 
@@ -129,7 +139,7 @@ together defines which element will be on top - the
 first geom is on the bottom.
 
 ```{r ggplot_complex_example, message=FALSE}
-ggplot(cow, aes(x = neuroticism, y = extraversion)) +
+ggplot(cow, aes(x = neuroticism, y = depression)) +
     stat_density_2d(aes(fill = stat(level)),
                     geom = "polygon",
                     alpha = 0.6) +
@@ -140,8 +150,9 @@ ggplot(cow, aes(x = neuroticism, y = extraversion)) +
 ```
 
 This plot is probably a little bit too "busy" to be really useful -
-it's up to you to figure out what aspects of the data are most useful
-to represent in a plot.
+when you have so many options for what you can fit in a plot,
+you have to make good choices about what's most important to
+include.
 
 ## Other packages use `ggplot2` too
 
