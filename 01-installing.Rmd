@@ -1,5 +1,7 @@
 # Getting started with R {#installing}
 
+![Artwork by \@allison_horst](Images/allisonhorst/r_first_then.png "Getting started with R")
+
 ## Installing R
 
 R, on its own, is basically just a command-line: you send it commands
