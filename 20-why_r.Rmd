@@ -1,0 +1,38 @@
+# Why R is Good {-}
+
+## R is a Language {-}
+
+R is not just a program that you issue commands to - it's a language with
+consistent rules you can learn, and all the tools in R are written using that
+language and those rules[^written-in-c]. That means:
+
+* Every tool and function you use is built out of the same basic components.
+* You can write tools and functions that are just as capable and flexible
+  as the built-in tools.
+* If you need to, you can "open up" other people's tools and change,
+  modify or improve them.
+  
+## R is a programming language {-}
+
+As well as being a language, R is specifically a *programming* language, and
+has some of the standard features of programming languages that allow them
+to be flexible, and to "abstract away" the low-level details of tasks so you  
+can concentrate on the bigger picture.
+
+Every part of your data in R is available as an R object, and you can
+access, modify and change it the same way as any other data.
+For example, you can get the column names of your data set as a
+character vector, which then works the same way as a text column
+in your actual data. Then you can:
+
+* Use some code to select a subset of your columns (without typing them
+  all out manually)
+* Write code that will automatically apply the same recoding step to each
+  of those columns (by "looping" or "iterating") over them.
+* Write a function that can carry out these same steps on a brand
+  new dataset with completely different column names.
+
+[^written-in-c]: The exception to this is that the most basic components
+of R, like addition of numbers, are written in C for speed. These are
+usually the components that are so "low-level" that you don't need
+to modify them.
