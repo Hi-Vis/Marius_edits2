@@ -35,6 +35,8 @@ cow = carData::Cowles
 
 ## `dplyr`: Turning complex analyses into simple steps
 
+![Artwork by \@allison_horst](Images/allisonhorst/dplyr_wrangling.png)
+
 As your analyses get more complicated, your code can get
 more complicated as well. To get to the answers you want,
 you might have to:
