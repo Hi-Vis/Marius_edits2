@@ -56,7 +56,7 @@ Most R scripts I write have the same basic layout:
 3. Changing or analysing the data
 4. Saving the results or the recoded data file
 
-For any larger project, it's good to create multiple different scripts for
+For a larger project, it's good to create multiple different scripts for
 each stage, e.g. one file to recode the data, one to run the analyses.
 
 When saving the recoded data, it's best to save it as a different file -
@@ -76,8 +76,7 @@ permanent.
 
 By default, RStudio will save your current "workspace" when you
 quit. While convenient, this can mean that you make one-off changes
-to your data and forget to save that command in your script, instead
-continuing to work off the data in your workspace. Starting
+to your data and forget to save that command in your script. Starting
 with a fresh session every time you open RStudio means you'll learn
 to keep every step of your analysis in your script, and you'll
 know that you can get back to where you were by rerunning the script.

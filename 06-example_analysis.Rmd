@@ -2,6 +2,7 @@
 
 Now that we've covered the fundamentals of R, we can go through
 an example analysis start to finish to see everything works in practice.
+
 We'll use an example dataset from the `carData` package, a study
 looking at personality and how it relates to people's decision to volunteer
 as a research participant.
@@ -134,9 +135,8 @@ is `FALSE`:
 
 ![](Images/IfElse.png "ifelse demonstration")
 
-We'll also code neuroticism and extraversion
-as either "low" or "high" based on whether they're
-above the mean:
+We'll also code neuroticism  as either "low" or "high" based on 
+whether it's above the mean:
 
 ```{r low_high_recodes}
 cow$high_neuroticism = ifelse(
@@ -151,8 +151,8 @@ cow$high_neuroticism = factor(
 ```
 
 Since the example dataset we're using doesn't have
-quite enough variables, let's also create a new one
-(not recommended in actual data):
+quite enough variables, let's also create a new one,
+a score on a depression scale similar to PHQ-9:
 
 ```{r create_var_example}
 # Advanced code: run this but don't worry too much about what
@@ -167,7 +167,7 @@ cow$depression = round(
 )
 ```
 
-We'll recode this "depression" score into categories using
+We'll recode this depression score into categories using
 `cut()`, which allows us to divide up scores into
 more than two categories:
 
@@ -326,7 +326,7 @@ necessarily mean the same thing as it would in regular R. For example
 include this predictor". The most important symbols in formula syntax
 are:
 
-* `+`: just used to separate each individual predictor
+* `+`: used to separate each individual predictor
 * `time:group`: `:` creates an interaction term between two variables,
   and only that interaction term.
 * `time*group`: `*` creates an interaction term between two variables,
@@ -379,7 +379,7 @@ us a nice visualisation of the effects in our model, automatically
 choosing the right kind of plot for the predictor depending on
 whether it's continuous or categorical:
 
-```{r plot_model_example}
+```{r plot_model_example, fig.width=4, fig.height=3}
 plot_model(dep_reg, 
            # We want to see the effect of each predictor,
            #   but lots of other plot types are available
@@ -403,7 +403,7 @@ tab_model(dep_reg)
 
 ![Example tab_model output](Images/tab_model.png)
 
-## Pointless flashy nonsense:
+## Pointless flashy nonsense
 
 Impress your friends and supervisors!
 

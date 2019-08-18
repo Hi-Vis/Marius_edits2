@@ -4,10 +4,9 @@ So far, we've used a few built-in tools like `mean()` - if you're
 coming from a language like SPSS you might think of these tools as "commands",
 but in R we call them **functions**. Functions are basically reusable chunks of
 code, that take a certain set of inputs (also called **arguments**) and either
-produce an output (a **return value**), or just do a task like showing a plot
-(without necessarily producing a value that you can use later). When you plug
-a specific set of inputs into the function and "run" it, we say that you're 
-**calling** the function.
+produce an output (a **return value**), or just do a task like showing a plot. 
+When you plug a specific set of inputs into the function and "run" it, we say 
+that you're  **calling** the function.
 
 The `mean()` function in R can take a vector of numbers as an input,
 and return a single number as an output:
@@ -29,18 +28,17 @@ accessed by entering `?mean` in the console, we see:
 mean(x, trim = 0, na.rm = FALSE, ...)
 ```
 
-Since the first argument `x` appears on its own, it's a **mandatory** argument,
-and you have to provide some kind of value for `x`, otherwise you get an
-error:
+Since the first argument `x` appears on its own, it's a **mandatory** argument.
+You have to provide a value for `x`, otherwise you get an error:
 
 ```{r mean_missing_x, eval = FALSE}
 mean()
 ## Error in mean.default() : argument "x" is missing, with no default
 ```
 
-Arguments like `trim = 0` are optional when you're calling the function:
+Arguments like `trim = 0` are **optional** when you're calling the function:
 the value after the `=` is the **default value** that will be used if you don't
-explicitly change it. The default values tell you what types of input
+supply one. The default values tell you what types of input
 that argument accepts (numeric, logical, character, etc.), but it's also good
 to read the information on the function's help page for more detail.
 
@@ -110,7 +108,7 @@ function(arg, optional_arg = TRUE) {
 We set out what arguments are going to be used within the parentheses `()` after
 `function`. Then, within the braces `{}` (called the **body** of the function),
 we write code to transform the inputs into whatever form we need.
- `return(result)` specificies that we want the output of the function to
+ `return(result)` specificies that we want the **output** of the function to
 be the value of the `result` variable[^explicit-return].
 
 [^explicit-return]: `return()` is not strictly needed in R: R will return
