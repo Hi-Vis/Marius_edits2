@@ -59,6 +59,7 @@ use are:
 
 * `filter()`: choose rows to keep based on a logical test,
   dropping the rest.
+* `arrange()`: sort the data.
 * `select()`: choose columns to keep.
 * `mutate()`: add new columns.
 * `summarize()`: create columns that summarise the data down
@@ -120,6 +121,29 @@ the `%>%` pipe **automatically sends the data as
 the first argument to the next function**. 
 
 ### Common tasks with `dplyr`
+
+#### Selecting rows with filter
+
+Choosing rows with a logical test with `filter()` works just like
+subsetting your data with a logical vector, it's just easier
+to do it as part of a sequence of steps:
+
+```{r dplyr_filter_example, options}
+cow %>%
+  filter((sex == "male") & (volunteer == "yes")) %>%
+  head()
+```
+
+#### Sorting with `arrange`
+
+With `arrange`, you can sort by one or more columns. Use `desc(column)`
+(short for **descending**) to sort that column in the opposite direction:
+
+```{r dplyr_arrange_example, options}
+cow %>%
+  arrange(sex, volunteer, desc(extraversion)) %>%
+  head()
+```
 
 #### `group_by` for calculations within groups.
 
