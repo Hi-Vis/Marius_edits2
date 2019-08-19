@@ -1,5 +1,10 @@
 # Why R is Good {-}
 
+I've tried to keep the actual material in this course focussed on actually
+teaching R. Here, I'll make a brief attempt at evangelizing for R, and
+outline why I think it's better than other stats-focussed tools
+like SPSS and Stata.
+
 ## R is a Language {-}
 
 R is not just a program that you issue commands to - it's a language with
@@ -36,3 +41,11 @@ in your actual data. Then you can:
 of R, like addition of numbers, are written in C for speed. These are
 usually the components that are so "low-level" that you don't need
 to modify them.
+
+## R has an active community {-}
+
+There's a huge wealth of information about R available on the internet,
+thanks to the fact that people are constantly working on it, discussing it,
+and making their work public. That means getting help with R is often much
+easier than in other languages, where it seems like the same 4 academics
+have been (condescendingly) answering questions for years.
