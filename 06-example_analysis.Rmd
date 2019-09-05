@@ -113,7 +113,10 @@ cow$high_extraversion = factor(
 
 Next we'll code people as either "introverts" or "extroverts" based
 on their scores. We'll use a function called `ifelse()` to do this,
-which makes the process we carried out above a bit more automatic:
+which makes the process we carried out above a bit more automatic.
+
+It will also **handle missing values** better than our simple
+manual procedure, leaving missing scores missing in the result.
 
 ```{r simple_recode_example}
 cow$personality_type = ifelse(
