@@ -154,5 +154,21 @@ when you have so many options for what you can fit in a plot,
 you have to make good choices about what's most important to
 include.
 
+## Scales and themes: changing the look of your plot
+
+Once you have a functioning `ggplot` plot put together,
+you can start customising the look of it easily by using
+different **scales** (which change how a variable maps
+to a particular aesthetic feature of the plot) and
+**themes** (which change more general elements
+of the plot like the background colour).
+
+
+### Finding extra scales and themes
+
+Packages like `ggthemes` provide extra scales and themes: install
+them, load them and you can use the scales and themes just like
+the built in ones.
+
 ## Other packages use `ggplot2` too
 
