@@ -1,0 +1,231 @@
+# Real world data example
+
+In this example, we'll use some data derived from a real study to get
+some experience dealing with messy raw data [^simdata].
+
+[^simdata]: All the data used here was simulated with
+[simstudy](https://cran.r-project.org/web/packages/simstudy/index.html),
+so it doesn't contain data from any actual participants.
+
+Before we start, we'll install some packages:
+
+```{r real_example_packages, eval=FALSE}
+install.packages(c("readxl"))
+```
+
+## Data overview
+
+This data contains the post-treatment observations from a trial
+comparing a novel treatment to control. It contains:
+
+* SURPS scores, a scale assessing different personality traits
+  associated with substance use.
+* The anxiety and depression subscales of the Brief Symptom Inventory
+* Questions about alcohol use
+
+The scales haven't been scored, so our first step will be scoring
+them, before we move onto describing and analysing the data. 
+
+```{block, type='note'}
+Checking what you've just done is very useful after any
+change you make to the data. Throughout this example, I'll
+include notes on how you could check the previous step.
+Try to code those checks yourself!
+```
+
+## Basic setup
+
+### Load libraries
+
+As always, the first step is loading the libraries we'll use in this
+analysis:
+
+```{r real_load_libraries, options}
+library(tidyverse)
+library(psych)
+library(readxl)
+```
+
+### Load the data
+
+The example data is available online - to download it you can use:
+
+```{r download_real_data, options}
+download.file("https://gitlab.com/warsquid/rad/raw/master/data/CapSimulatedData.xlsx",
+              destfile = "CapSimulatedData.xlsx")
+```
+
+Now we can load the data in:
+
+```{r load_real_data, options}
+real = readxl::read_excel("CapSimulatedData.xlsx")
+head(real)
+```
+
+A good first step is to use `str()` to inspect the data types:
+
+```{r real_str, results='hide'}
+str(real)
+```
+
+And check some basic features of the data like the number of people
+in each intervention group (and maybe school?).
+
+```{r real_numchecks, options}
+table(real$Group)
+table(real$SchoolId)
+```
+
+### Solve major issues
+
+One major issue with this data is that not everyone completed the
+post-treatment assessment, and they have missing data for all
+the questions. In an in-depth analysis we might try to handle
+this missing data in a more sophisticated way, but for now there's
+not much we can do with it, so we'll drop it up front:
+
+```{r drop_nonpresent, options}
+real = real[real$PresentPost, ]
+```
+
+This is a slightly contrived example, but if you can do something
+to simplify your data like this, it's best to do it up front,
+before getting into the details of data cleaning and analysis.
+
+## Recoding and scoring
+
+### Scoring the easy way
+
+Sometimes there are existing functions in R or in packages that people
+have written that do exactly what we want with minimal effort.
+
+The `psych::scoreItems()` function is designed for scoring psychometric
+scales, and it has options to allow a few common tweaks to the scoring
+process, so it will often score things exactly how you want them.
+
+The most useful feature of `scoreItems()` is it allows you to specify the questions
+that make up each subscale by providing a **list**: each element
+of the list is a **character vector** specifying which questions
+are in that subscale. You can put a `-` in front of a question
+if that question should be **reverse scored**.
+
+So a simple scale with two subscales might look like:
+
+```{r scoreitems_example, eval=FALSE}
+scoring_key = list(
+    Extraversion = c("Q1", "-Q2", "Q3"),
+    Introversion = c("-Q4", "-Q5", "Q6")
+)
+```
+
+The SURPS questionnaire has four subscales, and we can score them all at once
+using:
+
+```{r psych_simple_surps, options}
+surps_keys = list(
+    Nt = c("-S1", "-S4", "-S7", "-S13", 
+           "S17", "-S20", "-S23"),
+    As = c("S8", "S10", "S14", "S18", "S21"),
+    Imp = c("S2", "S5", "S11", "S15", "S22"),
+    Ss = c("S3", "S6", "S9", "S12", "S16", "S19")
+)
+
+surps_scored = psych::scoreItems(
+    keys = surps_keys, 
+    items = real,
+    totals = TRUE,
+    impute = "median")
+```
+
+We have the scores now, but we haven't added them to our main dataset yet.
+We can look at the object that `scoreItems()` has given us:
+
+```{r psych_inspect_scores, results='hide'}
+surps_scored
+```
+
+Looking at the help page `?scoreItems` under the **Value** section tells us the 
+actual scores are stored at `surps_scored$scores`. We can add all 4 columns into
+our dataset at once with:
+
+```{r psych_bind_results, options}
+real[, c("NtTotal", "AsTotal", "ImpTotal", "SsTotal")] = surps_scored$scores
+head(real[, c("NtTotal", "AsTotal", "ImpTotal", "SsTotal")])
+```
+
+```{block, type='note'}
+Sometimes you don't need all the extra info that `psych::scoreItems()` provides.
+`psych::scoreFast()` will do the same calculations but just return the final
+scores.
+```
+
+### Scoring the harder way
+
+Functions like `scoreItems()` won't always do exactly what we want.
+When we scored the scales above, we let `scoreItems()` impute any missing
+values using that item's median score. However, if we have our own missing
+data procedure that doesn't match what `scoreItems()` does, we might have
+to do some of the work ourselves.
+
+One scoring procedure I've used in the past is:
+
+* Calculate the scale total for participants who answer all questions
+* Participants that answer fewer than 80% of a scale's items get a missing value
+* Participants that answer more than 80% of items get their scores "expanded"
+  to match the full range based on all items.
+  
+Some basic math tells us that for those participants who answer >=80% of items,
+we can calculate the mean of the items they did answer and multiply by the
+total number of items.
+
+To implement our custom procedure, we can do:
+
+```{r psych_scoreitems_custom, options}
+surps_manual = psych::scoreItems(
+    keys = surps_keys, 
+    items = real,
+    totals = FALSE, # Calculate the mean score
+    impute = "none")
+
+real$NtManual = surps_manual$scores[, "Nt"] * length(surps_keys[["Nt"]])
+# Set missing when less than 80% of items scored
+real$NtManual[surps_manual$missing[, "Nt"] > 1] = NA
+
+real$AsManual = surps_manual$scores[, "As"] * length(surps_keys[["As"]])
+real$AsManual[surps_manual$missing[, "As"] > 1] = NA
+
+real$ImpManual = surps_manual$scores[, "Imp"] * length(surps_keys[["Imp"]])
+real$ImpManual[surps_manual$missing[, "Imp"] > 1] = NA
+
+real$SsManual = surps_manual$scores[, "Ss"] * length(surps_keys[["Ss"]])
+real$SsManual[surps_manual$missing[, "Ss"] > 1] = NA
+```
+
+Note how we can use R to calculate some of the numbers involved automatically,
+like using `length(surps_keys[["Nt"]])` instead of typing the actual number.
+Reusing information that we've already stored can save us from dumb mistakes,
+since as long as we check that `surps_keys` has the right items, every piece
+of code that uses it should also have the right information.
+
+How can we figure out the maximum number of missing items for each scale?
+R can help us with that too:
+
+```{r calc_missing_nums, options}
+sapply(surps_keys, function(items) {
+    # ceiling() rounds up
+    min_items = ceiling(0.8 * length(items))
+    max_missing = length(items) - min_items
+    return(max_missing)
+})
+```
+
+As you get more comfortable with R, you can start using it not just
+to manage your data, but to do some of the extra tasks and calculations that
+pop up in the process.
+
+```{block, type='note'}
+A simple way to check this would be to look at the items from
+one of the subscales along with the total score - calculate
+a couple of scores manually and see if they match.
+```
+
