@@ -4,7 +4,7 @@ In this example, we'll use some data derived from a real study to get
 some experience dealing with messy raw data [^simdata].
 
 [^simdata]: All the data used here was simulated with
-[simstudy](https://cran.r-project.org/web/packages/simstudy/index.html),
+[synthpop](https://cran.r-project.org/web/packages/synthpop/index.html),
 so it doesn't contain data from any actual participants.
 
 Before we start, we'll install some packages:
