@@ -15,6 +15,15 @@ cover-image: "Images/Cover.png"
 favicon: "Images/rad_logo_r.png"
 ---
 
+```{r setup, include=FALSE}
+req_packages = c('car', 'carData', 'sjPlot', 'effects', 'readxl', 'tidyr',
+                 'svglite')
+
+lapply(reg_packages, function(pkg) {
+  if (system.file(package = pkg) == '') install.packages(pkg)
+})
+```
+
 
 # Introduction {-}
 
