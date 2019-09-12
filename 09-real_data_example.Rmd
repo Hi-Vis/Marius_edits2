@@ -241,3 +241,78 @@ a couple of scores manually and see if they match.
 
 ### Recoding
 
+#### Scaling/Calculating z-scores
+
+The `scale()` function converts scores to z-scores by mean-centering
+them and dividing them by their standard deviation. `scale()` returns
+a **matrix** even when we only call it on a single vector, so we need
+a bit of extra syntax to pull the values out of the matrix:
+
+```{r scaling_example, options}
+real$NtTotal_z = scale(real$NtTotal)[, 1]
+real$AsTotal_z = scale(real$AsTotal)[, 1]
+real$ImpTotal_z = scale(real$ImpTotal)[, 1]
+real$SsTotal_z = scale(real$SsTotal)[, 1]
+
+head(real[, c("NtTotal", "NtTotal_z", "AsTotal", "AsTotal_z")])
+```
+
+```{block, type='note'}
+The resulting variables should have means of (very close to) 0 and SDs
+of 1 - check them by calculating.
+```
+
+##### Advanced tip: reducing repetition
+
+If you have to do the same thing multiple times, there's
+usually a way to do it automatically, without repeating
+yourself. Using some of the advanced features of the [tidyverse](#tidyverse),
+we could instead do:
+
+```{r scaling_advanced, eval=FALSE}
+real = real %>%
+  mutate_at(c("NtTotal", "AsTotal", "ImpTotal", "SsTotal"),
+            list(z = ~ scale(.)[, 1]))
+```
+
+##### Advanced tip: Scaling within groups
+
+If we want to check peoples' scores relative to the other participants
+in their school, then we can scale the scores **within** each school.
+Again, this is something that's easiest to handle using the
+[tidyverse](#tidyverse):
+
+```{r scale_in_schools, options}
+real = real %>%
+  group_by(SchoolId) %>%
+  mutate(NtTotal_schoolz = scale(NtTotal)[, 1],
+         AsTotal_schoolz = scale(AsTotal)[, 1],
+         ImpTotal_schoolz = scale(ImpTotal)[, 1],
+         SsTotal_schoolz = scale(SsTotal)[, 1])
+
+head(real[, c("SchoolId", "NtTotal", "NtTotal_z", "NtTotal_schoolz")])
+```
+
+#### Recoding using logical tests
+
+We classify participants as **high risk** if they are more than 1 standard
+deviation above the mean on at least one subscale. First we need
+to express this as a logical test:
+
+```{r high_risk_calc, options}
+is_high_risk = (
+  (real$NtTotal_z > 1) |
+  (real$AsTotal_z > 1) |
+  (real$ImpTotal_z > 1) |
+  (real$SsTotal_z > 1)
+)
+```
+
+Then we can convert the logical vector to a factor:
+
+```{r high_risk_factor, options}
+real$Risk = factor(is_high_risk, levels = c(FALSE, TRUE),
+                   labels = c("Low", "High"))
+
+head(real[, c("NtTotal_z", "AsTotal_z", "ImpTotal_z", "SsTotal_z", "Risk")])
+```

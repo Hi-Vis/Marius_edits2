@@ -1,4 +1,4 @@
-# Easier analysis with the tidyverse
+# Easier analysis with the tidyverse {#tidyverse}
 
 Now that you know the basics of R, it's time to learn that there
 are much better ways to do everything you just learnt!
