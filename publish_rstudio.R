@@ -7,7 +7,7 @@ options(bookdown.post.latex = function(x) {
     stringr::str_replace(
         x,
         stringr::fixed("\\usepackage{color}"), 
-        "\\usepackage[table]{xcolor}"
+        "\\usepackage[table,dvipsnames]{xcolor}"
     )
 })
 

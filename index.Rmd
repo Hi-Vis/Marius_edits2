@@ -8,6 +8,7 @@ bibliography: [book.bib, packages.bib]
 biblio-style: plain
 link-citations: yes
 colorlinks: yes
+monofontoptions: "Scale=0.7"
 description: "An accessible introduction to R that doesn't assume programming experience"
 url: "https://bookdown.org/marius_mather/Rad/"
 cover-image: "Images/Cover.png"
