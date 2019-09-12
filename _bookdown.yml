@@ -1,4 +1,5 @@
 book_filename: "Rad"
+edit: "https://gitlab.com/warsquid/rad/blob/master/%s"
 delete_merged_file: true
 language:
   ui:

@@ -1,3 +1,8 @@
+description: "An accessible introduction to R that doesn't assume programming experience"
+title: "Rad: Rad for academics"
+url: "https://bookdown.org/marius_mather/Rad/"
+cover-image: "Images/Cover.png"
+favicon: "Images/rad_logo_r.png"
 bookdown::gitbook:
   css: custom.css
   highlight: pygments
@@ -8,7 +13,9 @@ bookdown::gitbook:
       after: |
         <li><a style="padding: 4px 15px;" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></li>
         <li><a style="padding: 4px 15px;" href="https://github.com/rstudio/bookdown" target="blank">Created with R and <code>bookdown</code></a></li>
+      collapse: section
     download: ["pdf", "epub"]
+    sharing: null
 bookdown::pdf_book:
   includes:
     in_header: latex/preamble.tex
