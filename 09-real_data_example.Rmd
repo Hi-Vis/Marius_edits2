@@ -50,15 +50,23 @@ library(readxl)
 
 The example data is available online - to download it you can use:
 
-```{r download_real_data, options}
+```{r download_real_data, eval=FALSE}
 download.file("https://gitlab.com/warsquid/rad/raw/master/data/CapSimulatedData.xlsx",
               destfile = "CapSimulatedData.xlsx")
 ```
 
 Now we can load the data in:
 
-```{r load_real_data, options}
+```{r load_real_data, eval=FALSE}
 real = readxl::read_excel("CapSimulatedData.xlsx")
+head(real)
+```
+
+```{r load_real_server, echo=FALSE}
+# When building the book/running in development, just
+#   load the data from the local folder rather than downloading
+#   it
+real = readxl::read_excel("data/CapSimulatedData.xlsx")
 head(real)
 ```
 
@@ -224,8 +232,12 @@ to manage your data, but to do some of the extra tasks and calculations that
 pop up in the process.
 
 ```{block, type='note'}
-A simple way to check this would be to look at the items from
+A simple way to check the scoring would be to look at all the items from
 one of the subscales along with the total score - calculate
 a couple of scores manually and see if they match.
 ```
+
+### Scoring the BSI scales
+
+### Recoding
 
