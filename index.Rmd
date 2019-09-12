@@ -50,3 +50,9 @@ Please join us for the first session: [Getting Started With R](#installing)
 Material that I put together for these sessions will be
 added to this blog, which will hopefully grow into
 a useful resource as the sessions continue.
+
+You can also download PDF and epub versions of all the material
+using the toolbar at the top. Right now the material is being
+regularly updated, so please remember to check for updates:
+
+![](Images/Cover.png "Book cover")
