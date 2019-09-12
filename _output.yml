@@ -1,8 +1,3 @@
-description: "An accessible introduction to R that doesn't assume programming experience"
-title: "Rad: Rad for academics"
-url: "https://bookdown.org/marius_mather/Rad/"
-cover-image: "Images/Cover.png"
-favicon: "Images/rad_logo_r.png"
 bookdown::gitbook:
   css: custom.css
   highlight: pygments
