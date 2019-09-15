@@ -33,6 +33,19 @@ include notes on how you could check the previous step.
 Try to code those checks yourself!
 ```
 
+### SURPS overview
+
+The SURPS scale has four subscales:
+
+* Negative thinking/hopelessness
+* Anxiety sensitivity
+* Impulsivity
+* Sensation seeking
+
+Higher scores on each subscale represent higher levels
+of the personality traits related to substance use, i.e.
+greater risk.
+
 ## Basic setup
 
 ### Load libraries
@@ -40,7 +53,7 @@ Try to code those checks yourself!
 As always, the first step is loading the libraries we'll use in this
 analysis:
 
-```{r real_load_libraries, options}
+```{r real_load_libraries, message=FALSE}
 library(tidyverse)
 library(psych)
 library(readxl)
@@ -93,16 +106,18 @@ this missing data in a more sophisticated way, but for now there's
 not much we can do with it, so we'll drop it up front:
 
 ```{r drop_nonpresent, options}
-real = real[real$PresentPost, ]
+# Same as:
+# real = real[real$PresentPost == 1, ]
+real = filter(real, PresentPost == 1)
 ```
 
-This is a slightly contrived example, but if you can do something
+This is a contrived example, but if you can do something
 to simplify your data like this, it's best to do it up front,
 before getting into the details of data cleaning and analysis.
 
 ## Recoding and scoring
 
-### Scoring the easy way
+### Scoring SURPS the easy way
 
 Sometimes there are existing functions in R or in packages that people
 have written that do exactly what we want with minimal effort.
@@ -131,11 +146,14 @@ using:
 
 ```{r psych_simple_surps, options}
 surps_keys = list(
-    Nt = c("-S1", "-S4", "-S7", "-S13", 
-           "S17", "-S20", "-S23"),
-    As = c("S8", "S10", "S14", "S18", "S21"),
-    Imp = c("S2", "S5", "S11", "S15", "S22"),
-    Ss = c("S3", "S6", "S9", "S12", "S16", "S19")
+    Nt = c("-Surps1", "-Surps4", "-Surps7", "-Surps13", 
+           "Surps17", "-Surps20", "-Surps23"),
+    As = c("Surps8", "Surps10", "Surps14", "Surps18", 
+           "Surps21"),
+    Imp = c("Surps2", "Surps5", "Surps11", "Surps15", 
+            "Surps22"),
+    Ss = c("Surps3", "Surps6", "Surps9", "Surps12", 
+               "Surps16", "Surps19")
 )
 
 surps_scored = psych::scoreItems(
@@ -152,6 +170,9 @@ We can look at the object that `scoreItems()` has given us:
 surps_scored
 ```
 
+This is a lot of information, and right now we're only interested in the scores,
+so we need to check how to access them.
+
 Looking at the help page `?scoreItems` under the **Value** section tells us the 
 actual scores are stored at `surps_scored$scores`. We can add all 4 columns into
 our dataset at once with:
@@ -167,7 +188,7 @@ Sometimes you don't need all the extra info that `psych::scoreItems()` provides.
 scores.
 ```
 
-### Scoring the harder way
+### Scoring SURPS the harder way
 
 Functions like `scoreItems()` won't always do exactly what we want.
 When we scored the scales above, we let `scoreItems()` impute any missing
@@ -239,6 +260,27 @@ a couple of scores manually and see if they match.
 
 ### Scoring the BSI scales
 
+We can score the BSI scales the same way. We just want the total
+for each subscale, and we'll assume `psych`'s median imputation
+is OK:
+
+```{r bsi_scoring_example, options}
+bsi_keys = list(
+    # Using 'paste0' to create the column names for us
+    Dep = paste0("Bsi", 1:6),
+    Anx = paste0("Bsi", 7:10)
+)
+
+bsi_scored = psych::scoreItems(
+    keys = bsi_keys, 
+    items = real,
+    totals = TRUE,
+    impute = "median")
+
+real[, c("DepTotal", "AnxTotal")] = bsi_scored$scores
+head(real[, c("DepTotal", "AnxTotal")])
+```
+
 ### Recoding
 
 #### Scaling/Calculating z-scores
@@ -288,16 +330,28 @@ real = real %>%
   mutate(NtTotal_schoolz = scale(NtTotal)[, 1],
          AsTotal_schoolz = scale(AsTotal)[, 1],
          ImpTotal_schoolz = scale(ImpTotal)[, 1],
-         SsTotal_schoolz = scale(SsTotal)[, 1])
+         SsTotal_schoolz = scale(SsTotal)[, 1]) %>%
+  ungroup()
 
 head(real[, c("SchoolId", "NtTotal", "NtTotal_z", "NtTotal_schoolz")])
 ```
 
 #### Recoding using logical tests
 
-We classify participants as **high risk** if they are more than 1 standard
-deviation above the mean on at least one subscale. First we need
-to express this as a logical test:
+For the BSI scales, we'll treat any score $>= 10$ as showing a possible
+diagnosis of depression or anxiety:
+
+```{r bsi_diag_example, options}
+dep_diagnosis = ifelse(real$DepTotal > 10, "Present", "Absent")
+real$DepDiagnosis = factor(dep_diagnosis, levels = c("Absent", "Present"))
+
+anx_diagnosis = ifelse(real$AnxTotal > 10, "Present", "Absent")
+real$AnxDiagnosis = factor(anx_diagnosis, levels = c("Absent", "Present"))
+```
+
+For SURPS, we classify participants as **high risk** if 
+they are more than 1 standard deviation above the mean on at 
+least one subscale. First we need to express this as a logical test:
 
 ```{r high_risk_calc, options}
 is_high_risk = (
@@ -316,3 +370,49 @@ real$Risk = factor(is_high_risk, levels = c(FALSE, TRUE),
 
 head(real[, c("NtTotal_z", "AsTotal_z", "ImpTotal_z", "SsTotal_z", "Risk")])
 ```
+
+#### Relationships between variables: Cleaning up alcohol variables
+
+The data here comes from an online survey, which was programmed so that questions
+are skipped when they're no longer relevant. So if a participant has never
+had a sip of alcohol, any questions about having a full drink of alcohol
+are skipped because we can assume the answer is no.
+
+You can see this logic in the plot below, which shows patterns of responses:
+
+```{r alc_logic_plot, echo=FALSE}
+real %>%
+  ungroup() %>%
+  select(PersonId, SipEver, FullEver, Sip6, Full6, Full6_freq) %>%
+  mutate_at(vars(-PersonId), ~ factor(.) %>% fct_explicit_na()) %>% 
+  count(SipEver, FullEver, Sip6, Full6, Full6_freq) %>%
+  mutate(RowId = 1:n()) %>%
+  pivot_longer(
+    c(-RowId, -n),
+    names_to = "Variable",
+    values_to = "Response"
+  ) %>%
+  mutate(
+    Variable = fct_inorder(factor(Variable)),
+    Response = factor(Response) %>% 
+           fct_explicit_na() %>%
+           fct_relevel("(Missing)")) %>%
+  ggplot(aes(x = Variable, y = RowId, fill = Response)) +
+  geom_tile(colour = "black", size=0.4) +
+  labs(y = "") +
+  scale_y_reverse() +
+  scale_fill_manual(values = c("grey60", scales::viridis_pal(option = "B")(5))) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        panel.grid = element_blank())
+```
+
+To get the same kind of overview in table form, you can also use `count()`:
+
+```{r response_pattern_count, options}
+count(real, SipEver, FullEver, Sip6, Full6, Full6_freq)
+```
+
+To analyse the data properly, we'll need to fill in the "No" responses that
+can be assumed (because of the logic of the survey), instead of leaving
+them missing.
