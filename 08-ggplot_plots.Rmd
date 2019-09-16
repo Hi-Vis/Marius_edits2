@@ -256,11 +256,67 @@ dep_cat_plot +
     scale_fill_viridis_d(option = "C", end = 0.9)
 ```
 
+```{block, type='note'}
+The aesthetic that determines the colour of the bars is `fill`,
+not `colour`, so we use `scale_fill` to change it. Check whether 
+your plot is using the `fill` or the `colour` aesthetic to make
+sure you change the right one.
+```
+
+We could also use a **diverging** colour scale that emphasises
+how far each category is from the average. ggplot includes
+some great scales from [ColorBrewer](http://colorbrewer2.org/) that
+serve this purpose:
+
+```{r dep_cat_diverging, fig.width=4, fig.height=3}
+dep_cat_plot + 
+    scale_fill_brewer(type = "div")
+```
+
+Feel free to experiment with different scales when producing
+your own plots!
+
+### Themes
+
+Scales affect how your actual data is displayed, but to control the
+overall look of the plot (background colour, font etc.), we use
+**themes**. To use a different theme, just add it to your plot:
+
+```{r ggplot_theming_example, fig.width=4, fig.height=3}
+dep_cat_plot +
+    scale_fill_viridis_d() +
+    theme_classic()
+
+# sjPlot should have been installed during an earlier
+#   session, otherwise install it now
+dep_cat_plot +
+    scale_fill_viridis_d() +
+    sjPlot::theme_538()
+```
+
+#### Tweaking themes
+
+Every aspect of a plot's theme can be tweaked using `theme()`.
+You can see the full list of properties that can be changed by looking
+at `?theme`.
+The full details are beyond the scope of this brief introduction,
+but one useful tweak is turning off particular elements by setting
+them to `element_blank()`. We can disable the title on the x-axis:
+
+```{r theme_tweak_example, fig.width=4, fig.height=3}
+dep_cat_plot +
+    scale_fill_viridis_d() +
+    theme(axis.title.x = element_blank())
+```
+
 ### Finding extra scales and themes
 
 Packages like `ggthemes` provide extra scales and themes: install
 them, load them and you can use the scales and themes just like
-the built in ones.
+the built in ones by adding them to your plot. I particularly like 
+`ggthemes::theme_fivethirtyeight()`
+and `ggthemes::scale_colour_tableau()`, but there a wide variety
+of useful and great-looking options out there.
 
 ## Other packages use `ggplot2` too
 
