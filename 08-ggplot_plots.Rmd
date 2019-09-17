@@ -34,6 +34,8 @@ cow$depression = round(
 * Each column has the right data type, depending
   on whether it's categorical or continuous
   (`factor` or `numeric`).
+* All the data is labelled: categorical variables
+  should already have the labels that you want to show in the plot.
 
 You can make plots work if you don't have have those
 things, but they will be much clunkier to put together. 
@@ -163,12 +165,158 @@ to a particular aesthetic feature of the plot) and
 **themes** (which change more general elements
 of the plot like the background colour).
 
+### Scales
+
+Scales serve a few different purposes:
+
+* Changing the order of values: e.g. reversing the order on the x-axis
+* Transforming values, e.g. log-transforming your y-axis
+* Choosing how your values will be represented - particularly their
+  **colours**.
+
+The scales in ggplot generally have two parts to their names, like
+`scale_x_log10()` and `scale_colour_gradient()`. The two parts indicate:
+
+* Which aesthetic of the plot the scale is for.
+* What kind of scale will be applied for that aesthetic
+
+#### Scale examples {-}
+
+If you just need to reverse the order of a continuous x or y-axis, use
+`scale_x_reverse()` or `scale_y_reverse()`. Returning to our
+scatter plot from above:
+
+```{r ggplot_scatter_reversed, fig.width=4, fig.height=3, dev="png"}
+ggplot(cow, 
+       aes(x = neuroticism, y = depression, colour = sex)) +
+    geom_point(alpha = 0.4) +
+    scale_y_reverse()
+```
+
+Log-transforms can be useful for variables like income that are skewed
+and have a few very large values. Use `scale_x_log10()` or `scale_y_log10()`,
+and note how the axis increases in multiples rather than a constant rate:
+
+```{r ggplot_log_example, fig.width=4, fig.height=3}
+ggplot(cow, aes(x = sex, fill = volunteer)) +
+    geom_bar(position = "dodge") +
+    scale_y_log10()
+```
+
+Changing the colour scale you're using in your plot is useful both
+because you can pick a more meaningful scale, and because it can
+really improve the overall look and clarity of your plot. Picking
+colours that look good is a valid reason!
+
+To demonstrate some of these colour scales, we'll first create
+a categorical variable that splits our depression scores up into
+5 categories. We'll also create a table of the mean neuroticism
+and extraversion scores in each category:
+
+```{r dep_cat_example}
+cow$depression_cat = cut(
+    cow$depression, breaks = 5,
+    labels = c("Very low", "Low", "Average",
+               "High", "Very high"))
+
+dep_tab = cow %>%
+    group_by(depression_cat) %>%
+    summarize(introversion = mean(neuroticism),
+              extraversion = mean(extraversion)) %>%
+    pivot_longer(-depression_cat, 
+                 names_to = "Outcome",
+                 values_to = "Mean")
+```
+
+Plotting with the default colours doesn't give great results:
+
+```{r dep_cat_default, fig.width=4, fig.height=3}
+dep_cat_plot = ggplot(
+    dep_tab, 
+    aes(x = Outcome, y = Mean, fill = depression_cat)) +
+    geom_col(position = 'dodge', colour = 'black') +
+    # \n creates a newline, i.e. splits the label into multiple lines
+    labs(fill = "Depression\nCategory") +
+    theme_bw()
+
+dep_cat_plot
+```
+
+Since the categories are increasing, we could use a colour scale
+that maps colours in an ordered way. The `viridis` colour scales
+look great and have a few useful properties like converting to
+greyscale well and being colour-blind friendly. Using an ordered
+colour scale helps to convey some of the meaning of the different
+depression categories:
+
+```{r dep_cat_viridis, fig.width=4, fig.height=3}
+dep_cat_plot + 
+    # Tweaked slightly to avoid using a very bright yellow
+    #   at the top end of the scale
+    scale_fill_viridis_d(option = "C", end = 0.9)
+```
+
+```{block, type='note'}
+The aesthetic that determines the colour of the bars is `fill`,
+not `colour`, so we use `scale_fill` to change it. Check whether 
+your plot is using the `fill` or the `colour` aesthetic to make
+sure you change the right one.
+```
+
+We could also use a **diverging** colour scale that emphasises
+how far each category is from the average. ggplot includes
+some great scales from [ColorBrewer](http://colorbrewer2.org/) that
+serve this purpose:
+
+```{r dep_cat_diverging, fig.width=4, fig.height=3}
+dep_cat_plot + 
+    scale_fill_brewer(type = "div")
+```
+
+Feel free to experiment with different scales when producing
+your own plots!
+
+### Themes
+
+Scales affect how your actual data is displayed, but to control the
+overall look of the plot (background colour, font etc.), we use
+**themes**. To use a different theme, just add it to your plot:
+
+```{r ggplot_theming_example, fig.width=4, fig.height=3}
+dep_cat_plot +
+    scale_fill_viridis_d() +
+    theme_classic()
+
+# sjPlot should have been installed during an earlier
+#   session, otherwise install it now
+dep_cat_plot +
+    scale_fill_viridis_d() +
+    sjPlot::theme_538()
+```
+
+#### Tweaking themes
+
+Every aspect of a plot's theme can be tweaked using `theme()`.
+You can see the full list of properties that can be changed by looking
+at `?theme`.
+The full details are beyond the scope of this brief introduction,
+but one useful tweak is turning off particular elements by setting
+them to `element_blank()`. We can disable the title on the x-axis:
+
+```{r theme_tweak_example, fig.width=4, fig.height=3}
+dep_cat_plot +
+    scale_fill_viridis_d() +
+    theme(axis.title.x = element_blank())
+```
 
 ### Finding extra scales and themes
 
 Packages like `ggthemes` provide extra scales and themes: install
 them, load them and you can use the scales and themes just like
-the built in ones.
+the built in ones by adding them to your plot. I particularly like 
+`ggthemes::theme_fivethirtyeight()`
+and `ggthemes::scale_colour_tableau()`, but there a wide variety
+of useful and great-looking options out there.
 
 ## Other packages use `ggplot2` too
 

@@ -12,11 +12,6 @@ make using R easier because they're all designed to work together. Most
 * Take a dataframe as their input
 * Return as dataframe as their output
 
-They also do a small amount of "magic", allowing you to just type
-column names like `group` and `time` rather than having to
-spell out the name of the dataframe each time (like `survey1$group`, 
-`survey1$time`).
-
 You might not use every package from the `tidyverse` in an analysis,
 but you can still load them all at the start of most analyses, and
 know you'll have a standard set of tools available. To load
@@ -52,7 +47,7 @@ different operations like these for each calculation you're
 doing.
   
 The `dplyr` package in the tidyverse makes this easier
-by providing a small number of simple "verbs" that can be combined
+by providing a small number of simple **verbs** that can be combined
 easily to perform complex tasks. Each one takes your current
 data, changes it, and returns it. The most common verbs you'll
 use are:
@@ -65,6 +60,8 @@ use are:
 * `summarize()`: create columns that summarise the data down
   to a single row.
 * `count()`: Count the number of rows in the data.
+* `left_join()` (and `right_join()`, `inner_join()` etc.): Merge datasets
+  based on a common identifier.
 
 And, possibly most importantly:
 
@@ -72,6 +69,20 @@ And, possibly most importantly:
   subsequent steps happen separately for each group. 
   
 We'll go over examples of all of these below.
+
+### Bending the rules: Non-standard evaluation
+
+`dplyr` and other `tidyverse` packages bend the rules of R syntax, 
+allowing you to just type column names like `group` and `time` rather than 
+having to spell out the name of the dataframe each time (like `survey1$group`, 
+`survey1$time`). **Within `tidyverse` function calls**  you can just type the 
+column name, e.g. 
+
+```{r nse_example}
+cow %>%
+    # Within the brackets, no $ needed
+    count(sex, volunteer)
+```
   
 ### Pipes: `%>%`
 
@@ -92,13 +103,13 @@ summarise(filter(cow, sex == "male"), male_mean = mean(extraversion))
 ```
 
 The first step here is actually `filter`ing the data, but
-we have to write these function calls "inside out". R understands
+we have to write these function calls *inside out*. R understands
 it fine but most human beings struggle to understand the logic
 of what's happening, especially if there's more than 2 of
-these "nested" steps happening.
+these *nested* steps happening.
 
 You can do the steps one by one instead, but it's clunky, and you
-may have to create multiple intermediate variables:
+might have to create multiple intermediate variables:
 
 ```{r multiple_steps_example, eval=FALSE}
 males = filter(cow, sex == "male")
@@ -122,7 +133,73 @@ the first argument to the next function**.
 
 ### Common tasks with `dplyr`
 
-#### Selecting rows with filter
+#### Selecting columns with `select` {-}
+
+You can select particular columns from a dataframe using `select()`. Using
+`-` in front of a column name excludes that column:
+
+```{r dplyr_select_example}
+# These both give the same result: inclusion vs. exclusion
+cow %>%
+    select(neuroticism, extraversion) %>%
+    head(2)
+
+cow %>%
+    select(-sex, -volunteer) %>% 
+    head(2)
+```
+
+Instead of column names, you can also use a range of helper functions
+like `starts_with()` and `num_range()` to select multiple columns
+that match a particular pattern.
+
+#### Creating/changing columns with `mutate` {-}
+
+We can use `mutate` on a dataframe to add or change one or more columns:
+
+```{r dplyr_mutate_example}
+cow %>%
+    # high_extraversion and high_neuroticism are the names
+    #   of new columns that will be created
+    mutate(high_extraversion = extraversion >= 15,
+           high_neuroticism = neuroticism >= 15) %>%
+    head()
+```
+
+If we want these changes to be saved, we would need to **save the
+result back to the original variable**. By default, `mutate()` will
+just return an altered copy of the original data, but won't change
+the original:
+
+```{r dplyr_mutate_save, eval=FALSE}
+# If we want to actually save the changes
+cow = cow %>%
+    mutate(high_extraversion = extraversion >= 15,
+           high_neuroticism = neuroticism >= 15)
+```
+
+On its own, the main advantage `mutate` offers is being able to spell
+out your calculations without including the name of the dataframe. However,
+it can be very useful in combination with other verbs.
+
+#### Summarizing the data with `summarize` {-}
+
+`summarize` is similar to `mutate`: it adds or changes columns. However,
+`summarize` also **collapses the data down to a single row**, so the
+values you calculate need to be single values like means or counts.
+
+```{r dplyr_summarize_example}
+cow %>%
+    summarize(
+        extraversion = mean(extraversion),
+        volunteers = sum(volunteer == "yes")
+    )
+```
+
+`summarize` is useful in combination with `group_by`, where it
+collapses the data down to **one row per group**.
+
+#### Selecting rows with `filter` {-}
 
 Choosing rows with a logical test with `filter()` works just like
 subsetting your data with a logical vector, it's just easier
@@ -134,7 +211,7 @@ cow %>%
   head()
 ```
 
-#### Sorting with `arrange`
+#### Sorting with `arrange` {-}
 
 With `arrange`, you can sort by one or more columns. Use `desc(column)`
 (short for **descending**) to sort that column in the opposite direction:
@@ -145,15 +222,16 @@ cow %>%
   head()
 ```
 
-#### `group_by` for calculations within groups.
+#### `group_by` for calculations within groups {-}
 
 `group_by()` is very useful for calculating different stats in
 subgroups of your data. This covers a *lot* of the more complex
 operations you might need to do with your data, so it unlocks
 a lot of possibilities.
 
-You can do things like: mean-centering scores separately for
-males and females:
+You can do things like: 
+
+* Mean-centering scores separately for males and females:
 
 ```{r center_in_groups, options}
 cow %>%
@@ -163,7 +241,7 @@ cow %>%
     )
 ```
 
-Calculating means and SDs for subgroups:
+* Calculating means and SDs for subgroups:
 
 ```{r summarise_in_groups, options}
 cow %>%
@@ -172,10 +250,10 @@ cow %>%
               sd = sd(neuroticism))
 ```
 
-#### Frequency tables with `count`
+#### Frequency tables with `count` {-}
 
 `count()` gives you a straightforward way to create a frequency table. There's
-no builtin way to calculate percentages, but you can easily add them
+no built-in way to calculate percentages, but you can easily add them
 using `mutate()`:
 
 ```{r count_percent_example, options}
@@ -194,4 +272,30 @@ cow %>%
     count(sex, volunteer) %>%
     group_by(sex) %>%
     mutate(percent = n / sum(n) * 100)
+```
+
+#### Merging data with `left_join()`
+
+To combine two dataframes, you can use functions like `left_join()`
+and `inner_join()`. In my experience, `left_join()` is what you
+want most of the time. To merge data successfully, all you
+need is a column that's present in both datasets that they can
+be matched on, usually a participant ID or something similar.
+
+Joins can also be useful when you have to calculate a complex
+summary. You can create a separate table with the summary info,
+and merge it back into the main dataset. As a simple example,
+let's summarize extraversion by both sex and volunteering
+status and merge it back into the main dataset:
+
+```{r dplyr_join_example}
+extraversion_info = cow %>%
+    group_by(sex, volunteer) %>%
+    summarize(mean_extraversion = mean(extraversion))
+
+extraversion_info
+
+cow %>%
+    left_join(extraversion_info, by = c("sex", "volunteer")) %>%
+    head()
 ```
