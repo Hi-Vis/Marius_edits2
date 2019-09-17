@@ -283,7 +283,7 @@ head(real[, c("DepTotal", "AnxTotal")])
 
 ### Recoding
 
-#### Scaling/Calculating z-scores
+#### Scaling/Calculating z-scores {-}
 
 The `scale()` function converts scores to z-scores by mean-centering
 them and dividing them by their standard deviation. `scale()` returns
@@ -304,7 +304,7 @@ The resulting variables should have means of (very close to) 0 and SDs
 of 1 - check them by calculating.
 ```
 
-##### Advanced tip: reducing repetition
+##### Advanced tip: reducing repetition {-}
 
 If you have to do the same thing multiple times, there's
 usually a way to do it automatically, without repeating
@@ -317,7 +317,7 @@ real = real %>%
             list(z = ~ scale(.)[, 1]))
 ```
 
-##### Advanced tip: Scaling within groups
+##### Advanced tip: Scaling within groups {-}
 
 If we want to check peoples' scores relative to the other participants
 in their school, then we can scale the scores **within** each school.
@@ -371,7 +371,7 @@ real$Risk = factor(is_high_risk, levels = c(FALSE, TRUE),
 head(real[, c("NtTotal_z", "AsTotal_z", "ImpTotal_z", "SsTotal_z", "Risk")])
 ```
 
-#### Relationships between variables: Cleaning up alcohol variables
+#### Relationships between variables: Cleaning up alcohol variables {-}
 
 The data here comes from an online survey, which was programmed so that questions
 are skipped when they're no longer relevant. So if a participant has never
@@ -418,4 +418,65 @@ can be assumed (because of the logic of the survey), instead of leaving
 them missing.
 
 There's no real trick to this, the hard part is getting a clear picture
-of what needs to be done like we did above.
+of what needs to be done like we did above. As long as we fill in
+the variables in order, we should get the right results:
+
+```{r recode_logic_example, options}
+# If they've never sipped, they've never had a full drink
+#   and haven't sipped in the past 6 months
+real$FullEver[real$SipEver == 0] = 0
+real$Sip6[real$SipEver == 0] = 0
+
+# If they haven't had a full drink ever, they haven't
+#   had one in the past 6 months 
+real$Full6[real$FullEver == 0] = 0
+
+# If they haven't had a sip recently, they haven't
+#   had a full drink 
+real$Full6[real$Sip6 == 0] = 0
+
+# If they haven't had a full drink, their frequency
+#   of drinking is zero
+real$Full6_freq[real$Full6 == 0] = 0
+```
+
+If we look at the pattern of responses again we should see that
+all the relevant responses have now bene filled in. Where
+missing values remain, it's because we can't automatically
+assume a response:
+
+```{r alc_logic_plot_after, echo=FALSE}
+real %>%
+  ungroup() %>%
+  select(PersonId, SipEver, FullEver, Sip6, Full6, Full6_freq) %>%
+  mutate_at(vars(-PersonId), ~ factor(.) %>% fct_explicit_na()) %>% 
+  count(SipEver, FullEver, Sip6, Full6, Full6_freq) %>%
+  mutate(RowId = 1:n()) %>%
+  pivot_longer(
+    c(-RowId, -n),
+    names_to = "Variable",
+    values_to = "Response"
+  ) %>%
+  mutate(
+    Variable = fct_inorder(factor(Variable)),
+    Response = factor(Response) %>% 
+           fct_explicit_na() %>%
+           fct_relevel("(Missing)")) %>%
+  ggplot(aes(x = Variable, y = RowId, fill = Response)) +
+  geom_tile(colour = "black", size=0.4) +
+  labs(y = "") +
+  scale_y_reverse() +
+  scale_fill_manual(values = c("grey60", scales::viridis_pal(option = "B")(5))) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        panel.grid = element_blank())
+```
+
+#### Recoding categories
+
+So far we've dealt with complex recoding tasks, to demonstrate how
+you can use R to tackle complex data. But all the basic
+recoding tools you'd expect are available. The most basic
+tool is converting the numeric codes we've used above into 
+labelled factors:
+
