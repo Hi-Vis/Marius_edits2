@@ -416,3 +416,6 @@ count(real, SipEver, FullEver, Sip6, Full6, Full6_freq)
 To analyse the data properly, we'll need to fill in the "No" responses that
 can be assumed (because of the logic of the survey), instead of leaving
 them missing.
+
+There's no real trick to this, the hard part is getting a clear picture
+of what needs to be done like we did above.
