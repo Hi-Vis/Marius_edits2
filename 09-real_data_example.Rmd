@@ -283,6 +283,74 @@ head(real[, c("DepTotal", "AnxTotal")])
 
 ### Recoding
 
+#### Recoding categories
+
+All the basic recoding tools you'd expect are available in R. The most basic
+tool is converting numeric codes for categorical variables into nicely
+labelled factors:
+
+```{r factor_recode_example, options}
+real$SipEver = factor(
+    real$SipEver,
+    levels = c(0, 1),
+    labels = c("No", "Yes")
+)
+
+real$FullEver = factor(
+    real$FullEver,
+    levels = c(0, 1),
+    labels = c("No", "Yes")
+)
+
+real$Sip6 = factor(
+    real$Sip6,
+    levels = c(0, 1),
+    labels = c("No", "Yes")
+)
+
+real$Full6 = factor(
+    real$Full6,
+    levels = c(0, 1),
+    labels = c("No", "Yes")
+)
+
+real$Full6_freq = factor(
+    real$Full6_freq,
+    levels = c(0, 1, 2, 3, 4, 5),
+    labels = c("Never", "Less than monthly", "Monthly", 
+               "1-2 times a month", "Weekly",
+               "Daily")
+)
+
+head(real[, c("SipEver", "FullEver", "Sip6", "Full6", "Full6_freq")])
+```
+
+##### Advanced tip: Avoid repeating yourself {-}
+
+In the code above we do the exact same thing repeatedly,
+just changing the column name each time. R has lots of
+great tools for applying the same steps multiple times,
+which become very useful as your data gets larger.
+The [tidyverse](#tidyverse) has some particularly
+great tools to make this easier.
+
+If we turn the steps for coding a yes/no variable into
+a **function** we could apply it to all columns at once,
+using `mutate_at` from the `dplyr` package:
+
+```{r recode_function_example, eval=FALSE}
+# Does the same as the No/Yes recoding above
+real = mutate_at(
+    real,
+    vars(c("SipEver", "FullEver", "Sip6", "Full6")),
+    function(col) {
+        factor(col,
+               levels = c(0, 1),
+               labels = c("No", "Yes"))
+    }
+)
+```
+
 #### Scaling/Calculating z-scores {-}
 
 The `scale()` function converts scores to z-scores by mean-centering
@@ -306,10 +374,9 @@ of 1 - check them by calculating.
 
 ##### Advanced tip: reducing repetition {-}
 
-If you have to do the same thing multiple times, there's
-usually a way to do it automatically, without repeating
-yourself. Using some of the advanced features of the [tidyverse](#tidyverse),
-we could instead do:
+Again, we could reduce some of the repetition above
+using some of the advanced features of the [tidyverse](#tidyverse).
+We could do:
 
 ```{r scaling_advanced, eval=FALSE}
 real = real %>%
@@ -381,6 +448,17 @@ are skipped because we can assume the answer is no.
 You can see this logic in the plot below, which shows patterns of responses:
 
 ```{r alc_logic_plot, echo=FALSE}
+alc_resps = c(
+  "(Missing)", "No", "Yes", "Never", "Less than monthly",
+  "Monthly", "1-2 times a month", "Weekly", "Daily"
+)
+
+resp_colours = c(
+  "grey50",
+  "#000000", "#2A788EFF",
+  scales::viridis_pal(option = "B")(5)
+)
+
 real %>%
   ungroup() %>%
   select(PersonId, SipEver, FullEver, Sip6, Full6, Full6_freq) %>%
@@ -394,14 +472,12 @@ real %>%
   ) %>%
   mutate(
     Variable = fct_inorder(factor(Variable)),
-    Response = factor(Response) %>% 
-           fct_explicit_na() %>%
-           fct_relevel("(Missing)")) %>%
+    Response = factor(Response, levels = alc_resps)) %>%
   ggplot(aes(x = Variable, y = RowId, fill = Response)) +
   geom_tile(colour = "black", size=0.4) +
   labs(y = "") +
   scale_y_reverse() +
-  scale_fill_manual(values = c("grey60", scales::viridis_pal(option = "B")(5))) +
+  scale_fill_manual(values = resp_colours) +
   theme_minimal() +
   theme(axis.text.y = element_blank(),
         panel.grid = element_blank())
@@ -409,7 +485,7 @@ real %>%
 
 To get the same kind of overview in table form, you can also use `count()`:
 
-```{r response_pattern_count, options}
+```{r response_pattern_count, warning=FALSE}
 count(real, SipEver, FullEver, Sip6, Full6, Full6_freq)
 ```
 
@@ -424,20 +500,20 @@ the variables in order, we should get the right results:
 ```{r recode_logic_example, options}
 # If they've never sipped, they've never had a full drink
 #   and haven't sipped in the past 6 months
-real$FullEver[real$SipEver == 0] = 0
-real$Sip6[real$SipEver == 0] = 0
+real$FullEver[real$SipEver == "No"] = "No"
+real$Sip6[real$SipEver == "No"] = "No"
 
 # If they haven't had a full drink ever, they haven't
 #   had one in the past 6 months 
-real$Full6[real$FullEver == 0] = 0
+real$Full6[real$FullEver == "No"] = "No"
 
 # If they haven't had a sip recently, they haven't
 #   had a full drink 
-real$Full6[real$Sip6 == 0] = 0
+real$Full6[real$Sip6 == "No"] = "No"
 
 # If they haven't had a full drink, their frequency
 #   of drinking is zero
-real$Full6_freq[real$Full6 == 0] = 0
+real$Full6_freq[real$Full6 == "No"] = "Never"
 ```
 
 If we look at the pattern of responses again we should see that
@@ -459,24 +535,55 @@ real %>%
   ) %>%
   mutate(
     Variable = fct_inorder(factor(Variable)),
-    Response = factor(Response) %>% 
-           fct_explicit_na() %>%
-           fct_relevel("(Missing)")) %>%
+    Response = factor(Response, levels = alc_resps)) %>%
   ggplot(aes(x = Variable, y = RowId, fill = Response)) +
   geom_tile(colour = "black", size=0.4) +
   labs(y = "") +
   scale_y_reverse() +
-  scale_fill_manual(values = c("grey60", scales::viridis_pal(option = "B")(5))) +
+  scale_fill_manual(values = resp_colours) +
   theme_minimal() +
   theme(axis.text.y = element_blank(),
         panel.grid = element_blank())
 ```
 
-#### Recoding categories
+## Saving data
 
-So far we've dealt with complex recoding tasks, to demonstrate how
-you can use R to tackle complex data. But all the basic
-recoding tools you'd expect are available. The most basic
-tool is converting the numeric codes we've used above into 
-labelled factors:
+Now that the data has been recoded and cleaned, we
+can save it. R can output to lots of different formats,
+so you can choose whichever format works best for you.
 
+However, if you want to keep working in R, it's best
+to save it in a format that preserves all the info
+about your data, including the order of categories
+in your factors. SPSS and Stata formats will do this,
+while Excel won't. For now, we'll use R's own
+**.rds** format, which preserves all that information:
+
+```{r save_rds_example, eval=FALSE}
+readr::write_rds(real, "CapData-Recoded.rds")
+```
+
+## Descriptive statistics
+
+Once our data has been recoded and cleaned, we can
+start looking at descriptive statistics - this
+is always a good first step before trying any actual
+analysis.
+
+### Correlations between variables
+
+We can get a good overview of the relationships between
+different variables using a **scatterplot matrix**,
+which shows correlations between each pair of variables.
+`psych` has a function `pairs.panel` to handle this:
+
+```{r scatter_matrix_example, dev='png'}
+key_vars = c("NtTotal_z", "AsTotal_z", "ImpTotal_z", 
+             "SsTotal_z", "DepTotal", "AnxTotal")
+psych::pairs.panels(real[, key_vars])
+```
+
+```{block, type='note'}
+Also check out the `ggcorrplot` package for a nicer-looking
+version of this.
+```
