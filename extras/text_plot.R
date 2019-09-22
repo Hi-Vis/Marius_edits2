@@ -61,7 +61,7 @@ extra_edges = rad %>%
 g = graph_from_data_frame(edge_df %>% bind_rows(extra_edges), vertices = rad %>% select(id, x, y, letter))
 
 random_ids = sample(1:nrow(rad))
-ggraph(g) +
+ggraph(g, layout='manual', x = V(g)$x, y = V(g)$y) +
     geom_edge_link(alpha = 0.4) +
     geom_node_point(aes(colour = random_ids[as.numeric(name)]),
                     size = 3) +
@@ -86,7 +86,7 @@ r_only = graph_from_data_frame(
 )
 
 random_ids = sample(1:nrow(r_only))
-ggraph(r_only) +
+ggraph(r_only, layout='manual', x = V(r_only)$x, y = V(r_only)$y) +
     geom_edge_link(alpha = 0.4) +
     geom_node_point(aes(colour = random_ids[as.numeric(name)]),
                     size = 3) +
@@ -96,4 +96,23 @@ ggraph(r_only) +
 
 ggsave("Images/rad_logo_r.png", 
        dpi = 96, width = 200 / 96, height = 200 / 96,
+       type = "cairo")
+
+r_small_ids = r_ids[seq_along(r_ids) %% 2 == 0]
+    
+r_small = graph_from_data_frame(
+    vertices = rad %>%
+        select(id, x, y, letter) %>%
+        filter(id %in% r_small_ids)
+)
+
+ggraph(r_small, layout='manual', x = V(r_small)$x, y = V(r_small)$y) +
+    geom_node_point(aes(colour = random_ids[as.numeric(name)]),
+                    size = 1.4) +
+    scale_colour_viridis_c(guide = 'none', option = "A", end=0.8) +
+    coord_equal() +
+    theme_graph(plot_margin = margin(2, 2, 2, 2))
+
+ggsave("Images/rad_logo_r_small.png", 
+       dpi = 96, width = 64 / 96, height = 64 / 96,
        type = "cairo")
