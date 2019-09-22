@@ -10,13 +10,16 @@ so it doesn't contain data from any actual participants.
 Before we start, we'll install some packages:
 
 ```{r real_example_packages, eval=FALSE}
-install.packages(c("readxl"))
+install.packages(c("readxl", "lme4"))
 ```
 
 ## Data overview
 
-This data contains the post-treatment observations from a trial
-comparing a novel treatment to control. It contains:
+This data contains the post-treatment observations from a
+cluster-randomised trial comparing a novel treatment to control.
+Schools were randomised to different groups, so every
+participant in the same school received the same
+intervention. It contains:
 
 * SURPS scores, a scale assessing different personality traits
   associated with substance use.
@@ -46,6 +49,14 @@ Higher scores on each subscale represent higher levels
 of the personality traits related to substance use, i.e.
 greater risk.
 
+### BSI overview
+
+The study includes two subscales from the Brief Symptom Inventory.
+Higher scores on each represent higher levels of symptoms:
+
+* Depression
+* Anxiety
+
 ## Basic setup
 
 ### Load libraries
@@ -56,8 +67,15 @@ analysis:
 ```{r real_load_libraries, message=FALSE}
 library(tidyverse)
 library(psych)
+library(sjPlot)
 library(readxl)
+library(lme4)
+
+# We'll also set a default theme for our
+#   ggplot plots
+theme_set(theme_bw())
 ```
+
 
 ### Load the data
 
@@ -325,6 +343,27 @@ real$Full6_freq = factor(
 head(real[, c("SipEver", "FullEver", "Sip6", "Full6", "Full6_freq")])
 ```
 
+Once you've converted the variables to factors, you can combine
+and reorder categories in different ways using functions
+from the `forcats` package (part of the `tidyverse`). If
+we want to simplify the frequency variable so it's just
+a Yes/No variable reflecting whether the participant drinks
+monthly or more often:
+
+```{r real_forcats_example, options}
+real$Full6_monthy = fct_collapse(
+  real$Full6_freq,
+  Monthly = c("Monthly", "1-2 times a month", 
+              "Weekly","Daily"),
+  Less = c("Never", "Less than monthly")
+)
+```
+
+```{block, type='note'}
+A good way to check this recoding would be to check
+the total numbers for each response for each variable.
+```
+
 ##### Advanced tip: Avoid repeating yourself {-}
 
 In the code above we do the exact same thing repeatedly,
@@ -586,4 +625,176 @@ psych::pairs.panels(real[, key_vars])
 ```{block, type='note'}
 Also check out the `ggcorrplot` package for a nicer-looking
 version of this.
+```
+
+If we want a traditional correlation table, we can use
+`psych::corr.test`, which provides both the correlations
+between variables and the *p* values for each correlation
+coefficient.
+
+```{r real_corr_table_example, options}
+psych::corr.test(real[, key_vars])
+```
+
+### Contingency tables for categorical data
+
+To generate cross-tabs or contigency tables for categorical
+variables, we can use `table()`, which we've already seen
+earlier:
+
+```{r real_crosstab_example, options}
+table(real$Group, real$Sex)
+```
+
+If we want to do some basic testing to see if the
+proportions of males and females differ, we can use `chisq.test()`
+
+```{r real_chisq_example, options}
+chisq.test(real$Group, real$Sex)
+```
+
+If we wanted to visualize these numbers instead,
+that's easy to achieve in `ggplot`:
+
+```{r real_ggplot_bar_example, fig.width=5, fig.height=4}
+ggplot(real, aes(x = Group, fill = Sex)) +
+    geom_bar(position = 'dodge', colour = 'black')
+```
+
+### Understanding complex data
+
+Before trying to do analysis, it can be useful to try
+to understand some of the more complex features of your
+data. In this study, one important feature is the 
+cluster randomization, where participants are grouped
+in schools - we'll need to account for this in our analysis
+so it's worth trying to get a picture of how it looks.
+
+We'll try to look at the means of some variables in each
+school. Complex grouped data like this is where the
+`tidyverse` starts to be really useful, so we'll
+start making heavy use of it. We'll start by generating
+a table:
+
+```{r complex_mean_table, options}
+dep_tab = real %>%
+  group_by(Group, SchoolId) %>%
+  summarize(
+    DepMean = mean(DepTotal, na.rm = TRUE),
+    SchoolSize = n()
+  )
+
+head(dep_tab)
+```
+
+Once we've got this information in a table, it's
+easy to create a `ggplot` plot to visualize it
+
+```{r complex_mean_plot, dev='png'}
+ggplot(dep_tab, aes(x = Group, y = DepMean, 
+                    colour = Group)) +
+  geom_jitter(aes(size = SchoolSize), alpha= 0.5,
+              width = 0.1, height = 0)
+```
+
+```{block, type='note'}
+You can calculate means and summaries within `ggplot2`,
+feeding in your full dataset and  using functions like 
+`stat_summary()`. But I'd recommend
+using `tidyverse` functions to create a simple summary
+table instead,as you'll often run into things `ggplot`
+can't do without a lot of effort.
+```
+
+## Analysis
+
+### Simple but wrong: Logistic regression
+
+We'll start with a simple analysis, just comparing
+the **odds** of drinking (a binary outcome) between
+the groups. Since this is a binary outcome,
+we'll use logistic regression, which is available
+in R through the `glm()` function. This isn't quite
+the right approach here, since it doesn't account
+for potential correlations between participants in
+the same school.
+
+`glm()` works similarly to `lm()`, which we saw earlier:
+we spell out our model using a formula like `outcome ~ predictors`.
+For logistic regression we also have to specify 
+`family = binomial(link = 'logit')`, since that's the distribution
+we're using to model the binary outcomes:
+
+```{r simple_glm_example, options}
+simple_glm = glm(
+  Full6 ~ Group,
+  data = real,
+  family = binomial(link = "logit")
+)
+
+summary(simple_glm)
+```
+
+#### Better output with `tab_model()` {-}
+
+While `summary()` gives us lots of useful info about
+the model, it's not particularly readable or nice looking.
+We'll use `tab_model()` for nicer output:
+
+```{r simple_glm_tab_model, options}
+tab_model(simple_glm)
+```
+
+#### Visualizing our model with `plot_model()` {-}
+
+It can be difficult to understand how logistic
+regression relates to the actual probability
+of the outcome. Thankfully `plot_model()` can
+automatically convert the intervention
+effect in the model to **predicted probabilities**:
+
+```{r simple_glm_plot_model, fig.width=5, fig.height=4}
+plot_model(simple_glm,
+           type = "pred",
+           terms = "Group")
+```
+
+### More complex modelling: Mixed models with `lme4`
+
+To account for the clustering in the data,
+we'll use a **mixed model** from the `lme4`
+package. Adapting our model from above to
+the mixed model approach doesn't require
+many changes, since the models use basically
+the **same syntax** and we can use some
+of the same **reporting and visualization
+tools** to help interpret them.
+
+Instead of the `glm()` function, we'll use `glmer()`
+from the `lme4` package. To add **random intercepts** 
+for each school into the model, we just need to tweak
+the syntax slightly:
+
+```{r glmer_example, options}
+mixed_glm = glmer(
+  Full6 ~ Group + (1 | SchoolId),
+  data = real,
+  family = binomial(link = "logit")
+)
+
+summary(mixed_glm)
+```
+
+#### Using `tab_model()` again
+
+```{r glmer_tab_model, options}
+tab_model(mixed_glm)
+```
+
+#### And `plot_model()` again
+
+```{r glmer_plot_model, fig.width=5, fig.height=4}
+plot_model(mixed_glm,
+           type = 'pred',
+           terms = 'Group')
 ```
