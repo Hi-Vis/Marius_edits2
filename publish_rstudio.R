@@ -1,5 +1,7 @@
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+  'bookdown', 'knitr', 'rmarkdown',
+  'tidyverse', 'sjPlot', 'readxl',
+  'ggplot2', 'car'
 ), 'packages.bib')
 
 # Load xcolor instead of color for pdf
