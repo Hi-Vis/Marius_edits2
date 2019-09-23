@@ -87,6 +87,10 @@ download.file("https://gitlab.com/warsquid/rad/raw/master/data/CapSimulatedData.
               mode = "wb")
 ```
 
+(if that doesn't work, please manually download the file
+[here](https://gitlab.com/warsquid/rad/raw/master/data/CapSimulatedData.xlsx)
+and copy it to your project directory)
+
 Now we can load the data in:
 
 ```{r load_real_data, eval=FALSE}
