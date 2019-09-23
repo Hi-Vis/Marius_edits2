@@ -83,7 +83,8 @@ The example data is available online - to download it you can use:
 
 ```{r download_real_data, eval=FALSE}
 download.file("https://gitlab.com/warsquid/rad/raw/master/data/CapSimulatedData.xlsx",
-              destfile = "CapSimulatedData.xlsx")
+              destfile = "CapSimulatedData.xlsx",
+              mode = "wb")
 ```
 
 Now we can load the data in:
