@@ -352,7 +352,7 @@ a Yes/No variable reflecting whether the participant drinks
 monthly or more often:
 
 ```{r real_forcats_example, options}
-real$Full6_monthy = fct_collapse(
+real$Full6_monthly = fct_collapse(
   real$Full6_freq,
   Monthly = c("Monthly", "1-2 times a month", 
               "Weekly","Daily"),
@@ -445,7 +445,7 @@ head(real[, c("SchoolId", "NtTotal", "NtTotal_z", "NtTotal_schoolz")])
 
 #### Recoding using logical tests
 
-For the BSI scales, we'll treat any score $>= 10$ as showing a possible
+For the BSI scales, we'll treat any score $> 10$ as showing a possible
 diagnosis of depression or anxiety:
 
 ```{r bsi_diag_example, options}
