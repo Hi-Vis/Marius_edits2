@@ -13,6 +13,7 @@ options(bookdown.post.latex = function(x) {
     )
 })
 
+bookdown::clean_book(clean = TRUE)
 bookdown::render_book("index.Rmd", output_format = "all")
 bookdown::publish_book(
     name = "Rad",
