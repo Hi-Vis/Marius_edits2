@@ -1,11 +1,12 @@
-# An Example Analysis
+# Example data cleaning and manipulation; Example descriptive statistics
 
 Now that we've covered the fundamentals of R, we can go through
-an example analysis start to finish to see everything works in practice.
+an example to see everything works in practice.
 
 We'll use an example dataset from the `carData` package, a study
 looking at personality and how it relates to people's decision to volunteer
 as a research participant.
+We've already loaded this in as survey_one
 
 We'll run through some different steps, working towards some simple analyses
 of the data. In this format, the steps will be broken up in different chunks,
@@ -50,16 +51,12 @@ library(sjPlot)
 
 ## Loading data
 
-Normally, this is where you would read your data in from an external
-file, using something like `readr::read_csv()` or `haven::read_spss()`.
-Instead, we'll just take the existing `carData::Cowles` data and
-assign a copy of it to a new variable name.
+We already did this step using:
 
-```{r load_data}
-# A short, simple name for you main dataset is nice because you'll
-#   probably have to type it out a lot
-cow = carData::Cowles
+```{r read_spss_example_repeat, eval=FALSE}
+survey_one = haven::read_spss("Personality.sav")
 ```
+
 
 This is a reasonably big dataset, with 1421 rows (visible in the "Environment"
 pane in RStudio, or you can get it with `nrow(cow)`). If you just print
@@ -69,14 +66,14 @@ the data in the console by entering `cow`, you'll get a lot of output
  basic format of your data:
 
 ```{r data_head_example}
-head(cow)
+head(survey_one)
 ```
 
 We can check the format of the data using `str()`, short for
 **structure**:
 
 ```{r check_data_structure}
-str(cow)
+str(survey_one)
 ```
 
 All the columns have a sensible format here: the two personality
@@ -86,12 +83,6 @@ the type of any variables in your data, it's best to do it
 right after loading the data, so you can work with consistent
 types from that point on.
 
-[^factor-warning]: Some of the most common problems in R result
-from text data that should just be in `character` format being
-stored as `factor`. `factor` should only be used if you
-have categorical variables with a fixed number of levels (usually
-a small number). If you have text columns, check how they've
-been stored.
 
 ## Recoding
 
@@ -101,12 +92,12 @@ We'll do this manually first, using the tools we've covered so far:
 
 ```{r manual_recode_example, options}
 # Create a vector that's all "Low" to start with
-cow$high_extraversion = "Low"
+survey_one$high_extraversion = "Low"
 # Replace the values where extraversion is high
-cow$high_extraversion[cow$extraversion > mean(cow$extraversion)] = "High"
+survey_one$high_extraversion[survey_one$extraversion > mean(survey_one$extraversion)] = "High"
 # Make it a factor
-cow$high_extraversion = factor(
-    cow$high_extraversion,
+survey_one$high_extraversion = factor(
+    survey_one$high_extraversion,
     levels = c("Low", "High")
 )
 ```
@@ -119,14 +110,14 @@ It will also **handle missing values** better than our simple
 manual procedure, leaving missing scores missing in the result.
 
 ```{r simple_recode_example}
-cow$personality_type = ifelse(
-    test = cow$extraversion > cow$neuroticism,
+survey_one$personality_type = ifelse(
+    test = survey_one$extraversion > survey_one$neuroticism,
     yes = "Extravert",
     no = "Introvert"
 )
 # Make it a factor
-cow$personality_type = factor(
-    cow$personality_type,
+survey_one$personality_type = factor(
+    survey_one$personality_type,
     levels = c("Introvert", "Extravert")
 )
 ```
@@ -142,13 +133,13 @@ We'll also code neuroticism  as either "low" or "high" based on
 whether it's above the mean:
 
 ```{r low_high_recodes}
-cow$high_neuroticism = ifelse(
-    cow$neuroticism > mean(cow$neuroticism),
+survey_one$high_neuroticism = ifelse(
+    survey_one$neuroticism > mean(survey_one$neuroticism),
     "High",
     "Low"
 )
-cow$high_neuroticism = factor(
-    cow$high_neuroticism,
+survey_one$high_neuroticism = factor(
+    survey_one$high_neuroticism,
     levels = c("Low", "High")
 )
 ```
@@ -161,12 +152,12 @@ a score on a depression scale similar to PHQ-9:
 # Advanced code: run this but don't worry too much about what
 #   it's doing
 set.seed(1)
-cow$depression = round(
+survey_one$depression = round(
   19 + 
-  0.5 * cow$neuroticism +
-  -0.8 * cow$extraversion +
-  0.5 * (cow$sex == "female") +
-  rnorm(nrow(cow), sd = 3)
+  0.5 * survey_one$neuroticism +
+  -0.8 * survey_one$extraversion +
+  0.5 * (survey_one$sex == "female") +
+  rnorm(nrow(survey_one), sd = 3)
 )
 ```
 
@@ -175,8 +166,8 @@ We'll recode this depression score into categories using
 more than two categories:
 
 ```{r cut_recode_example}
-cow$depression_diagnosis = cut(
-    cow$depression,
+survey_one$depression_diagnosis = cut(
+    survey_one$depression,
     breaks = c(0, 20, 25, 33),
     labels = c("None", "Mild", "Severe"),
     include.lowest = TRUE
@@ -195,7 +186,7 @@ You can get a good overview of the entire dataset using
 `summary()`:
 
 ```{r summary_df_example}
-summary(cow)
+summary(survey_one)
 ```
 
 ### Frequency tables
@@ -204,8 +195,8 @@ You can count frequencies of categorical variables with
 `table()`:
 
 ```{r freq_table_example}
-table(cow$sex)
-table(cow$sex, cow$volunteer)
+table(survey_one$sex)
+table(survey_one$sex, survey_one$volunteer)
 ```
 
 ### Histograms: distributions of continuous variables
@@ -216,7 +207,7 @@ issues like skew, outlying scores etc.. Use `hist()`
 to plot the histogram for a variable:
 
 ```{r hist_example, fig.width=4, fig.height=3}
-hist(cow$neuroticism)
+hist(survey_one$neuroticism)
 ```
 
 ### Scatterplots: relationship between two continuous variables
@@ -228,7 +219,7 @@ produce a scatter plot we just give it the two variables
 and use `type = 'p'` to indicate we want to plot points.
 
 ```{r scatter_example, fig.width = 5, fig.height = 4}
-plot(cow$neuroticism, cow$depression, type='p')
+plot(survey_one$neuroticism, survey_one$depression, type='p')
 ```
 
 This plot doesn't look great - we'll cover ways to produce
@@ -237,12 +228,19 @@ correlation between neuroticism and depression.[^fakedata]
 To check the correlation we can use `cor()`:
 
 ```{r correlation_example}
-cor(cow$neuroticism, cow$depression)
+cor(survey_one$neuroticism, survey_one$depression)
 ```
 
 [^fakedata]: Keen readers will notice that the positive correlation is
 there because we put it there when generating the fake depression
 variable.
+
+
+
+### END OF WORKSHOP (continue reading for tips on analysis and more examples)
+
+
+
 
 ## Analysis
 
@@ -254,8 +252,8 @@ We can get the vector of scores for males and females by subsetting
 and passing them to the function:
 
 ```{r t_test_vectors_example}
-dep_sex_test = t.test(cow$depression[cow$sex == "male"],
-                      cow$depression[cow$sex == "female"])
+dep_sex_test = t.test(survey_one$depression[survey_one$sex == "male"],
+                      survey_one$depression[survey_one$sex == "female"])
 dep_sex_test
 ```
 
@@ -285,7 +283,7 @@ the predictors in the model on the right. For our t-test we have
 "predictor"). Running a *t* test with a formula looks like:
 
 ```{r t_test_formula_example}
-t.test(depression ~ sex, data = cow)
+t.test(depression ~ sex, data = survey_one)
 ```
 
 When we're using a formula, we can usually use a `data =` argument
@@ -301,7 +299,7 @@ linear regression can be done using `lm()` (short for **l**inear
 
 ```{r r_regress_example}
 dep_reg = lm(depression ~ neuroticism + extraversion + sex,
-             data = cow)
+             data = survey_one)
 summary(dep_reg)
 ```
 
