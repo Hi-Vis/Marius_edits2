@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 6 An Example Analysis | Matilda Intro to R Workshop</title>
+  <meta name="description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 6 An Example Analysis | Matilda Intro to R Workshop" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://bookdown.org/rachel_visontay/Rad/Images/Cover.png" />
+  <meta property="og:description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 6 An Example Analysis | Matilda Intro to R Workshop" />
+  
+  <meta name="twitter:description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  <meta name="twitter:image" content="https://bookdown.org/rachel_visontay/Rad/Images/Cover.png" />
+
+<meta name="author" content="Marius Mather (with tweaks by Rachel Visontay)" />
+
+
+<meta name="date" content="2022-08-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="Images/rad_logo_r.png" type="image/x-icon" />
+<link rel="prev" href="functions.html"/>
+<link rel="next" href="tidyverse.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="installing.html"><a href="installing.html"><i class="fa fa-check"></i><b>1</b> Getting started with R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="installing.html"><a href="installing.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing R</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="installing.html"><a href="installing.html#windows-instructions"><i class="fa fa-check"></i><b>1.1.1</b> Windows instructions</a></li>
+<li class="chapter" data-level="1.1.2" data-path="installing.html"><a href="installing.html#mac-os-x-instructions"><i class="fa fa-check"></i><b>1.1.2</b> Mac OS X instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="installing.html"><a href="installing.html#installing-rstudio"><i class="fa fa-check"></i><b>1.2</b> Installing RStudio</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="installing.html"><a href="installing.html#mac-os-x-notes"><i class="fa fa-check"></i><b>1.2.1</b> Mac OS X notes</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="installing.html"><a href="installing.html#running-rstudio"><i class="fa fa-check"></i><b>1.3</b> Running RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="installing.html"><a href="installing.html#installing-your-first-packages"><i class="fa fa-check"></i><b>1.4</b> Installing your first packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html"><i class="fa fa-check"></i><b>2</b> Tips for effective R programming</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#use-rstudios-projects-feature"><i class="fa fa-check"></i><b>2.1</b> Use RStudio’s “projects” feature</a></li>
+<li class="chapter" data-level="2.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#using-scripts"><i class="fa fa-check"></i><b>2.2</b> Using scripts</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#script-layout"><i class="fa fa-check"></i><b>2.2.1</b> Script layout</a></li>
+<li class="chapter" data-level="2.2.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#a-tip-for-better-reproducibility"><i class="fa fa-check"></i><b>2.2.2</b> A tip for better reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#long-or-wide-data"><i class="fa fa-check"></i><b>2.3</b> Long or wide data</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#wide-to-long"><i class="fa fa-check"></i><b>2.3.1</b> Going from wide to long</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#writing-readable-code"><i class="fa fa-check"></i><b>2.4</b> Writing readable code</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#basic-formatting-tips"><i class="fa fa-check"></i><b>2.4.1</b> Basic formatting tips</a></li>
+<li class="chapter" data-level="2.4.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#keeping-a-consistent-style"><i class="fa fa-check"></i><b>2.4.2</b> Keeping a consistent style</a></li>
+<li class="chapter" data-level="2.4.3" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#writing-comments"><i class="fa fa-check"></i><b>2.4.3</b> Writing comments</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#dont-panic-dealing-with-spss-withdrawal"><i class="fa fa-check"></i><b>2.5</b> Don’t panic: dealing with SPSS withdrawal</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#rstudio-has-a-data-viewer"><i class="fa fa-check"></i><b>2.5.1</b> RStudio has a data viewer</a></li>
+<li class="chapter" data-level="2.5.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#r-can-read-spss-files"><i class="fa fa-check"></i><b>2.5.2</b> R can read SPSS files</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#here-be-dragons-the-bad-parts-of-r"><i class="fa fa-check"></i><b>2.6</b> Here be dragons: the bad parts of R</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html"><i class="fa fa-check"></i><b>3</b> The Basics of R</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#basic-data-types"><i class="fa fa-check"></i><b>3.1</b> Basic data types</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#numbers"><i class="fa fa-check"></i><b>3.1.1</b> Numbers</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#characters-text"><i class="fa fa-check"></i><b>3.1.2</b> Characters (text)</a></li>
+<li class="chapter" data-level="3.1.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#logical-truefalse"><i class="fa fa-check"></i><b>3.1.3</b> Logical (True/False)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#converting-between-types"><i class="fa fa-check"></i><b>3.2</b> Converting between types</a></li>
+<li class="chapter" data-level="3.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#variables-storing-results"><i class="fa fa-check"></i><b>3.3</b> Variables: Storing Results</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#copying-variables"><i class="fa fa-check"></i><b>3.3.1</b> Copying Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#vectors"><i class="fa fa-check"></i><b>3.4</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#calculating-with-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Calculating with vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#missing-values"><i class="fa fa-check"></i><b>3.4.2</b> Missing values</a></li>
+<li class="chapter" data-level="3.4.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#indexing-accessing-parts-of-vectors"><i class="fa fa-check"></i><b>3.4.3</b> Indexing: accessing parts of vectors</a></li>
+<li class="chapter" data-level="3.4.4" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#logical-indexing-filtering-your-data-based-on-conditions"><i class="fa fa-check"></i><b>3.4.4</b> Logical indexing: filtering your data based on conditions</a></li>
+<li class="chapter" data-level="3.4.5" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#changing-vectors"><i class="fa fa-check"></i><b>3.4.5</b> Changing vectors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html"><i class="fa fa-check"></i><b>4</b> Dataframes and More</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#factors-categorical-data"><i class="fa fa-check"></i><b>4.1</b> Factors (categorical data)</a></li>
+<li class="chapter" data-level="4.2" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#lists"><i class="fa fa-check"></i><b>4.2</b> Lists</a></li>
+<li class="chapter" data-level="4.3" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#dataframes"><i class="fa fa-check"></i><b>4.3</b> Dataframes!</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#accessing-parts-of-dataframes"><i class="fa fa-check"></i><b>4.3.1</b> Accessing parts of dataframes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#arguments"><i class="fa fa-check"></i><b>5.1</b> Arguments</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="functions.html"><a href="functions.html#positional-or-named-arguments"><i class="fa fa-check"></i><b>5.1.1</b> Positional or Named Arguments</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#writing-your-own-functions"><i class="fa fa-check"></i><b>5.2</b> Writing your own functions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="an-example-analysis.html"><a href="an-example-analysis.html"><i class="fa fa-check"></i><b>6</b> An Example Analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#loading-libraries"><i class="fa fa-check"></i><b>6.1</b> Loading libraries</a></li>
+<li class="chapter" data-level="6.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#loading-data"><i class="fa fa-check"></i><b>6.2</b> Loading data</a></li>
+<li class="chapter" data-level="6.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#recoding"><i class="fa fa-check"></i><b>6.3</b> Recoding</a></li>
+<li class="chapter" data-level="6.4" data-path="an-example-analysis.html"><a href="an-example-analysis.html#descriptive-statistics"><i class="fa fa-check"></i><b>6.4</b> Descriptive Statistics</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#quick-data-summary"><i class="fa fa-check"></i><b>6.4.1</b> Quick data summary</a></li>
+<li class="chapter" data-level="6.4.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#frequency-tables"><i class="fa fa-check"></i><b>6.4.2</b> Frequency tables</a></li>
+<li class="chapter" data-level="6.4.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#histograms-distributions-of-continuous-variables"><i class="fa fa-check"></i><b>6.4.3</b> Histograms: distributions of continuous variables</a></li>
+<li class="chapter" data-level="6.4.4" data-path="an-example-analysis.html"><a href="an-example-analysis.html#scatterplots-relationship-between-two-continuous-variables"><i class="fa fa-check"></i><b>6.4.4</b> Scatterplots: relationship between two continuous variables</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="an-example-analysis.html"><a href="an-example-analysis.html#analysis"><i class="fa fa-check"></i><b>6.5</b> Analysis</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#t-test"><i class="fa fa-check"></i><b>6.5.1</b> T-test</a></li>
+<li class="chapter" data-level="6.5.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#formulas-a-simple-mini-language-for-expressing-models"><i class="fa fa-check"></i><b>6.5.2</b> Formulas: a simple mini-language for expressing models</a></li>
+<li class="chapter" data-level="6.5.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#regression"><i class="fa fa-check"></i><b>6.5.3</b> Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="an-example-analysis.html"><a href="an-example-analysis.html#pointless-flashy-nonsense"><i class="fa fa-check"></i><b>6.6</b> Pointless flashy nonsense</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="tidyverse.html"><a href="tidyverse.html"><i class="fa fa-check"></i><b>7</b> Easier analysis with the tidyverse</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="tidyverse.html"><a href="tidyverse.html#introduction-to-the-tidyverse"><i class="fa fa-check"></i><b>7.1</b> Introduction to the tidyverse</a></li>
+<li class="chapter" data-level="7.2" data-path="tidyverse.html"><a href="tidyverse.html#dplyr-turning-complex-analyses-into-simple-steps"><i class="fa fa-check"></i><b>7.2</b> <code>dplyr</code>: Turning complex analyses into simple steps</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="tidyverse.html"><a href="tidyverse.html#bending-the-rules-non-standard-evaluation"><i class="fa fa-check"></i><b>7.2.1</b> Bending the rules: Non-standard evaluation</a></li>
+<li class="chapter" data-level="7.2.2" data-path="tidyverse.html"><a href="tidyverse.html#pipes"><i class="fa fa-check"></i><b>7.2.2</b> Pipes: <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="7.2.3" data-path="tidyverse.html"><a href="tidyverse.html#common-tasks-with-dplyr"><i class="fa fa-check"></i><b>7.2.3</b> Common tasks with <code>dplyr</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html"><i class="fa fa-check"></i><b>8</b> Better plots with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#using-ggplot2-properly"><i class="fa fa-check"></i><b>8.1</b> Using <code>ggplot2</code> properly</a></li>
+<li class="chapter" data-level="8.2" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#mapping-aesthetics"><i class="fa fa-check"></i><b>8.2</b> Mapping aesthetics</a></li>
+<li class="chapter" data-level="8.3" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#geoms-representing-the-data-with-different-components"><i class="fa fa-check"></i><b>8.3</b> geoms: representing the data with different components</a></li>
+<li class="chapter" data-level="8.4" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#combining-geoms"><i class="fa fa-check"></i><b>8.4</b> Combining geoms</a></li>
+<li class="chapter" data-level="8.5" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#scales-and-themes-changing-the-look-of-your-plot"><i class="fa fa-check"></i><b>8.5</b> Scales and themes: changing the look of your plot</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#scales"><i class="fa fa-check"></i><b>8.5.1</b> Scales</a></li>
+<li class="chapter" data-level="8.5.2" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#themes"><i class="fa fa-check"></i><b>8.5.2</b> Themes</a></li>
+<li class="chapter" data-level="8.5.3" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#finding-extra-scales-and-themes"><i class="fa fa-check"></i><b>8.5.3</b> Finding extra scales and themes</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#other-packages-use-ggplot2-too"><i class="fa fa-check"></i><b>8.6</b> Other packages use <code>ggplot2</code> too</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="real-world-data-example.html"><a href="real-world-data-example.html"><i class="fa fa-check"></i><b>9</b> Real world data example</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#data-overview"><i class="fa fa-check"></i><b>9.1</b> Data overview</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#surps-overview"><i class="fa fa-check"></i><b>9.1.1</b> SURPS overview</a></li>
+<li class="chapter" data-level="9.1.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#bsi-overview"><i class="fa fa-check"></i><b>9.1.2</b> BSI overview</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#basic-setup"><i class="fa fa-check"></i><b>9.2</b> Basic setup</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#load-libraries"><i class="fa fa-check"></i><b>9.2.1</b> Load libraries</a></li>
+<li class="chapter" data-level="9.2.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#load-the-data"><i class="fa fa-check"></i><b>9.2.2</b> Load the data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#solve-major-issues"><i class="fa fa-check"></i><b>9.2.3</b> Solve major issues</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#recoding-and-scoring"><i class="fa fa-check"></i><b>9.3</b> Recoding and scoring</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-surps-the-easy-way"><i class="fa fa-check"></i><b>9.3.1</b> Scoring SURPS the easy way</a></li>
+<li class="chapter" data-level="9.3.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-surps-the-harder-way"><i class="fa fa-check"></i><b>9.3.2</b> Scoring SURPS the harder way</a></li>
+<li class="chapter" data-level="9.3.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-the-bsi-scales"><i class="fa fa-check"></i><b>9.3.3</b> Scoring the BSI scales</a></li>
+<li class="chapter" data-level="9.3.4" data-path="real-world-data-example.html"><a href="real-world-data-example.html#recoding-1"><i class="fa fa-check"></i><b>9.3.4</b> Recoding</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="real-world-data-example.html"><a href="real-world-data-example.html#saving-data"><i class="fa fa-check"></i><b>9.4</b> Saving data</a></li>
+<li class="chapter" data-level="9.5" data-path="real-world-data-example.html"><a href="real-world-data-example.html#descriptive-statistics-1"><i class="fa fa-check"></i><b>9.5</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#correlations-between-variables"><i class="fa fa-check"></i><b>9.5.1</b> Correlations between variables</a></li>
+<li class="chapter" data-level="9.5.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#contingency-tables-for-categorical-data"><i class="fa fa-check"></i><b>9.5.2</b> Contingency tables for categorical data</a></li>
+<li class="chapter" data-level="9.5.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#understanding-complex-data"><i class="fa fa-check"></i><b>9.5.3</b> Understanding complex data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="real-world-data-example.html"><a href="real-world-data-example.html#analysis-1"><i class="fa fa-check"></i><b>9.6</b> Analysis</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#simple-but-wrong-logistic-regression"><i class="fa fa-check"></i><b>9.6.1</b> Simple but wrong: Logistic regression</a></li>
+<li class="chapter" data-level="9.6.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#more-complex-modelling-mixed-models-with-lme4"><i class="fa fa-check"></i><b>9.6.2</b> More complex modelling: Mixed models with <code>lme4</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html"><i class="fa fa-check"></i>Learning more/Getting help</a>
+<ul>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#more-coursesbooks"><i class="fa fa-check"></i>More courses/books</a></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#checking-out-the-r-community"><i class="fa fa-check"></i>Checking out the R community</a></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#getting-help"><i class="fa fa-check"></i>Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html"><i class="fa fa-check"></i>Why R is Good</a>
+<ul>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-is-a-language"><i class="fa fa-check"></i>R is a Language</a></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-is-a-programming-language"><i class="fa fa-check"></i>R is a programming language</a></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-has-an-active-community"><i class="fa fa-check"></i>R has an active community</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencesresources-used.html"><a href="referencesresources-used.html"><i class="fa fa-check"></i>References/Resources used</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Matilda Intro to R Workshop</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="an-example-analysis" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Section 6</span> An Example Analysis<a href="an-example-analysis.html#an-example-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Now that we’ve covered the fundamentals of R, we can go through
+an example analysis start to finish to see everything works in practice.</p>
+<p>We’ll use an example dataset from the <code>carData</code> package, a study
+looking at personality and how it relates to people’s decision to volunteer
+as a research participant.</p>
+<p>We’ll run through some different steps, working towards some simple analyses
+of the data. In this format, the steps will be broken up in different chunks,
+but normally they would all be saved in a single script which could
+be run in one go. In a script, it can be useful to label each
+section with a commented heading - if you end a comment line with at least 4 <code>#</code>’s,
+RStudio automatically treats it as a heading, and you’ll be able to jump
+to that section:</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="an-example-analysis.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Load libraries #####</span></span>
+<span id="cb173-2"><a href="an-example-analysis.html#cb173-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Code goes here</span></span>
+<span id="cb173-3"><a href="an-example-analysis.html#cb173-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-4"><a href="an-example-analysis.html#cb173-4" aria-hidden="true" tabindex="-1"></a><span class="do">### Load data ##########</span></span>
+<span id="cb173-5"><a href="an-example-analysis.html#cb173-5" aria-hidden="true" tabindex="-1"></a><span class="co"># More code here</span></span></code></pre></div>
+<p>First, we’ll make sure we have the <code>carData</code> and <code>sjPlot</code> packages
+installed - please copy and run this code in your console (don’t
+worry if you don’t understand it for now):</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="an-example-analysis.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (req_package <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;carData&quot;</span>, <span class="st">&quot;sjPlot&quot;</span>, <span class="st">&quot;effects&quot;</span>)) {</span>
+<span id="cb174-2"><a href="an-example-analysis.html#cb174-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span> <span class="fu">require</span>(req_package, <span class="at">character.only =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb174-3"><a href="an-example-analysis.html#cb174-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">install.packages</span>(req_package)</span>
+<span id="cb174-4"><a href="an-example-analysis.html#cb174-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb174-5"><a href="an-example-analysis.html#cb174-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div id="loading-libraries" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Loading libraries<a href="an-example-analysis.html#loading-libraries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The first step in any analyses is to load any libraries we’re going
+to use. If you’re part way through an analysis and realise you’re going
+to use another library, go back and add it to the top of the script.</p>
+<p>For now, we’re only using the <code>sjPlot</code> library, which produces
+nice looking plots from regression models.</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="an-example-analysis.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span></code></pre></div>
+</div>
+<div id="loading-data" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Loading data<a href="an-example-analysis.html#loading-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Normally, this is where you would read your data in from an external
+file, using something like <code>readr::read_csv()</code> or <code>haven::read_spss()</code>.
+Instead, we’ll just take the existing <code>carData::Cowles</code> data and
+assign a copy of it to a new variable name.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="an-example-analysis.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A short, simple name for you main dataset is nice because you&#39;ll</span></span>
+<span id="cb176-2"><a href="an-example-analysis.html#cb176-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   probably have to type it out a lot</span></span>
+<span id="cb176-3"><a href="an-example-analysis.html#cb176-3" aria-hidden="true" tabindex="-1"></a>cow <span class="ot">=</span> carData<span class="sc">::</span>Cowles</span></code></pre></div>
+<p>This is a reasonably big dataset, with 1421 rows (visible in the “Environment”
+pane in RStudio, or you can get it with <code>nrow(cow)</code>). If you just print
+the data in the console by entering <code>cow</code>, you’ll get a lot of output
+(but luckily not all 1000+ rows). Instead, it’s often best to use
+<code>head(data)</code> to see the first few rows when you just want to look at the
+basic format of your data:</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="an-example-analysis.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cow)</span></code></pre></div>
+<pre><code>##   neuroticism extraversion    sex volunteer
+## 1          16           13 female        no
+## 2           8           14   male        no
+## 3           5           16   male        no
+## 4           8           20 female        no
+## 5           9           19   male        no
+## 6           6           15   male        no</code></pre>
+<p>We can check the format of the data using <code>str()</code>, short for
+<strong>structure</strong>:</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="an-example-analysis.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cow)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    1421 obs. of  4 variables:
+##  $ neuroticism : int  16 8 5 8 9 6 8 12 15 18 ...
+##  $ extraversion: int  13 14 16 20 19 15 10 11 16 7 ...
+##  $ sex         : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 1 2 2 1 2 2 1 2 2 2 ...
+##  $ volunteer   : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<p>All the columns have a sensible format here: the two personality
+scores are <code>integer</code>s (whole numbers), and the two categorical
+variables are <code>factor</code>s<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>. If you need to change
+the type of any variables in your data, it’s best to do it
+right after loading the data, so you can work with consistent
+types from that point on.</p>
+</div>
+<div id="recoding" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Recoding<a href="an-example-analysis.html#recoding" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s go through some basic recoding. First we’ll create a variable
+to show whether someone is above or below the mean for extraversion.
+We’ll do this manually first, using the tools we’ve covered so far:</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="an-example-analysis.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a vector that&#39;s all &quot;Low&quot; to start with</span></span>
+<span id="cb181-2"><a href="an-example-analysis.html#cb181-2" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>high_extraversion <span class="ot">=</span> <span class="st">&quot;Low&quot;</span></span>
+<span id="cb181-3"><a href="an-example-analysis.html#cb181-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace the values where extraversion is high</span></span>
+<span id="cb181-4"><a href="an-example-analysis.html#cb181-4" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>high_extraversion[cow<span class="sc">$</span>extraversion <span class="sc">&gt;</span> <span class="fu">mean</span>(cow<span class="sc">$</span>extraversion)] <span class="ot">=</span> <span class="st">&quot;High&quot;</span></span>
+<span id="cb181-5"><a href="an-example-analysis.html#cb181-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Make it a factor</span></span>
+<span id="cb181-6"><a href="an-example-analysis.html#cb181-6" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>high_extraversion <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb181-7"><a href="an-example-analysis.html#cb181-7" aria-hidden="true" tabindex="-1"></a>    cow<span class="sc">$</span>high_extraversion,</span>
+<span id="cb181-8"><a href="an-example-analysis.html#cb181-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;High&quot;</span>)</span>
+<span id="cb181-9"><a href="an-example-analysis.html#cb181-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Next we’ll code people as either “introverts” or “extroverts” based
+on their scores. We’ll use a function called <code>ifelse()</code> to do this,
+which makes the process we carried out above a bit more automatic.</p>
+<p>It will also <strong>handle missing values</strong> better than our simple
+manual procedure, leaving missing scores missing in the result.</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="an-example-analysis.html#cb182-1" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>personality_type <span class="ot">=</span> <span class="fu">ifelse</span>(</span>
+<span id="cb182-2"><a href="an-example-analysis.html#cb182-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">test =</span> cow<span class="sc">$</span>extraversion <span class="sc">&gt;</span> cow<span class="sc">$</span>neuroticism,</span>
+<span id="cb182-3"><a href="an-example-analysis.html#cb182-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yes =</span> <span class="st">&quot;Extravert&quot;</span>,</span>
+<span id="cb182-4"><a href="an-example-analysis.html#cb182-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">no =</span> <span class="st">&quot;Introvert&quot;</span></span>
+<span id="cb182-5"><a href="an-example-analysis.html#cb182-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb182-6"><a href="an-example-analysis.html#cb182-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Make it a factor</span></span>
+<span id="cb182-7"><a href="an-example-analysis.html#cb182-7" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>personality_type <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb182-8"><a href="an-example-analysis.html#cb182-8" aria-hidden="true" tabindex="-1"></a>    cow<span class="sc">$</span>personality_type,</span>
+<span id="cb182-9"><a href="an-example-analysis.html#cb182-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Introvert&quot;</span>, <span class="st">&quot;Extravert&quot;</span>)</span>
+<span id="cb182-10"><a href="an-example-analysis.html#cb182-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><code>ifelse()</code> makes it easy to create
+a vector based on a test, picking values from the <code>yes</code> argument
+when the test is <code>TRUE</code> and from the <code>no</code> argument when the test
+is <code>FALSE</code>:</p>
+<p><img src="Images/IfElse.png" title="ifelse demonstration" /></p>
+<p>We’ll also code neuroticism as either “low” or “high” based on
+whether it’s above the mean:</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="an-example-analysis.html#cb183-1" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>high_neuroticism <span class="ot">=</span> <span class="fu">ifelse</span>(</span>
+<span id="cb183-2"><a href="an-example-analysis.html#cb183-2" aria-hidden="true" tabindex="-1"></a>    cow<span class="sc">$</span>neuroticism <span class="sc">&gt;</span> <span class="fu">mean</span>(cow<span class="sc">$</span>neuroticism),</span>
+<span id="cb183-3"><a href="an-example-analysis.html#cb183-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;High&quot;</span>,</span>
+<span id="cb183-4"><a href="an-example-analysis.html#cb183-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Low&quot;</span></span>
+<span id="cb183-5"><a href="an-example-analysis.html#cb183-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb183-6"><a href="an-example-analysis.html#cb183-6" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>high_neuroticism <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb183-7"><a href="an-example-analysis.html#cb183-7" aria-hidden="true" tabindex="-1"></a>    cow<span class="sc">$</span>high_neuroticism,</span>
+<span id="cb183-8"><a href="an-example-analysis.html#cb183-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;High&quot;</span>)</span>
+<span id="cb183-9"><a href="an-example-analysis.html#cb183-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Since the example dataset we’re using doesn’t have
+quite enough variables, let’s also create a new one,
+a score on a depression scale similar to PHQ-9:</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="an-example-analysis.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Advanced code: run this but don&#39;t worry too much about what</span></span>
+<span id="cb184-2"><a href="an-example-analysis.html#cb184-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   it&#39;s doing</span></span>
+<span id="cb184-3"><a href="an-example-analysis.html#cb184-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb184-4"><a href="an-example-analysis.html#cb184-4" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>depression <span class="ot">=</span> <span class="fu">round</span>(</span>
+<span id="cb184-5"><a href="an-example-analysis.html#cb184-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">19</span> <span class="sc">+</span> </span>
+<span id="cb184-6"><a href="an-example-analysis.html#cb184-6" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.5</span> <span class="sc">*</span> cow<span class="sc">$</span>neuroticism <span class="sc">+</span></span>
+<span id="cb184-7"><a href="an-example-analysis.html#cb184-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fl">0.8</span> <span class="sc">*</span> cow<span class="sc">$</span>extraversion <span class="sc">+</span></span>
+<span id="cb184-8"><a href="an-example-analysis.html#cb184-8" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.5</span> <span class="sc">*</span> (cow<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>) <span class="sc">+</span></span>
+<span id="cb184-9"><a href="an-example-analysis.html#cb184-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="fu">nrow</span>(cow), <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb184-10"><a href="an-example-analysis.html#cb184-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>We’ll recode this depression score into categories using
+<code>cut()</code>, which allows us to divide up scores into
+more than two categories:</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="an-example-analysis.html#cb185-1" aria-hidden="true" tabindex="-1"></a>cow<span class="sc">$</span>depression_diagnosis <span class="ot">=</span> <span class="fu">cut</span>(</span>
+<span id="cb185-2"><a href="an-example-analysis.html#cb185-2" aria-hidden="true" tabindex="-1"></a>    cow<span class="sc">$</span>depression,</span>
+<span id="cb185-3"><a href="an-example-analysis.html#cb185-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">33</span>),</span>
+<span id="cb185-4"><a href="an-example-analysis.html#cb185-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;None&quot;</span>, <span class="st">&quot;Mild&quot;</span>, <span class="st">&quot;Severe&quot;</span>),</span>
+<span id="cb185-5"><a href="an-example-analysis.html#cb185-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">include.lowest =</span> <span class="cn">TRUE</span></span>
+<span id="cb185-6"><a href="an-example-analysis.html#cb185-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="descriptive-statistics" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Descriptive Statistics<a href="an-example-analysis.html#descriptive-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before doing any actual analysis it’s always good to use
+descriptive statistics to look at the data and get a sense
+of what each variable looks like.</p>
+<div id="quick-data-summary" class="section level3 hasAnchor" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Quick data summary<a href="an-example-analysis.html#quick-data-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can get a good overview of the entire dataset using
+<code>summary()</code>:</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="an-example-analysis.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cow)</span></code></pre></div>
+<pre><code>##   neuroticism     extraversion       sex      volunteer high_extraversion  personality_type high_neuroticism
+##  Min.   : 0.00   Min.   : 2.00   female:780   no :824   Low :691          Introvert:663     Low :722        
+##  1st Qu.: 8.00   1st Qu.:10.00   male  :641   yes:597   High:730          Extravert:758     High:699        
+##  Median :11.00   Median :13.00                                                                              
+##  Mean   :11.47   Mean   :12.37                                                                              
+##  3rd Qu.:15.00   3rd Qu.:15.00                                                                              
+##  Max.   :24.00   Max.   :23.00                                                                              
+##    depression    depression_diagnosis
+##  Min.   : 0.00   None  :1195         
+##  1st Qu.:12.00   Mild  : 196         
+##  Median :15.00   Severe:  30         
+##  Mean   :15.07                       
+##  3rd Qu.:18.00                       
+##  Max.   :33.00</code></pre>
+</div>
+<div id="frequency-tables" class="section level3 hasAnchor" number="6.4.2">
+<h3><span class="header-section-number">6.4.2</span> Frequency tables<a href="an-example-analysis.html#frequency-tables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can count frequencies of categorical variables with
+<code>table()</code>:</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="an-example-analysis.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cow<span class="sc">$</span>sex)</span></code></pre></div>
+<pre><code>## 
+## female   male 
+##    780    641</code></pre>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="an-example-analysis.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cow<span class="sc">$</span>sex, cow<span class="sc">$</span>volunteer)</span></code></pre></div>
+<pre><code>##         
+##           no yes
+##   female 431 349
+##   male   393 248</code></pre>
+</div>
+<div id="histograms-distributions-of-continuous-variables" class="section level3 hasAnchor" number="6.4.3">
+<h3><span class="header-section-number">6.4.3</span> Histograms: distributions of continuous variables<a href="an-example-analysis.html#histograms-distributions-of-continuous-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Histograms are good for checking the range of scores
+for a continuous variable to see if there are any
+issues like skew, outlying scores etc.. Use <code>hist()</code>
+to plot the histogram for a variable:</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="an-example-analysis.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(cow<span class="sc">$</span>neuroticism)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/hist_example-1.png" width="384" /></p>
+</div>
+<div id="scatterplots-relationship-between-two-continuous-variables" class="section level3 hasAnchor" number="6.4.4">
+<h3><span class="header-section-number">6.4.4</span> Scatterplots: relationship between two continuous variables<a href="an-example-analysis.html#scatterplots-relationship-between-two-continuous-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Scatterplots are useful for getting a sense of whether or
+not there’s a relationship between two continuous variables.
+The basic <code>plot()</code> function in R is quite flexible, so to
+produce a scatter plot we just give it the two variables
+and use <code>type = 'p'</code> to indicate we want to plot points.</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="an-example-analysis.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cow<span class="sc">$</span>neuroticism, cow<span class="sc">$</span>depression, <span class="at">type=</span><span class="st">&#39;p&#39;</span>)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/scatter_example-1.png" width="480" /></p>
+<p>This plot doesn’t look great - we’ll cover ways to produce
+better plots later. But you can see there’s a positive
+correlation between neuroticism and depression.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>
+To check the correlation we can use <code>cor()</code>:</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="an-example-analysis.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(cow<span class="sc">$</span>neuroticism, cow<span class="sc">$</span>depression)</span></code></pre></div>
+<pre><code>## [1] 0.5341178</code></pre>
+</div>
+</div>
+<div id="analysis" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Analysis<a href="an-example-analysis.html#analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="t-test" class="section level3 hasAnchor" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> T-test<a href="an-example-analysis.html#t-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can conduct a simple <em>t</em> test of the differences in depression
+scores between males and females using the <code>t.test()</code> function.
+We can get the vector of scores for males and females by subsetting
+and passing them to the function:</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="an-example-analysis.html#cb196-1" aria-hidden="true" tabindex="-1"></a>dep_sex_test <span class="ot">=</span> <span class="fu">t.test</span>(cow<span class="sc">$</span>depression[cow<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;male&quot;</span>],</span>
+<span id="cb196-2"><a href="an-example-analysis.html#cb196-2" aria-hidden="true" tabindex="-1"></a>                      cow<span class="sc">$</span>depression[cow<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>])</span>
+<span id="cb196-3"><a href="an-example-analysis.html#cb196-3" aria-hidden="true" tabindex="-1"></a>dep_sex_test</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  cow$depression[cow$sex == &quot;male&quot;] and cow$depression[cow$sex == &quot;female&quot;]
+## t = -4.275, df = 1356.4, p-value = 2.045e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.735880 -0.643867
+## sample estimates:
+## mean of x mean of y 
+##  14.41654  15.60641</code></pre>
+<p>Since we’ve saved the model object (basically a <code>list</code>) to a variable, we can
+access the values we’re most interested in if we need to use them again:</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="an-example-analysis.html#cb198-1" aria-hidden="true" tabindex="-1"></a>dep_sex_test<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>## [1] 2.044769e-05</code></pre>
+<p>To discover what values are available, you can look at the <strong>Value</strong>
+section of the <code>?t.test</code> help page, or just type <code>dep_sex_test$</code> and
+let RStudio bring up the list of suggestions.</p>
+</div>
+<div id="formulas-a-simple-mini-language-for-expressing-models" class="section level3 hasAnchor" number="6.5.2">
+<h3><span class="header-section-number">6.5.2</span> Formulas: a simple mini-language for expressing models<a href="an-example-analysis.html#formulas-a-simple-mini-language-for-expressing-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If we look at <code>?t.test</code>, we can see that there are actually
+two different options for running a test: either pass two separate
+vectors of scores representing the groups we want to compare,
+or use a <strong>formula</strong>.</p>
+<p>Formulas in R allow you to spell out models using a compact syntax,
+allowing you to focus on the overall structure of your model. Formulas
+in R contain <code>~</code> (a “tilde”), with the outcome on the left of the <code>~</code> and
+the predictors in the model on the right. For our t-test we have
+<code>depression</code> as the outcome and <code>sex</code> as the grouping variable (our only
+“predictor”). Running a <em>t</em> test with a formula looks like:</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="an-example-analysis.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(depression <span class="sc">~</span> sex, <span class="at">data =</span> cow)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  depression by sex
+## t = 4.275, df = 1356.4, p-value = 2.045e-05
+## alternative hypothesis: true difference in means between group female and group male is not equal to 0
+## 95 percent confidence interval:
+##  0.643867 1.735880
+## sample estimates:
+## mean in group female   mean in group male 
+##             15.60641             14.41654</code></pre>
+<p>When we’re using a formula, we can usually use a <code>data =</code> argument
+to say where all the variables in the model come from. R will automatically
+look them up in the dataframe, without us having to access them manually.</p>
+</div>
+<div id="regression" class="section level3 hasAnchor" number="6.5.3">
+<h3><span class="header-section-number">6.5.3</span> Regression<a href="an-example-analysis.html#regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can also run a simple linear regression, prediction <code>depression</code>
+(our outcome) using <code>neuroticism</code>, <code>extraversion</code> and <code>sex</code>. In R,
+linear regression can be done using <code>lm()</code> (short for <strong>l</strong>inear
+<strong>m</strong>odel). Our model looks like:</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="an-example-analysis.html#cb202-1" aria-hidden="true" tabindex="-1"></a>dep_reg <span class="ot">=</span> <span class="fu">lm</span>(depression <span class="sc">~</span> neuroticism <span class="sc">+</span> extraversion <span class="sc">+</span> sex,</span>
+<span id="cb202-2"><a href="an-example-analysis.html#cb202-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> cow)</span>
+<span id="cb202-3"><a href="an-example-analysis.html#cb202-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dep_reg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = depression ~ neuroticism + extraversion + sex, data = cow)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.7374 -2.0909 -0.0555  2.1794 11.8903 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  19.72960    0.36979   53.35   &lt;2e-16 ***
+## neuroticism   0.49740    0.01707   29.13   &lt;2e-16 ***
+## extraversion -0.82358    0.02113  -38.98   &lt;2e-16 ***
+## sexmale      -0.38793    0.16718   -2.32   0.0205 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.082 on 1417 degrees of freedom
+## Multiple R-squared:  0.6553, Adjusted R-squared:  0.6545 
+## F-statistic: 897.8 on 3 and 1417 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="why-was-that-so-easy" class="section level4 hasAnchor" number="6.5.3.1">
+<h4><span class="header-section-number">6.5.3.1</span> Why was that so easy?<a href="an-example-analysis.html#why-was-that-so-easy" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The regression model above was simple to fit because:</p>
+<ul>
+<li>We had all our data in a nice clean dataframe (in <strong>long</strong> format)</li>
+<li>All our continuous variables were coded as numeric</li>
+<li>All our categorical variables (<code>sex</code>) were coded as factors</li>
+</ul>
+<p>Most of the setup for running models in R happens beforehand. Factors
+will be treated as discrete variables, and numeric variables as
+continuous variables, so make sure all your variables are the
+right type before you try to fit a model.</p>
+<p>If you don’t have variables coded the right way, go back up
+to the “recoding” section of your script and fix them there.</p>
+</div>
+<div id="formula-syntax" class="section level4 hasAnchor" number="6.5.3.2">
+<h4><span class="header-section-number">6.5.3.2</span> Formula syntax<a href="an-example-analysis.html#formula-syntax" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The syntax you use in formulas is special, and it doesn’t
+necessarily mean the same thing as it would in regular R. For example
+<code>+</code> doesn’t mean “add these values together,” it just means “also
+include this predictor.” The most important symbols in formula syntax
+are:</p>
+<ul>
+<li><code>+</code>: used to separate each individual predictor</li>
+<li><code>time:group</code>: <code>:</code> creates an interaction term between two variables,
+and only that interaction term.</li>
+<li><code>time*group</code>: <code>*</code> creates an interaction term between two variables,
+and also includes the individual main effects (<code>time</code> and <code>group</code> in
+this example). Usually more useful than <code>:</code> because interactions
+generally don’t make sense without the main effects.</li>
+<li><code>1</code>: when you use <code>1</code> as a predictor on its own, it means “include
+an intercept in the model.” This is the default so you don’t
+have to include it. Intercepts make sense in most models.</li>
+<li><code>0</code>: signals that you don’t want to fit an intercept. Not recommended
+most of the time.</li>
+</ul>
+</div>
+<div id="working-with-a-fitted-model" class="section level4 hasAnchor" number="6.5.3.3">
+<h4><span class="header-section-number">6.5.3.3</span> Working with a fitted model<a href="an-example-analysis.html#working-with-a-fitted-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Once we’ve saved a fitted model to a variable, we can use it,
+check it and save it in lots of different ways. The most
+useful way is to call <code>summary(model)</code> like we did above,
+which produces a summary table for the coefficients along
+with a few useful statistics like <span class="math inline">\(R^2\)</span>.</p>
+<p>There are also hundreds of different functions that people
+have written to work with models and provide useful output,
+both built in to R and available in packages. When possible,
+look for a function that’s already been written - there’s no need
+to reinvent the wheel. But if you want something that’s not covered,
+all the data you need is available, and you can use it to produce
+exactly what you need.</p>
+<p><code>plot(model)</code>
+(a built in command)
+produces a few standard diagnostic plots that do things
+like check the normality of your residuals and whether
+particular outliers are affecting the fit:</p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="an-example-analysis.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This temporarily switches R&#39;s plotting to a 2x2 layout</span></span>
+<span id="cb204-2"><a href="an-example-analysis.html#cb204-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb204-3"><a href="an-example-analysis.html#cb204-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dep_reg)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/plot_lm_example-1.png" width="672" /></p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="an-example-analysis.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Switch plots back to normal</span></span>
+<span id="cb205-2"><a href="an-example-analysis.html#cb205-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
+<div class="note">
+<p>
+If you wanted to create the first plot from scratch, you could plot <code>fitted(dep_reg)</code> against <code>resid(dep_reg)</code>.
+</p>
+</div>
+<p><code>plot_model</code> from the <code>sjPlot</code> package can give
+us a nice visualisation of the effects in our model, automatically
+choosing the right kind of plot for the predictor depending on
+whether it’s continuous or categorical:</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="an-example-analysis.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(dep_reg, </span>
+<span id="cb206-2"><a href="an-example-analysis.html#cb206-2" aria-hidden="true" tabindex="-1"></a>           <span class="co"># We want to see the effect of each predictor,</span></span>
+<span id="cb206-3"><a href="an-example-analysis.html#cb206-3" aria-hidden="true" tabindex="-1"></a>           <span class="co">#   but lots of other plot types are available</span></span>
+<span id="cb206-4"><a href="an-example-analysis.html#cb206-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">&quot;eff&quot;</span>,</span>
+<span id="cb206-5"><a href="an-example-analysis.html#cb206-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">terms =</span> <span class="st">&quot;neuroticism&quot;</span>)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/plot_model_example-1.png" width="384" /></p>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="an-example-analysis.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(dep_reg, </span>
+<span id="cb207-2"><a href="an-example-analysis.html#cb207-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">&quot;eff&quot;</span>,</span>
+<span id="cb207-3"><a href="an-example-analysis.html#cb207-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">terms =</span> <span class="st">&quot;sex&quot;</span>)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/plot_model_example-2.png" width="384" /></p>
+<p>You’re also not stuck with the default presentation
+of results from <code>summary()</code>, as there are lots of ways
+to turn your model into a nice-looking table for publication.
+<code>tab_model()</code>, also from the <code>sjPlot</code> package, produces
+good tables for regression models:</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="an-example-analysis.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(dep_reg)</span></code></pre></div>
+<div class="figure">
+<img src="Images/tab_model.png" alt="" />
+<p class="caption">Example tab_model output</p>
+</div>
+</div>
+</div>
+</div>
+<div id="pointless-flashy-nonsense" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> Pointless flashy nonsense<a href="an-example-analysis.html#pointless-flashy-nonsense" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Impress your friends and supervisors!</p>
+<p><strong>NOTE:</strong> Don’t try to run this code (for now), it requires some
+libraries that are tricky to install.</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="an-example-analysis.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgl)</span>
+<span id="cb209-2"><a href="an-example-analysis.html#cb209-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rayshader)</span>
+<span id="cb209-3"><a href="an-example-analysis.html#cb209-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-4"><a href="an-example-analysis.html#cb209-4" aria-hidden="true" tabindex="-1"></a>hex_gg <span class="ot">=</span> <span class="fu">ggplot</span>(cow, <span class="fu">aes</span>(<span class="at">x =</span>  neuroticism, <span class="at">y =</span> extraversion)) <span class="sc">+</span></span>
+<span id="cb209-5"><a href="an-example-analysis.html#cb209-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_bin_hex</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">stat</span>(density), <span class="at">colour =</span> <span class="fu">stat</span>(density)), </span>
+<span id="cb209-6"><a href="an-example-analysis.html#cb209-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb209-7"><a href="an-example-analysis.html#cb209-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb209-8"><a href="an-example-analysis.html#cb209-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;B&quot;</span>) <span class="sc">+</span></span>
+<span id="cb209-9"><a href="an-example-analysis.html#cb209-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;B&quot;</span>, <span class="at">guide =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb209-10"><a href="an-example-analysis.html#cb209-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Neuroticism&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Extraversion&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb209-11"><a href="an-example-analysis.html#cb209-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">colour =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb209-12"><a href="an-example-analysis.html#cb209-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
+<span id="cb209-13"><a href="an-example-analysis.html#cb209-13" aria-hidden="true" tabindex="-1"></a>hex_gg</span>
+<span id="cb209-14"><a href="an-example-analysis.html#cb209-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-15"><a href="an-example-analysis.html#cb209-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_gg</span>(hex_gg, <span class="at">multicore =</span> <span class="cn">TRUE</span>, <span class="at">windowsize =</span> <span class="fu">c</span>(<span class="dv">800</span>, <span class="dv">800</span>))</span>
+<span id="cb209-16"><a href="an-example-analysis.html#cb209-16" aria-hidden="true" tabindex="-1"></a><span class="fu">render_movie</span>(<span class="st">&quot;silly.mp4&quot;</span>, <span class="at">phi =</span> <span class="dv">40</span>, <span class="at">theta =</span> <span class="dv">30</span>)</span></code></pre></div>
+<video autoplay loop muted playsinline>
+<source src="Images/silly.webm" type="video/webm">
+</video>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="6">
+<li id="fn6"><p>Some of the most common problems in R result
+from text data that should just be in <code>character</code> format being
+stored as <code>factor</code>. <code>factor</code> should only be used if you
+have categorical variables with a fixed number of levels (usually
+a small number). If you have text columns, check how they’ve
+been stored.<a href="an-example-analysis.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>Keen readers will notice that the positive correlation is
+there because we put it there when generating the fake depression
+variable.<a href="an-example-analysis.html#fnref7" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tidyverse.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Hi-Vis/Marius_edits2/06-example_analysis.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

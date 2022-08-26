@@ -1,6 +1,5 @@
 # Getting started with R {#installing}
 
-![Artwork by \@allison_horst](Images/allisonhorst/r_first_then.png "Getting started with R")
 
 ## Installing R
 
@@ -64,22 +63,6 @@ by clicking in the console and typing `1 + 1` and hitting
 1 + 1
 ```
 
-Or for something a bit more interesting, copy and paste these lines
-into the console and hit \<Enter\>:
-
-```{r first_plot, fig.width=4, fig.height=4}
-plot(iris$Petal.Length, iris$Petal.Width, 
-     xlab = "Length", ylab = "Width", 
-     main = "Petals of different flower species",
-     col = c("green", "purple", "orange")[iris$Species],
-     pch = 16)
-```
-
-```{block, type='note'}
-Don't worry if this code looks a bit complicated: some of the default plots
-in R are ugly, and they need tweaking to look halfway presentable. We'll
-see better ways to produce nice plots later.
-```
 
 ## Installing your first packages
 
@@ -89,7 +72,8 @@ installing the `ggplot2` package (an excellent plotting package) to make
 sure everything is working:
 
 ```{r install_ggplot2, eval=FALSE}
-install.packages("ggplot2")
+install.packages("ggplot2") #install
+load.packages(ggplot2) #loading
 ```
 
 The install process should be automatic, and it will also install
@@ -101,52 +85,4 @@ and look for messages like:
 package ‘ggplot2’ successfully unpacked and MD5 sums checked
 ```
 
-### The `tidyverse`
-
-This is Hadley.
-
-![Hadley Wickham](Images/Hadley.jpg){height=200px}
-
-Hadley is your friend. As well as creating `ggplot2`, Hadley is the mastermind
-behind the `tidyverse`, a set of R packages designed to make processing
-and analysing your data easier, and to smooth out some of R's quirks. 
-We'll be using the `tidyverse` packages throughout this tutorial, so let's 
-install them now: 
-
-```{r install_tidyverse, eval=FALSE}
-install.packages("tidyverse")
-```
-
-This will install multiple packages, but again the process should be
-automatic.
-
-### The `tidyverse` in action
-
-Now that we have some basic packages set up, let's see what they can
-do for us:
-
-```{r iris_nicer}
-# Load the ggplot2 library into our R session
-library(ggplot2)
-
-ggplot(iris, aes(x = Petal.Length, y = Petal.Width, colour = Species)) +
-    geom_point(size = 3) +
-    scale_colour_viridis_d() +
-    labs(title = "A nicer looking plot",
-         x = "Petal length", y = "Petal width") +
-    theme_bw()
-```
-
-### Installing other packages
-
-As you try out different analyses and tasks in R, you'll
-come across recommendations for other packages - there are
-no major drawbacks to trying them out, so feel free to install and have
-a look - there are some great packages out there.
-
-However, it's worth trying to keep the number of packages **in a single
-analysis** low to avoid overlap and keep things simple (you do also get
-occasional conflicts between packages where they don't play nice with each
-other). If you're loading a lot of packages in your analysis
-it's worth checking if you can get rid of some of them.
 

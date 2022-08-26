@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 9 Real world data example | Matilda Intro to R Workshop</title>
+  <meta name="description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 9 Real world data example | Matilda Intro to R Workshop" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://bookdown.org/rachel_visontay/Rad/Images/Cover.png" />
+  <meta property="og:description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 9 Real world data example | Matilda Intro to R Workshop" />
+  
+  <meta name="twitter:description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  <meta name="twitter:image" content="https://bookdown.org/rachel_visontay/Rad/Images/Cover.png" />
+
+<meta name="author" content="Marius Mather (with tweaks by Rachel Visontay)" />
+
+
+<meta name="date" content="2022-08-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="Images/rad_logo_r.png" type="image/x-icon" />
+<link rel="prev" href="better-plots-with-ggplot2.html"/>
+<link rel="next" href="learning-moregetting-help.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="installing.html"><a href="installing.html"><i class="fa fa-check"></i><b>1</b> Getting started with R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="installing.html"><a href="installing.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing R</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="installing.html"><a href="installing.html#windows-instructions"><i class="fa fa-check"></i><b>1.1.1</b> Windows instructions</a></li>
+<li class="chapter" data-level="1.1.2" data-path="installing.html"><a href="installing.html#mac-os-x-instructions"><i class="fa fa-check"></i><b>1.1.2</b> Mac OS X instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="installing.html"><a href="installing.html#installing-rstudio"><i class="fa fa-check"></i><b>1.2</b> Installing RStudio</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="installing.html"><a href="installing.html#mac-os-x-notes"><i class="fa fa-check"></i><b>1.2.1</b> Mac OS X notes</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="installing.html"><a href="installing.html#running-rstudio"><i class="fa fa-check"></i><b>1.3</b> Running RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="installing.html"><a href="installing.html#installing-your-first-packages"><i class="fa fa-check"></i><b>1.4</b> Installing your first packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html"><i class="fa fa-check"></i><b>2</b> Tips for effective R programming</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#use-rstudios-projects-feature"><i class="fa fa-check"></i><b>2.1</b> Use RStudio’s “projects” feature</a></li>
+<li class="chapter" data-level="2.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#using-scripts"><i class="fa fa-check"></i><b>2.2</b> Using scripts</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#script-layout"><i class="fa fa-check"></i><b>2.2.1</b> Script layout</a></li>
+<li class="chapter" data-level="2.2.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#a-tip-for-better-reproducibility"><i class="fa fa-check"></i><b>2.2.2</b> A tip for better reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#long-or-wide-data"><i class="fa fa-check"></i><b>2.3</b> Long or wide data</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#wide-to-long"><i class="fa fa-check"></i><b>2.3.1</b> Going from wide to long</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#writing-readable-code"><i class="fa fa-check"></i><b>2.4</b> Writing readable code</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#basic-formatting-tips"><i class="fa fa-check"></i><b>2.4.1</b> Basic formatting tips</a></li>
+<li class="chapter" data-level="2.4.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#keeping-a-consistent-style"><i class="fa fa-check"></i><b>2.4.2</b> Keeping a consistent style</a></li>
+<li class="chapter" data-level="2.4.3" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#writing-comments"><i class="fa fa-check"></i><b>2.4.3</b> Writing comments</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#dont-panic-dealing-with-spss-withdrawal"><i class="fa fa-check"></i><b>2.5</b> Don’t panic: dealing with SPSS withdrawal</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#rstudio-has-a-data-viewer"><i class="fa fa-check"></i><b>2.5.1</b> RStudio has a data viewer</a></li>
+<li class="chapter" data-level="2.5.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#r-can-read-spss-files"><i class="fa fa-check"></i><b>2.5.2</b> R can read SPSS files</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#here-be-dragons-the-bad-parts-of-r"><i class="fa fa-check"></i><b>2.6</b> Here be dragons: the bad parts of R</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html"><i class="fa fa-check"></i><b>3</b> The Basics of R</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#basic-data-types"><i class="fa fa-check"></i><b>3.1</b> Basic data types</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#numbers"><i class="fa fa-check"></i><b>3.1.1</b> Numbers</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#characters-text"><i class="fa fa-check"></i><b>3.1.2</b> Characters (text)</a></li>
+<li class="chapter" data-level="3.1.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#logical-truefalse"><i class="fa fa-check"></i><b>3.1.3</b> Logical (True/False)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#converting-between-types"><i class="fa fa-check"></i><b>3.2</b> Converting between types</a></li>
+<li class="chapter" data-level="3.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#variables-storing-results"><i class="fa fa-check"></i><b>3.3</b> Variables: Storing Results</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#copying-variables"><i class="fa fa-check"></i><b>3.3.1</b> Copying Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#vectors"><i class="fa fa-check"></i><b>3.4</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#calculating-with-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Calculating with vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#missing-values"><i class="fa fa-check"></i><b>3.4.2</b> Missing values</a></li>
+<li class="chapter" data-level="3.4.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#indexing-accessing-parts-of-vectors"><i class="fa fa-check"></i><b>3.4.3</b> Indexing: accessing parts of vectors</a></li>
+<li class="chapter" data-level="3.4.4" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#logical-indexing-filtering-your-data-based-on-conditions"><i class="fa fa-check"></i><b>3.4.4</b> Logical indexing: filtering your data based on conditions</a></li>
+<li class="chapter" data-level="3.4.5" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#changing-vectors"><i class="fa fa-check"></i><b>3.4.5</b> Changing vectors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html"><i class="fa fa-check"></i><b>4</b> Dataframes and More</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#factors-categorical-data"><i class="fa fa-check"></i><b>4.1</b> Factors (categorical data)</a></li>
+<li class="chapter" data-level="4.2" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#lists"><i class="fa fa-check"></i><b>4.2</b> Lists</a></li>
+<li class="chapter" data-level="4.3" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#dataframes"><i class="fa fa-check"></i><b>4.3</b> Dataframes!</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#accessing-parts-of-dataframes"><i class="fa fa-check"></i><b>4.3.1</b> Accessing parts of dataframes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#arguments"><i class="fa fa-check"></i><b>5.1</b> Arguments</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="functions.html"><a href="functions.html#positional-or-named-arguments"><i class="fa fa-check"></i><b>5.1.1</b> Positional or Named Arguments</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#writing-your-own-functions"><i class="fa fa-check"></i><b>5.2</b> Writing your own functions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="an-example-analysis.html"><a href="an-example-analysis.html"><i class="fa fa-check"></i><b>6</b> An Example Analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#loading-libraries"><i class="fa fa-check"></i><b>6.1</b> Loading libraries</a></li>
+<li class="chapter" data-level="6.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#loading-data"><i class="fa fa-check"></i><b>6.2</b> Loading data</a></li>
+<li class="chapter" data-level="6.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#recoding"><i class="fa fa-check"></i><b>6.3</b> Recoding</a></li>
+<li class="chapter" data-level="6.4" data-path="an-example-analysis.html"><a href="an-example-analysis.html#descriptive-statistics"><i class="fa fa-check"></i><b>6.4</b> Descriptive Statistics</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#quick-data-summary"><i class="fa fa-check"></i><b>6.4.1</b> Quick data summary</a></li>
+<li class="chapter" data-level="6.4.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#frequency-tables"><i class="fa fa-check"></i><b>6.4.2</b> Frequency tables</a></li>
+<li class="chapter" data-level="6.4.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#histograms-distributions-of-continuous-variables"><i class="fa fa-check"></i><b>6.4.3</b> Histograms: distributions of continuous variables</a></li>
+<li class="chapter" data-level="6.4.4" data-path="an-example-analysis.html"><a href="an-example-analysis.html#scatterplots-relationship-between-two-continuous-variables"><i class="fa fa-check"></i><b>6.4.4</b> Scatterplots: relationship between two continuous variables</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="an-example-analysis.html"><a href="an-example-analysis.html#analysis"><i class="fa fa-check"></i><b>6.5</b> Analysis</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#t-test"><i class="fa fa-check"></i><b>6.5.1</b> T-test</a></li>
+<li class="chapter" data-level="6.5.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#formulas-a-simple-mini-language-for-expressing-models"><i class="fa fa-check"></i><b>6.5.2</b> Formulas: a simple mini-language for expressing models</a></li>
+<li class="chapter" data-level="6.5.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#regression"><i class="fa fa-check"></i><b>6.5.3</b> Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="an-example-analysis.html"><a href="an-example-analysis.html#pointless-flashy-nonsense"><i class="fa fa-check"></i><b>6.6</b> Pointless flashy nonsense</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="tidyverse.html"><a href="tidyverse.html"><i class="fa fa-check"></i><b>7</b> Easier analysis with the tidyverse</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="tidyverse.html"><a href="tidyverse.html#introduction-to-the-tidyverse"><i class="fa fa-check"></i><b>7.1</b> Introduction to the tidyverse</a></li>
+<li class="chapter" data-level="7.2" data-path="tidyverse.html"><a href="tidyverse.html#dplyr-turning-complex-analyses-into-simple-steps"><i class="fa fa-check"></i><b>7.2</b> <code>dplyr</code>: Turning complex analyses into simple steps</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="tidyverse.html"><a href="tidyverse.html#bending-the-rules-non-standard-evaluation"><i class="fa fa-check"></i><b>7.2.1</b> Bending the rules: Non-standard evaluation</a></li>
+<li class="chapter" data-level="7.2.2" data-path="tidyverse.html"><a href="tidyverse.html#pipes"><i class="fa fa-check"></i><b>7.2.2</b> Pipes: <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="7.2.3" data-path="tidyverse.html"><a href="tidyverse.html#common-tasks-with-dplyr"><i class="fa fa-check"></i><b>7.2.3</b> Common tasks with <code>dplyr</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html"><i class="fa fa-check"></i><b>8</b> Better plots with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#using-ggplot2-properly"><i class="fa fa-check"></i><b>8.1</b> Using <code>ggplot2</code> properly</a></li>
+<li class="chapter" data-level="8.2" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#mapping-aesthetics"><i class="fa fa-check"></i><b>8.2</b> Mapping aesthetics</a></li>
+<li class="chapter" data-level="8.3" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#geoms-representing-the-data-with-different-components"><i class="fa fa-check"></i><b>8.3</b> geoms: representing the data with different components</a></li>
+<li class="chapter" data-level="8.4" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#combining-geoms"><i class="fa fa-check"></i><b>8.4</b> Combining geoms</a></li>
+<li class="chapter" data-level="8.5" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#scales-and-themes-changing-the-look-of-your-plot"><i class="fa fa-check"></i><b>8.5</b> Scales and themes: changing the look of your plot</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#scales"><i class="fa fa-check"></i><b>8.5.1</b> Scales</a></li>
+<li class="chapter" data-level="8.5.2" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#themes"><i class="fa fa-check"></i><b>8.5.2</b> Themes</a></li>
+<li class="chapter" data-level="8.5.3" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#finding-extra-scales-and-themes"><i class="fa fa-check"></i><b>8.5.3</b> Finding extra scales and themes</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#other-packages-use-ggplot2-too"><i class="fa fa-check"></i><b>8.6</b> Other packages use <code>ggplot2</code> too</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="real-world-data-example.html"><a href="real-world-data-example.html"><i class="fa fa-check"></i><b>9</b> Real world data example</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#data-overview"><i class="fa fa-check"></i><b>9.1</b> Data overview</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#surps-overview"><i class="fa fa-check"></i><b>9.1.1</b> SURPS overview</a></li>
+<li class="chapter" data-level="9.1.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#bsi-overview"><i class="fa fa-check"></i><b>9.1.2</b> BSI overview</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#basic-setup"><i class="fa fa-check"></i><b>9.2</b> Basic setup</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#load-libraries"><i class="fa fa-check"></i><b>9.2.1</b> Load libraries</a></li>
+<li class="chapter" data-level="9.2.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#load-the-data"><i class="fa fa-check"></i><b>9.2.2</b> Load the data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#solve-major-issues"><i class="fa fa-check"></i><b>9.2.3</b> Solve major issues</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#recoding-and-scoring"><i class="fa fa-check"></i><b>9.3</b> Recoding and scoring</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-surps-the-easy-way"><i class="fa fa-check"></i><b>9.3.1</b> Scoring SURPS the easy way</a></li>
+<li class="chapter" data-level="9.3.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-surps-the-harder-way"><i class="fa fa-check"></i><b>9.3.2</b> Scoring SURPS the harder way</a></li>
+<li class="chapter" data-level="9.3.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-the-bsi-scales"><i class="fa fa-check"></i><b>9.3.3</b> Scoring the BSI scales</a></li>
+<li class="chapter" data-level="9.3.4" data-path="real-world-data-example.html"><a href="real-world-data-example.html#recoding-1"><i class="fa fa-check"></i><b>9.3.4</b> Recoding</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="real-world-data-example.html"><a href="real-world-data-example.html#saving-data"><i class="fa fa-check"></i><b>9.4</b> Saving data</a></li>
+<li class="chapter" data-level="9.5" data-path="real-world-data-example.html"><a href="real-world-data-example.html#descriptive-statistics-1"><i class="fa fa-check"></i><b>9.5</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#correlations-between-variables"><i class="fa fa-check"></i><b>9.5.1</b> Correlations between variables</a></li>
+<li class="chapter" data-level="9.5.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#contingency-tables-for-categorical-data"><i class="fa fa-check"></i><b>9.5.2</b> Contingency tables for categorical data</a></li>
+<li class="chapter" data-level="9.5.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#understanding-complex-data"><i class="fa fa-check"></i><b>9.5.3</b> Understanding complex data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="real-world-data-example.html"><a href="real-world-data-example.html#analysis-1"><i class="fa fa-check"></i><b>9.6</b> Analysis</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#simple-but-wrong-logistic-regression"><i class="fa fa-check"></i><b>9.6.1</b> Simple but wrong: Logistic regression</a></li>
+<li class="chapter" data-level="9.6.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#more-complex-modelling-mixed-models-with-lme4"><i class="fa fa-check"></i><b>9.6.2</b> More complex modelling: Mixed models with <code>lme4</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html"><i class="fa fa-check"></i>Learning more/Getting help</a>
+<ul>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#more-coursesbooks"><i class="fa fa-check"></i>More courses/books</a></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#checking-out-the-r-community"><i class="fa fa-check"></i>Checking out the R community</a></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#getting-help"><i class="fa fa-check"></i>Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html"><i class="fa fa-check"></i>Why R is Good</a>
+<ul>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-is-a-language"><i class="fa fa-check"></i>R is a Language</a></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-is-a-programming-language"><i class="fa fa-check"></i>R is a programming language</a></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-has-an-active-community"><i class="fa fa-check"></i>R has an active community</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencesresources-used.html"><a href="referencesresources-used.html"><i class="fa fa-check"></i>References/Resources used</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Matilda Intro to R Workshop</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="real-world-data-example" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Section 9</span> Real world data example<a href="real-world-data-example.html#real-world-data-example" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this example, we’ll use some data derived from a real study to get
+some experience dealing with messy raw data.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
+<p>Before we start, we’ll install some packages:</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="real-world-data-example.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;readxl&quot;</span>, <span class="st">&quot;lme4&quot;</span>))</span></code></pre></div>
+<div id="data-overview" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Data overview<a href="real-world-data-example.html#data-overview" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This data contains the post-treatment observations from a
+cluster-randomised trial comparing a novel treatment to control.
+Schools were randomised to different groups, so every
+participant in the same school received the same
+intervention. It contains:</p>
+<ul>
+<li>SURPS scores, a scale assessing different personality traits
+associated with substance use.</li>
+<li>The anxiety and depression subscales of the Brief Symptom Inventory</li>
+<li>Questions about alcohol use</li>
+</ul>
+<p>The scales haven’t been scored, so our first step will be scoring
+them, before we move onto describing and analysing the data.</p>
+<div class="note">
+<p>
+Checking what you’ve just done is very useful after any change you make to the data. Throughout this example, I’ll include notes on how you could check the previous step. Try to code those checks yourself!
+</p>
+</div>
+<div id="surps-overview" class="section level3 hasAnchor" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> SURPS overview<a href="real-world-data-example.html#surps-overview" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The SURPS scale has four subscales:</p>
+<ul>
+<li>Negative thinking/hopelessness</li>
+<li>Anxiety sensitivity</li>
+<li>Impulsivity</li>
+<li>Sensation seeking</li>
+</ul>
+<p>Higher scores on each subscale represent higher levels
+of the personality traits related to substance use, i.e.
+greater risk.</p>
+</div>
+<div id="bsi-overview" class="section level3 hasAnchor" number="9.1.2">
+<h3><span class="header-section-number">9.1.2</span> BSI overview<a href="real-world-data-example.html#bsi-overview" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The study includes two subscales from the Brief Symptom Inventory.
+Higher scores on each represent higher levels of symptoms:</p>
+<ul>
+<li>Depression</li>
+<li>Anxiety</li>
+</ul>
+</div>
+</div>
+<div id="basic-setup" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Basic setup<a href="real-world-data-example.html#basic-setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="load-libraries" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Load libraries<a href="real-world-data-example.html#load-libraries" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As always, the first step is loading the libraries we’ll use in this
+analysis:</p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="real-world-data-example.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb262-2"><a href="real-world-data-example.html#cb262-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb262-3"><a href="real-world-data-example.html#cb262-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
+<span id="cb262-4"><a href="real-world-data-example.html#cb262-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb262-5"><a href="real-world-data-example.html#cb262-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb262-6"><a href="real-world-data-example.html#cb262-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb262-7"><a href="real-world-data-example.html#cb262-7" aria-hidden="true" tabindex="-1"></a><span class="co"># We&#39;ll also set a default theme for our</span></span>
+<span id="cb262-8"><a href="real-world-data-example.html#cb262-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot plots</span></span>
+<span id="cb262-9"><a href="real-world-data-example.html#cb262-9" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code></pre></div>
+</div>
+<div id="load-the-data" class="section level3 hasAnchor" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Load the data<a href="real-world-data-example.html#load-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The example data is available online - to download it you can use:</p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="real-world-data-example.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://gitlab.com/warsquid/rad/raw/master/data/CapSimulatedData.xlsx&quot;</span>,</span>
+<span id="cb263-2"><a href="real-world-data-example.html#cb263-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">destfile =</span> <span class="st">&quot;CapSimulatedData.xlsx&quot;</span>,</span>
+<span id="cb263-3"><a href="real-world-data-example.html#cb263-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span></code></pre></div>
+<p>(if that doesn’t work, please manually download the file
+<a href="https://gitlab.com/warsquid/rad/raw/master/data/CapSimulatedData.xlsx">here</a>
+and copy it to your project directory)</p>
+<p>Now we can load the data in:</p>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="real-world-data-example.html#cb264-1" aria-hidden="true" tabindex="-1"></a>real <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">&quot;CapSimulatedData.xlsx&quot;</span>)</span>
+<span id="cb264-2"><a href="real-world-data-example.html#cb264-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(real)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 43
+##   PersonId SchoolId Sex    Group   Surps1 Surps2 Surps3 Surps4 Surps5 Surps6 Surps7 Surps8 Surps9 Surps10 Surps11 Surps12
+##      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1        1        2 Male   Control      3      1      1      2      2      2      2      2      1       1       1       1
+## 2        2        7 Female Control     NA     NA     NA     NA     NA     NA     NA     NA     NA      NA      NA      NA
+## 3        3        2 Male   Treatm~      2      1      3      2      0      3      2      2      2       3       2       1
+## 4        4        1 Male   Control     NA     NA     NA     NA     NA     NA     NA     NA     NA      NA      NA      NA
+## 5        5        6 Male   Control      3      1      2      2      1      2      2      1      2       1       1       2
+## 6        6       14 Male   Treatm~      3      1      2      3      0      3      3      0      2       0       1       1
+## # ... with 27 more variables: Surps13 &lt;dbl&gt;, Surps14 &lt;dbl&gt;, Surps15 &lt;dbl&gt;, Surps16 &lt;dbl&gt;, Surps17 &lt;dbl&gt;, Surps18 &lt;dbl&gt;,
+## #   Surps19 &lt;dbl&gt;, Surps20 &lt;dbl&gt;, Surps21 &lt;dbl&gt;, Surps22 &lt;dbl&gt;, Surps23 &lt;dbl&gt;, Bsi1 &lt;dbl&gt;, Bsi2 &lt;dbl&gt;, Bsi3 &lt;dbl&gt;,
+## #   Bsi4 &lt;dbl&gt;, Bsi5 &lt;dbl&gt;, Bsi6 &lt;dbl&gt;, Bsi7 &lt;dbl&gt;, Bsi8 &lt;dbl&gt;, Bsi9 &lt;dbl&gt;, Bsi10 &lt;dbl&gt;, SipEver &lt;dbl&gt;, FullEver &lt;dbl&gt;,
+## #   Sip6 &lt;dbl&gt;, Full6 &lt;dbl&gt;, Full6_freq &lt;dbl&gt;, PresentPost &lt;dbl&gt;</code></pre>
+<p>A good first step is to use <code>str()</code> to inspect the data types:</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="real-world-data-example.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(real)</span></code></pre></div>
+<p>And check some basic features of the data like the number of people
+in each intervention group (and maybe school?).</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="real-world-data-example.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(real<span class="sc">$</span>Group)</span></code></pre></div>
+<pre><code>## 
+##   Control Treatment 
+##      1001      1189</code></pre>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="real-world-data-example.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(real<span class="sc">$</span>SchoolId)</span></code></pre></div>
+<pre><code>## 
+##   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20 
+## 112 114 113  88 126  93 118 125 106  96 108 115 105  96 116 115 108 110 105 121</code></pre>
+</div>
+<div id="solve-major-issues" class="section level3 hasAnchor" number="9.2.3">
+<h3><span class="header-section-number">9.2.3</span> Solve major issues<a href="real-world-data-example.html#solve-major-issues" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One major issue with this data is that not everyone completed the
+post-treatment assessment, and they have missing data for all
+the questions. In an in-depth analysis we might try to handle
+this missing data in a more sophisticated way, but for now there’s
+not much we can do with it, so we’ll drop it up front:</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="real-world-data-example.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same as:</span></span>
+<span id="cb271-2"><a href="real-world-data-example.html#cb271-2" aria-hidden="true" tabindex="-1"></a><span class="co"># real = real[real$PresentPost == 1, ]</span></span>
+<span id="cb271-3"><a href="real-world-data-example.html#cb271-3" aria-hidden="true" tabindex="-1"></a>real <span class="ot">=</span> <span class="fu">filter</span>(real, PresentPost <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>This is a contrived example, but if you can do something
+to simplify your data like this, it’s best to do it up front,
+before getting into the details of data cleaning and analysis.</p>
+</div>
+</div>
+<div id="recoding-and-scoring" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Recoding and scoring<a href="real-world-data-example.html#recoding-and-scoring" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="scoring-surps-the-easy-way" class="section level3 hasAnchor" number="9.3.1">
+<h3><span class="header-section-number">9.3.1</span> Scoring SURPS the easy way<a href="real-world-data-example.html#scoring-surps-the-easy-way" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sometimes there are existing functions in R or in packages that people
+have written that do exactly what we want with minimal effort.</p>
+<p>The <code>psych::scoreItems()</code> function is designed for scoring psychometric
+scales, and it has options to allow a few common tweaks to the scoring
+process, so it will often score things exactly how you want them.</p>
+<p>The most useful feature of <code>scoreItems()</code> is it allows you to specify the questions
+that make up each subscale by providing a <strong>list</strong>: each element
+of the list is a <strong>character vector</strong> specifying which questions
+are in that subscale. You can put a <code>-</code> in front of a question
+if that question should be <strong>reverse scored</strong>.</p>
+<p>So a simple scale with two subscales might look like:</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="real-world-data-example.html#cb272-1" aria-hidden="true" tabindex="-1"></a>scoring_key <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb272-2"><a href="real-world-data-example.html#cb272-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">Extraversion =</span> <span class="fu">c</span>(<span class="st">&quot;Q1&quot;</span>, <span class="st">&quot;-Q2&quot;</span>, <span class="st">&quot;Q3&quot;</span>),</span>
+<span id="cb272-3"><a href="real-world-data-example.html#cb272-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Introversion =</span> <span class="fu">c</span>(<span class="st">&quot;-Q4&quot;</span>, <span class="st">&quot;-Q5&quot;</span>, <span class="st">&quot;Q6&quot;</span>)</span>
+<span id="cb272-4"><a href="real-world-data-example.html#cb272-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>The SURPS questionnaire has four subscales, and we can score them all at once
+using:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="real-world-data-example.html#cb273-1" aria-hidden="true" tabindex="-1"></a>surps_keys <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb273-2"><a href="real-world-data-example.html#cb273-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">Nt =</span> <span class="fu">c</span>(<span class="st">&quot;-Surps1&quot;</span>, <span class="st">&quot;-Surps4&quot;</span>, <span class="st">&quot;-Surps7&quot;</span>, <span class="st">&quot;-Surps13&quot;</span>, </span>
+<span id="cb273-3"><a href="real-world-data-example.html#cb273-3" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;Surps17&quot;</span>, <span class="st">&quot;-Surps20&quot;</span>, <span class="st">&quot;-Surps23&quot;</span>),</span>
+<span id="cb273-4"><a href="real-world-data-example.html#cb273-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">As =</span> <span class="fu">c</span>(<span class="st">&quot;Surps8&quot;</span>, <span class="st">&quot;Surps10&quot;</span>, <span class="st">&quot;Surps14&quot;</span>, <span class="st">&quot;Surps18&quot;</span>, </span>
+<span id="cb273-5"><a href="real-world-data-example.html#cb273-5" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;Surps21&quot;</span>),</span>
+<span id="cb273-6"><a href="real-world-data-example.html#cb273-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Imp =</span> <span class="fu">c</span>(<span class="st">&quot;Surps2&quot;</span>, <span class="st">&quot;Surps5&quot;</span>, <span class="st">&quot;Surps11&quot;</span>, <span class="st">&quot;Surps15&quot;</span>, </span>
+<span id="cb273-7"><a href="real-world-data-example.html#cb273-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;Surps22&quot;</span>),</span>
+<span id="cb273-8"><a href="real-world-data-example.html#cb273-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ss =</span> <span class="fu">c</span>(<span class="st">&quot;Surps3&quot;</span>, <span class="st">&quot;Surps6&quot;</span>, <span class="st">&quot;Surps9&quot;</span>, <span class="st">&quot;Surps12&quot;</span>, </span>
+<span id="cb273-9"><a href="real-world-data-example.html#cb273-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Surps16&quot;</span>, <span class="st">&quot;Surps19&quot;</span>)</span>
+<span id="cb273-10"><a href="real-world-data-example.html#cb273-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb273-11"><a href="real-world-data-example.html#cb273-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb273-12"><a href="real-world-data-example.html#cb273-12" aria-hidden="true" tabindex="-1"></a>surps_scored <span class="ot">=</span> psych<span class="sc">::</span><span class="fu">scoreItems</span>(</span>
+<span id="cb273-13"><a href="real-world-data-example.html#cb273-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">keys =</span> surps_keys, </span>
+<span id="cb273-14"><a href="real-world-data-example.html#cb273-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">items =</span> real,</span>
+<span id="cb273-15"><a href="real-world-data-example.html#cb273-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">totals =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb273-16"><a href="real-world-data-example.html#cb273-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">impute =</span> <span class="st">&quot;median&quot;</span>)</span></code></pre></div>
+<p>We have the scores now, but we haven’t added them to our main dataset yet.
+We can look at the object that <code>scoreItems()</code> has given us:</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="real-world-data-example.html#cb274-1" aria-hidden="true" tabindex="-1"></a>surps_scored</span></code></pre></div>
+<p>This is a lot of information, and right now we’re only interested in the scores,
+so we need to check how to access them.</p>
+<p>Looking at the help page <code>?scoreItems</code> under the <strong>Value</strong> section tells us the
+actual scores are stored at <code>surps_scored$scores</code>. We can add all 4 columns into
+our dataset at once with:</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="real-world-data-example.html#cb275-1" aria-hidden="true" tabindex="-1"></a>real[, <span class="fu">c</span>(<span class="st">&quot;NtTotal&quot;</span>, <span class="st">&quot;AsTotal&quot;</span>, <span class="st">&quot;ImpTotal&quot;</span>, <span class="st">&quot;SsTotal&quot;</span>)] <span class="ot">=</span> surps_scored<span class="sc">$</span>scores</span>
+<span id="cb275-2"><a href="real-world-data-example.html#cb275-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(real[, <span class="fu">c</span>(<span class="st">&quot;NtTotal&quot;</span>, <span class="st">&quot;AsTotal&quot;</span>, <span class="st">&quot;ImpTotal&quot;</span>, <span class="st">&quot;SsTotal&quot;</span>)])</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   NtTotal AsTotal ImpTotal SsTotal
+##     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+## 1       7       6        7       7
+## 2       6      11        5      12
+## 3       6       6        5      11
+## 4       0       3        2      11
+## 5       8       8        5      12
+## 6       6       1        9      12</code></pre>
+<div class="note">
+<p>
+Sometimes you don’t need all the extra info that <code>psych::scoreItems()</code> provides. <code>psych::scoreFast()</code> will do the same calculations but just return the final scores.
+</p>
+</div>
+</div>
+<div id="scoring-surps-the-harder-way" class="section level3 hasAnchor" number="9.3.2">
+<h3><span class="header-section-number">9.3.2</span> Scoring SURPS the harder way<a href="real-world-data-example.html#scoring-surps-the-harder-way" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Functions like <code>scoreItems()</code> won’t always do exactly what we want.
+When we scored the scales above, we let <code>scoreItems()</code> impute any missing
+values using that item’s median score. However, if we have our own missing
+data procedure that doesn’t match what <code>scoreItems()</code> does, we might have
+to do some of the work ourselves.</p>
+<p>One scoring procedure I’ve used in the past is:</p>
+<ul>
+<li>Calculate the scale total for participants who answer all questions</li>
+<li>Participants that answer fewer than 80% of a scale’s items get a missing value</li>
+<li>Participants that answer more than 80% of items get their scores “expanded”
+to match the full range based on all items.</li>
+</ul>
+<p>Some basic math tells us that for those participants who answer &gt;=80% of items,
+we can calculate the mean of the items they did answer and multiply by the
+total number of items.</p>
+<p>To implement our custom procedure, we can do:</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="real-world-data-example.html#cb277-1" aria-hidden="true" tabindex="-1"></a>surps_manual <span class="ot">=</span> psych<span class="sc">::</span><span class="fu">scoreItems</span>(</span>
+<span id="cb277-2"><a href="real-world-data-example.html#cb277-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">keys =</span> surps_keys, </span>
+<span id="cb277-3"><a href="real-world-data-example.html#cb277-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">items =</span> real,</span>
+<span id="cb277-4"><a href="real-world-data-example.html#cb277-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">totals =</span> <span class="cn">FALSE</span>, <span class="co"># Calculate the mean score</span></span>
+<span id="cb277-5"><a href="real-world-data-example.html#cb277-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">impute =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb277-6"><a href="real-world-data-example.html#cb277-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb277-7"><a href="real-world-data-example.html#cb277-7" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>NtManual <span class="ot">=</span> surps_manual<span class="sc">$</span>scores[, <span class="st">&quot;Nt&quot;</span>] <span class="sc">*</span> <span class="fu">length</span>(surps_keys[[<span class="st">&quot;Nt&quot;</span>]])</span>
+<span id="cb277-8"><a href="real-world-data-example.html#cb277-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set missing when less than 80% of items scored</span></span>
+<span id="cb277-9"><a href="real-world-data-example.html#cb277-9" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>NtManual[surps_manual<span class="sc">$</span>missing[, <span class="st">&quot;Nt&quot;</span>] <span class="sc">&gt;</span> <span class="dv">1</span>] <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb277-10"><a href="real-world-data-example.html#cb277-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb277-11"><a href="real-world-data-example.html#cb277-11" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>AsManual <span class="ot">=</span> surps_manual<span class="sc">$</span>scores[, <span class="st">&quot;As&quot;</span>] <span class="sc">*</span> <span class="fu">length</span>(surps_keys[[<span class="st">&quot;As&quot;</span>]])</span>
+<span id="cb277-12"><a href="real-world-data-example.html#cb277-12" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>AsManual[surps_manual<span class="sc">$</span>missing[, <span class="st">&quot;As&quot;</span>] <span class="sc">&gt;</span> <span class="dv">1</span>] <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb277-13"><a href="real-world-data-example.html#cb277-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb277-14"><a href="real-world-data-example.html#cb277-14" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>ImpManual <span class="ot">=</span> surps_manual<span class="sc">$</span>scores[, <span class="st">&quot;Imp&quot;</span>] <span class="sc">*</span> <span class="fu">length</span>(surps_keys[[<span class="st">&quot;Imp&quot;</span>]])</span>
+<span id="cb277-15"><a href="real-world-data-example.html#cb277-15" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>ImpManual[surps_manual<span class="sc">$</span>missing[, <span class="st">&quot;Imp&quot;</span>] <span class="sc">&gt;</span> <span class="dv">1</span>] <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb277-16"><a href="real-world-data-example.html#cb277-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb277-17"><a href="real-world-data-example.html#cb277-17" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>SsManual <span class="ot">=</span> surps_manual<span class="sc">$</span>scores[, <span class="st">&quot;Ss&quot;</span>] <span class="sc">*</span> <span class="fu">length</span>(surps_keys[[<span class="st">&quot;Ss&quot;</span>]])</span>
+<span id="cb277-18"><a href="real-world-data-example.html#cb277-18" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>SsManual[surps_manual<span class="sc">$</span>missing[, <span class="st">&quot;Ss&quot;</span>] <span class="sc">&gt;</span> <span class="dv">1</span>] <span class="ot">=</span> <span class="cn">NA</span></span></code></pre></div>
+<p>Note how we can use R to calculate some of the numbers involved automatically,
+like using <code>length(surps_keys[["Nt"]])</code> instead of typing the actual number.
+Reusing information that we’ve already stored can save us from dumb mistakes,
+since as long as we check that <code>surps_keys</code> has the right items, every piece
+of code that uses it should also have the right information.</p>
+<p>How can we figure out the maximum number of missing items for each scale?
+R can help us with that too:</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="real-world-data-example.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(surps_keys, <span class="cf">function</span>(items) {</span>
+<span id="cb278-2"><a href="real-world-data-example.html#cb278-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ceiling() rounds up</span></span>
+<span id="cb278-3"><a href="real-world-data-example.html#cb278-3" aria-hidden="true" tabindex="-1"></a>    min_items <span class="ot">=</span> <span class="fu">ceiling</span>(<span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">length</span>(items))</span>
+<span id="cb278-4"><a href="real-world-data-example.html#cb278-4" aria-hidden="true" tabindex="-1"></a>    max_missing <span class="ot">=</span> <span class="fu">length</span>(items) <span class="sc">-</span> min_items</span>
+<span id="cb278-5"><a href="real-world-data-example.html#cb278-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(max_missing)</span>
+<span id="cb278-6"><a href="real-world-data-example.html#cb278-6" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<pre><code>##  Nt  As Imp  Ss 
+##   1   1   1   1</code></pre>
+<p>As you get more comfortable with R, you can start using it not just
+to manage your data, but to do some of the extra tasks and calculations that
+pop up in the process.</p>
+<div class="note">
+<p>
+A simple way to check the scoring would be to look at all the items from one of the subscales along with the total score - calculate a couple of scores manually and see if they match.
+</p>
+</div>
+</div>
+<div id="scoring-the-bsi-scales" class="section level3 hasAnchor" number="9.3.3">
+<h3><span class="header-section-number">9.3.3</span> Scoring the BSI scales<a href="real-world-data-example.html#scoring-the-bsi-scales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can score the BSI scales the same way. We just want the total
+for each subscale, and we’ll assume <code>psych</code>’s median imputation
+is OK:</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="real-world-data-example.html#cb280-1" aria-hidden="true" tabindex="-1"></a>bsi_keys <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb280-2"><a href="real-world-data-example.html#cb280-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Using &#39;paste0&#39; to create the column names for us</span></span>
+<span id="cb280-3"><a href="real-world-data-example.html#cb280-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Dep =</span> <span class="fu">paste0</span>(<span class="st">&quot;Bsi&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>),</span>
+<span id="cb280-4"><a href="real-world-data-example.html#cb280-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Anx =</span> <span class="fu">paste0</span>(<span class="st">&quot;Bsi&quot;</span>, <span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb280-5"><a href="real-world-data-example.html#cb280-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb280-6"><a href="real-world-data-example.html#cb280-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-7"><a href="real-world-data-example.html#cb280-7" aria-hidden="true" tabindex="-1"></a>bsi_scored <span class="ot">=</span> psych<span class="sc">::</span><span class="fu">scoreItems</span>(</span>
+<span id="cb280-8"><a href="real-world-data-example.html#cb280-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">keys =</span> bsi_keys, </span>
+<span id="cb280-9"><a href="real-world-data-example.html#cb280-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">items =</span> real,</span>
+<span id="cb280-10"><a href="real-world-data-example.html#cb280-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">totals =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb280-11"><a href="real-world-data-example.html#cb280-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">impute =</span> <span class="st">&quot;median&quot;</span>)</span>
+<span id="cb280-12"><a href="real-world-data-example.html#cb280-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-13"><a href="real-world-data-example.html#cb280-13" aria-hidden="true" tabindex="-1"></a>real[, <span class="fu">c</span>(<span class="st">&quot;DepTotal&quot;</span>, <span class="st">&quot;AnxTotal&quot;</span>)] <span class="ot">=</span> bsi_scored<span class="sc">$</span>scores</span>
+<span id="cb280-14"><a href="real-world-data-example.html#cb280-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(real[, <span class="fu">c</span>(<span class="st">&quot;DepTotal&quot;</span>, <span class="st">&quot;AnxTotal&quot;</span>)])</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 2
+##   DepTotal AnxTotal
+##      &lt;dbl&gt;    &lt;dbl&gt;
+## 1        4        4
+## 2        1        0
+## 3        0        0
+## 4        0        0
+## 5        1        0
+## 6        1        1</code></pre>
+</div>
+<div id="recoding-1" class="section level3 hasAnchor" number="9.3.4">
+<h3><span class="header-section-number">9.3.4</span> Recoding<a href="real-world-data-example.html#recoding-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="recoding-categories" class="section level4 hasAnchor" number="9.3.4.1">
+<h4><span class="header-section-number">9.3.4.1</span> Recoding categories<a href="real-world-data-example.html#recoding-categories" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>All the basic recoding tools you’d expect are available in R. The most basic
+tool is converting numeric codes for categorical variables into nicely
+labelled factors:</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="real-world-data-example.html#cb282-1" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>SipEver <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb282-2"><a href="real-world-data-example.html#cb282-2" aria-hidden="true" tabindex="-1"></a>    real<span class="sc">$</span>SipEver,</span>
+<span id="cb282-3"><a href="real-world-data-example.html#cb282-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb282-4"><a href="real-world-data-example.html#cb282-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>)</span>
+<span id="cb282-5"><a href="real-world-data-example.html#cb282-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb282-6"><a href="real-world-data-example.html#cb282-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb282-7"><a href="real-world-data-example.html#cb282-7" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>FullEver <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb282-8"><a href="real-world-data-example.html#cb282-8" aria-hidden="true" tabindex="-1"></a>    real<span class="sc">$</span>FullEver,</span>
+<span id="cb282-9"><a href="real-world-data-example.html#cb282-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb282-10"><a href="real-world-data-example.html#cb282-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>)</span>
+<span id="cb282-11"><a href="real-world-data-example.html#cb282-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb282-12"><a href="real-world-data-example.html#cb282-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb282-13"><a href="real-world-data-example.html#cb282-13" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Sip6 <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb282-14"><a href="real-world-data-example.html#cb282-14" aria-hidden="true" tabindex="-1"></a>    real<span class="sc">$</span>Sip6,</span>
+<span id="cb282-15"><a href="real-world-data-example.html#cb282-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb282-16"><a href="real-world-data-example.html#cb282-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>)</span>
+<span id="cb282-17"><a href="real-world-data-example.html#cb282-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb282-18"><a href="real-world-data-example.html#cb282-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb282-19"><a href="real-world-data-example.html#cb282-19" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Full6 <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb282-20"><a href="real-world-data-example.html#cb282-20" aria-hidden="true" tabindex="-1"></a>    real<span class="sc">$</span>Full6,</span>
+<span id="cb282-21"><a href="real-world-data-example.html#cb282-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb282-22"><a href="real-world-data-example.html#cb282-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>)</span>
+<span id="cb282-23"><a href="real-world-data-example.html#cb282-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb282-24"><a href="real-world-data-example.html#cb282-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb282-25"><a href="real-world-data-example.html#cb282-25" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Full6_freq <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb282-26"><a href="real-world-data-example.html#cb282-26" aria-hidden="true" tabindex="-1"></a>    real<span class="sc">$</span>Full6_freq,</span>
+<span id="cb282-27"><a href="real-world-data-example.html#cb282-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>),</span>
+<span id="cb282-28"><a href="real-world-data-example.html#cb282-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Never&quot;</span>, <span class="st">&quot;Less than monthly&quot;</span>, <span class="st">&quot;Monthly&quot;</span>, </span>
+<span id="cb282-29"><a href="real-world-data-example.html#cb282-29" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;1-2 times a month&quot;</span>, <span class="st">&quot;Weekly&quot;</span>,</span>
+<span id="cb282-30"><a href="real-world-data-example.html#cb282-30" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Daily&quot;</span>)</span>
+<span id="cb282-31"><a href="real-world-data-example.html#cb282-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb282-32"><a href="real-world-data-example.html#cb282-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb282-33"><a href="real-world-data-example.html#cb282-33" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(real[, <span class="fu">c</span>(<span class="st">&quot;SipEver&quot;</span>, <span class="st">&quot;FullEver&quot;</span>, <span class="st">&quot;Sip6&quot;</span>, <span class="st">&quot;Full6&quot;</span>, <span class="st">&quot;Full6_freq&quot;</span>)])</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 5
+##   SipEver FullEver Sip6  Full6 Full6_freq
+##   &lt;fct&gt;   &lt;fct&gt;    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;     
+## 1 No      &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;      
+## 2 No      &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;      
+## 3 Yes     No       Yes   &lt;NA&gt;  &lt;NA&gt;      
+## 4 Yes     No       No    &lt;NA&gt;  &lt;NA&gt;      
+## 5 Yes     No       &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;      
+## 6 Yes     No       Yes   &lt;NA&gt;  &lt;NA&gt;</code></pre>
+<p>Once you’ve converted the variables to factors, you can combine
+and reorder categories in different ways using functions
+from the <code>forcats</code> package (part of the <code>tidyverse</code>). If
+we want to simplify the frequency variable so it’s just
+a Yes/No variable reflecting whether the participant drinks
+monthly or more often:</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="real-world-data-example.html#cb284-1" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Full6_monthly <span class="ot">=</span> <span class="fu">fct_collapse</span>(</span>
+<span id="cb284-2"><a href="real-world-data-example.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">$</span>Full6_freq,</span>
+<span id="cb284-3"><a href="real-world-data-example.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Monthly =</span> <span class="fu">c</span>(<span class="st">&quot;Monthly&quot;</span>, <span class="st">&quot;1-2 times a month&quot;</span>, </span>
+<span id="cb284-4"><a href="real-world-data-example.html#cb284-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Weekly&quot;</span>,<span class="st">&quot;Daily&quot;</span>),</span>
+<span id="cb284-5"><a href="real-world-data-example.html#cb284-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Less =</span> <span class="fu">c</span>(<span class="st">&quot;Never&quot;</span>, <span class="st">&quot;Less than monthly&quot;</span>)</span>
+<span id="cb284-6"><a href="real-world-data-example.html#cb284-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="note">
+<p>
+A good way to check this recoding would be to check the total numbers for each response for each variable.
+</p>
+</div>
+<div id="advanced-tip-avoid-repeating-yourself" class="section level5 unnumbered hasAnchor">
+<h5>Advanced tip: Avoid repeating yourself<a href="real-world-data-example.html#advanced-tip-avoid-repeating-yourself" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>In the code above we do the exact same thing repeatedly,
+just changing the column name each time. R has lots of
+great tools for applying the same steps multiple times,
+which become very useful as your data gets larger.
+The <a href="tidyverse.html#tidyverse">tidyverse</a> has some particularly
+great tools to make this easier.</p>
+<p>If we turn the steps for coding a yes/no variable into
+a <strong>function</strong> we could apply it to all columns at once,
+using <code>mutate_at</code> from the <code>dplyr</code> package:</p>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="real-world-data-example.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Does the same as the No/Yes recoding above</span></span>
+<span id="cb285-2"><a href="real-world-data-example.html#cb285-2" aria-hidden="true" tabindex="-1"></a>real <span class="ot">=</span> <span class="fu">mutate_at</span>(</span>
+<span id="cb285-3"><a href="real-world-data-example.html#cb285-3" aria-hidden="true" tabindex="-1"></a>    real,</span>
+<span id="cb285-4"><a href="real-world-data-example.html#cb285-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vars</span>(<span class="fu">c</span>(<span class="st">&quot;SipEver&quot;</span>, <span class="st">&quot;FullEver&quot;</span>, <span class="st">&quot;Sip6&quot;</span>, <span class="st">&quot;Full6&quot;</span>)),</span>
+<span id="cb285-5"><a href="real-world-data-example.html#cb285-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(col) {</span>
+<span id="cb285-6"><a href="real-world-data-example.html#cb285-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">factor</span>(col,</span>
+<span id="cb285-7"><a href="real-world-data-example.html#cb285-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb285-8"><a href="real-world-data-example.html#cb285-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>))</span>
+<span id="cb285-9"><a href="real-world-data-example.html#cb285-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb285-10"><a href="real-world-data-example.html#cb285-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+<div id="scalingcalculating-z-scores" class="section level4 unnumbered hasAnchor">
+<h4>Scaling/Calculating z-scores<a href="real-world-data-example.html#scalingcalculating-z-scores" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The <code>scale()</code> function converts scores to z-scores by mean-centering
+them and dividing them by their standard deviation. <code>scale()</code> returns
+a <strong>matrix</strong> even when we only call it on a single vector, so we need
+a bit of extra syntax to pull the values out of the matrix:</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="real-world-data-example.html#cb286-1" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>NtTotal_z <span class="ot">=</span> <span class="fu">scale</span>(real<span class="sc">$</span>NtTotal)[, <span class="dv">1</span>]</span>
+<span id="cb286-2"><a href="real-world-data-example.html#cb286-2" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>AsTotal_z <span class="ot">=</span> <span class="fu">scale</span>(real<span class="sc">$</span>AsTotal)[, <span class="dv">1</span>]</span>
+<span id="cb286-3"><a href="real-world-data-example.html#cb286-3" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>ImpTotal_z <span class="ot">=</span> <span class="fu">scale</span>(real<span class="sc">$</span>ImpTotal)[, <span class="dv">1</span>]</span>
+<span id="cb286-4"><a href="real-world-data-example.html#cb286-4" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>SsTotal_z <span class="ot">=</span> <span class="fu">scale</span>(real<span class="sc">$</span>SsTotal)[, <span class="dv">1</span>]</span>
+<span id="cb286-5"><a href="real-world-data-example.html#cb286-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb286-6"><a href="real-world-data-example.html#cb286-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(real[, <span class="fu">c</span>(<span class="st">&quot;NtTotal&quot;</span>, <span class="st">&quot;NtTotal_z&quot;</span>, <span class="st">&quot;AsTotal&quot;</span>, <span class="st">&quot;AsTotal_z&quot;</span>)])</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   NtTotal NtTotal_z AsTotal AsTotal_z
+##     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+## 1       7     0.374       6    -0.346
+## 2       6     0.107      11     1.49 
+## 3       6     0.107       6    -0.346
+## 4       0    -1.49        3    -1.45 
+## 5       8     0.640       8     0.388
+## 6       6     0.107       1    -2.18</code></pre>
+<div class="note">
+<p>
+The resulting variables should have means of (very close to) 0 and SDs of 1 - check them by calculating.
+</p>
+</div>
+<div id="advanced-tip-reducing-repetition" class="section level5 unnumbered hasAnchor">
+<h5>Advanced tip: reducing repetition<a href="real-world-data-example.html#advanced-tip-reducing-repetition" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Again, we could reduce some of the repetition above
+using some of the advanced features of the <a href="tidyverse.html#tidyverse">tidyverse</a>.
+We could do:</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="real-world-data-example.html#cb288-1" aria-hidden="true" tabindex="-1"></a>real <span class="ot">=</span> real <span class="sc">%&gt;%</span></span>
+<span id="cb288-2"><a href="real-world-data-example.html#cb288-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">&quot;NtTotal&quot;</span>, <span class="st">&quot;AsTotal&quot;</span>, <span class="st">&quot;ImpTotal&quot;</span>, <span class="st">&quot;SsTotal&quot;</span>),</span>
+<span id="cb288-3"><a href="real-world-data-example.html#cb288-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">list</span>(<span class="at">z =</span> <span class="sc">~</span> <span class="fu">scale</span>(.)[, <span class="dv">1</span>]))</span></code></pre></div>
+</div>
+<div id="advanced-tip-scaling-within-groups" class="section level5 unnumbered hasAnchor">
+<h5>Advanced tip: Scaling within groups<a href="real-world-data-example.html#advanced-tip-scaling-within-groups" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>If we want to check peoples’ scores relative to the other participants
+in their school, then we can scale the scores <strong>within</strong> each school.
+Again, this is something that’s easiest to handle using the
+<a href="tidyverse.html#tidyverse">tidyverse</a>:</p>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="real-world-data-example.html#cb289-1" aria-hidden="true" tabindex="-1"></a>real <span class="ot">=</span> real <span class="sc">%&gt;%</span></span>
+<span id="cb289-2"><a href="real-world-data-example.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SchoolId) <span class="sc">%&gt;%</span></span>
+<span id="cb289-3"><a href="real-world-data-example.html#cb289-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">NtTotal_schoolz =</span> <span class="fu">scale</span>(NtTotal)[, <span class="dv">1</span>],</span>
+<span id="cb289-4"><a href="real-world-data-example.html#cb289-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">AsTotal_schoolz =</span> <span class="fu">scale</span>(AsTotal)[, <span class="dv">1</span>],</span>
+<span id="cb289-5"><a href="real-world-data-example.html#cb289-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">ImpTotal_schoolz =</span> <span class="fu">scale</span>(ImpTotal)[, <span class="dv">1</span>],</span>
+<span id="cb289-6"><a href="real-world-data-example.html#cb289-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">SsTotal_schoolz =</span> <span class="fu">scale</span>(SsTotal)[, <span class="dv">1</span>]) <span class="sc">%&gt;%</span></span>
+<span id="cb289-7"><a href="real-world-data-example.html#cb289-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb289-8"><a href="real-world-data-example.html#cb289-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb289-9"><a href="real-world-data-example.html#cb289-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(real[, <span class="fu">c</span>(<span class="st">&quot;SchoolId&quot;</span>, <span class="st">&quot;NtTotal&quot;</span>, <span class="st">&quot;NtTotal_z&quot;</span>, <span class="st">&quot;NtTotal_schoolz&quot;</span>)])</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   SchoolId NtTotal NtTotal_z NtTotal_schoolz
+##      &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;
+## 1        2       7     0.374          0.380 
+## 2        2       6     0.107          0.129 
+## 3        6       6     0.107          0.157 
+## 4       14       0    -1.49          -1.52  
+## 5       11       8     0.640          0.683 
+## 6       13       6     0.107          0.0594</code></pre>
+</div>
+</div>
+<div id="recoding-using-logical-tests" class="section level4 hasAnchor" number="9.3.4.2">
+<h4><span class="header-section-number">9.3.4.2</span> Recoding using logical tests<a href="real-world-data-example.html#recoding-using-logical-tests" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For the BSI scales, we’ll treat any score <span class="math inline">\(&gt; 10\)</span> as showing a possible
+diagnosis of depression or anxiety:</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="real-world-data-example.html#cb291-1" aria-hidden="true" tabindex="-1"></a>dep_diagnosis <span class="ot">=</span> <span class="fu">ifelse</span>(real<span class="sc">$</span>DepTotal <span class="sc">&gt;</span> <span class="dv">10</span>, <span class="st">&quot;Present&quot;</span>, <span class="st">&quot;Absent&quot;</span>)</span>
+<span id="cb291-2"><a href="real-world-data-example.html#cb291-2" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>DepDiagnosis <span class="ot">=</span> <span class="fu">factor</span>(dep_diagnosis, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Absent&quot;</span>, <span class="st">&quot;Present&quot;</span>))</span>
+<span id="cb291-3"><a href="real-world-data-example.html#cb291-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb291-4"><a href="real-world-data-example.html#cb291-4" aria-hidden="true" tabindex="-1"></a>anx_diagnosis <span class="ot">=</span> <span class="fu">ifelse</span>(real<span class="sc">$</span>AnxTotal <span class="sc">&gt;</span> <span class="dv">10</span>, <span class="st">&quot;Present&quot;</span>, <span class="st">&quot;Absent&quot;</span>)</span>
+<span id="cb291-5"><a href="real-world-data-example.html#cb291-5" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>AnxDiagnosis <span class="ot">=</span> <span class="fu">factor</span>(anx_diagnosis, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Absent&quot;</span>, <span class="st">&quot;Present&quot;</span>))</span></code></pre></div>
+<p>For SURPS, we classify participants as <strong>high risk</strong> if
+they are more than 1 standard deviation above the mean on at
+least one subscale. First we need to express this as a logical test:</p>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="real-world-data-example.html#cb292-1" aria-hidden="true" tabindex="-1"></a>is_high_risk <span class="ot">=</span> (</span>
+<span id="cb292-2"><a href="real-world-data-example.html#cb292-2" aria-hidden="true" tabindex="-1"></a>  (real<span class="sc">$</span>NtTotal_z <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb292-3"><a href="real-world-data-example.html#cb292-3" aria-hidden="true" tabindex="-1"></a>  (real<span class="sc">$</span>AsTotal_z <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb292-4"><a href="real-world-data-example.html#cb292-4" aria-hidden="true" tabindex="-1"></a>  (real<span class="sc">$</span>ImpTotal_z <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb292-5"><a href="real-world-data-example.html#cb292-5" aria-hidden="true" tabindex="-1"></a>  (real<span class="sc">$</span>SsTotal_z <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb292-6"><a href="real-world-data-example.html#cb292-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Then we can convert the logical vector to a factor:</p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="real-world-data-example.html#cb293-1" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Risk <span class="ot">=</span> <span class="fu">factor</span>(is_high_risk, <span class="at">levels =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>),</span>
+<span id="cb293-2"><a href="real-world-data-example.html#cb293-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;High&quot;</span>))</span>
+<span id="cb293-3"><a href="real-world-data-example.html#cb293-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb293-4"><a href="real-world-data-example.html#cb293-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(real[, <span class="fu">c</span>(<span class="st">&quot;NtTotal_z&quot;</span>, <span class="st">&quot;AsTotal_z&quot;</span>, <span class="st">&quot;ImpTotal_z&quot;</span>, <span class="st">&quot;SsTotal_z&quot;</span>, <span class="st">&quot;Risk&quot;</span>)])</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 5
+##   NtTotal_z AsTotal_z ImpTotal_z SsTotal_z Risk 
+##       &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
+## 1     0.374    -0.346      0.195    -0.863 Low  
+## 2     0.107     1.49      -0.488     0.604 High 
+## 3     0.107    -0.346     -0.488     0.310 Low  
+## 4    -1.49     -1.45      -1.51      0.310 Low  
+## 5     0.640     0.388     -0.488     0.604 Low  
+## 6     0.107    -2.18       0.877     0.604 Low</code></pre>
+</div>
+<div id="relationships-between-variables-cleaning-up-alcohol-variables" class="section level4 unnumbered hasAnchor">
+<h4>Relationships between variables: Cleaning up alcohol variables<a href="real-world-data-example.html#relationships-between-variables-cleaning-up-alcohol-variables" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The data here comes from an online survey, which was programmed so that questions
+are skipped when they’re no longer relevant. So if a participant has never
+had a sip of alcohol, any questions about having a full drink of alcohol
+are skipped because we can assume the answer is no.</p>
+<p>You can see this logic in the plot below, which shows patterns of responses:</p>
+<p><img src="Rad_files/figure-html/alc_logic_plot-1.png" width="672" /></p>
+<p>To get the same kind of overview in table form, you can also use <code>count()</code>:</p>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="real-world-data-example.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(real, SipEver, FullEver, Sip6, Full6, Full6_freq)</span></code></pre></div>
+<pre><code>## # A tibble: 14 x 6
+##    SipEver FullEver Sip6  Full6 Full6_freq            n
+##    &lt;fct&gt;   &lt;fct&gt;    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;             &lt;int&gt;
+##  1 No      &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;                523
+##  2 Yes     No       No    &lt;NA&gt;  &lt;NA&gt;                394
+##  3 Yes     No       Yes   &lt;NA&gt;  &lt;NA&gt;                376
+##  4 Yes     No       &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;                 16
+##  5 Yes     Yes      No    &lt;NA&gt;  &lt;NA&gt;                155
+##  6 Yes     Yes      Yes   No    &lt;NA&gt;                 11
+##  7 Yes     Yes      Yes   Yes   Never                63
+##  8 Yes     Yes      Yes   Yes   Less than monthly    11
+##  9 Yes     Yes      Yes   Yes   Monthly              10
+## 10 Yes     Yes      Yes   Yes   Weekly                1
+## 11 Yes     Yes      Yes   Yes   Daily                 2
+## 12 Yes     Yes      &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;                  4
+## 13 Yes     &lt;NA&gt;     Yes   &lt;NA&gt;  &lt;NA&gt;                  2
+## 14 &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;                 50</code></pre>
+<p>To analyse the data properly, we’ll need to fill in the “No” responses that
+can be assumed (because of the logic of the survey), instead of leaving
+them missing.</p>
+<p>There’s no real trick to this, the hard part is getting a clear picture
+of what needs to be done like we did above. As long as we fill in
+the variables in order, we should get the right results:</p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="real-world-data-example.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If they&#39;ve never sipped, they&#39;ve never had a full drink</span></span>
+<span id="cb297-2"><a href="real-world-data-example.html#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   and haven&#39;t sipped in the past 6 months</span></span>
+<span id="cb297-3"><a href="real-world-data-example.html#cb297-3" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>FullEver[real<span class="sc">$</span>SipEver <span class="sc">==</span> <span class="st">&quot;No&quot;</span>] <span class="ot">=</span> <span class="st">&quot;No&quot;</span></span>
+<span id="cb297-4"><a href="real-world-data-example.html#cb297-4" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Sip6[real<span class="sc">$</span>SipEver <span class="sc">==</span> <span class="st">&quot;No&quot;</span>] <span class="ot">=</span> <span class="st">&quot;No&quot;</span></span>
+<span id="cb297-5"><a href="real-world-data-example.html#cb297-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-6"><a href="real-world-data-example.html#cb297-6" aria-hidden="true" tabindex="-1"></a><span class="co"># If they haven&#39;t had a full drink ever, they haven&#39;t</span></span>
+<span id="cb297-7"><a href="real-world-data-example.html#cb297-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   had one in the past 6 months </span></span>
+<span id="cb297-8"><a href="real-world-data-example.html#cb297-8" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Full6[real<span class="sc">$</span>FullEver <span class="sc">==</span> <span class="st">&quot;No&quot;</span>] <span class="ot">=</span> <span class="st">&quot;No&quot;</span></span>
+<span id="cb297-9"><a href="real-world-data-example.html#cb297-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-10"><a href="real-world-data-example.html#cb297-10" aria-hidden="true" tabindex="-1"></a><span class="co"># If they haven&#39;t had a sip recently, they haven&#39;t</span></span>
+<span id="cb297-11"><a href="real-world-data-example.html#cb297-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   had a full drink </span></span>
+<span id="cb297-12"><a href="real-world-data-example.html#cb297-12" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Full6[real<span class="sc">$</span>Sip6 <span class="sc">==</span> <span class="st">&quot;No&quot;</span>] <span class="ot">=</span> <span class="st">&quot;No&quot;</span></span>
+<span id="cb297-13"><a href="real-world-data-example.html#cb297-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-14"><a href="real-world-data-example.html#cb297-14" aria-hidden="true" tabindex="-1"></a><span class="co"># If they haven&#39;t had a full drink, their frequency</span></span>
+<span id="cb297-15"><a href="real-world-data-example.html#cb297-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   of drinking is zero</span></span>
+<span id="cb297-16"><a href="real-world-data-example.html#cb297-16" aria-hidden="true" tabindex="-1"></a>real<span class="sc">$</span>Full6_freq[real<span class="sc">$</span>Full6 <span class="sc">==</span> <span class="st">&quot;No&quot;</span>] <span class="ot">=</span> <span class="st">&quot;Never&quot;</span></span></code></pre></div>
+<p>If we look at the pattern of responses again we should see that
+all the relevant responses have now bene filled in. Where
+missing values remain, it’s because we can’t automatically
+assume a response:</p>
+<p><img src="Rad_files/figure-html/alc_logic_plot_after-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="saving-data" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Saving data<a href="real-world-data-example.html#saving-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that the data has been recoded and cleaned, we
+can save it. R can output to lots of different formats,
+so you can choose whichever format works best for you.</p>
+<p>However, if you want to keep working in R, it’s best
+to save it in a format that preserves all the info
+about your data, including the order of categories
+in your factors. SPSS and Stata formats will do this,
+while Excel won’t. For now, we’ll use R’s own
+<strong>.rds</strong> format, which preserves all that information:</p>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="real-world-data-example.html#cb298-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_rds</span>(real, <span class="st">&quot;CapData-Recoded.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="descriptive-statistics-1" class="section level2 hasAnchor" number="9.5">
+<h2><span class="header-section-number">9.5</span> Descriptive statistics<a href="real-world-data-example.html#descriptive-statistics-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Once our data has been recoded and cleaned, we can
+start looking at descriptive statistics - this
+is always a good first step before trying any actual
+analysis.</p>
+<div id="correlations-between-variables" class="section level3 hasAnchor" number="9.5.1">
+<h3><span class="header-section-number">9.5.1</span> Correlations between variables<a href="real-world-data-example.html#correlations-between-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can get a good overview of the relationships between
+different variables using a <strong>scatterplot matrix</strong>,
+which shows correlations between each pair of variables.
+<code>psych</code> has a function <code>pairs.panel</code> to handle this:</p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="real-world-data-example.html#cb299-1" aria-hidden="true" tabindex="-1"></a>key_vars <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;NtTotal_z&quot;</span>, <span class="st">&quot;AsTotal_z&quot;</span>, <span class="st">&quot;ImpTotal_z&quot;</span>, </span>
+<span id="cb299-2"><a href="real-world-data-example.html#cb299-2" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;SsTotal_z&quot;</span>, <span class="st">&quot;DepTotal&quot;</span>, <span class="st">&quot;AnxTotal&quot;</span>)</span>
+<span id="cb299-3"><a href="real-world-data-example.html#cb299-3" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">pairs.panels</span>(real[, key_vars])</span></code></pre></div>
+<p><img src="Rad_files/figure-html/scatter_matrix_example-1.png" width="672" /></p>
+<div class="note">
+<p>
+Also check out the <code>ggcorrplot</code> package for a nicer-looking version of this.
+</p>
+</div>
+<p>If we want a traditional correlation table, we can use
+<code>psych::corr.test</code>, which provides both the correlations
+between variables and the <em>p</em> values for each correlation
+coefficient.</p>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="real-world-data-example.html#cb300-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">corr.test</span>(real[, key_vars])</span></code></pre></div>
+<pre><code>## Call:psych::corr.test(x = real[, key_vars])
+## Correlation matrix 
+##            NtTotal_z AsTotal_z ImpTotal_z SsTotal_z DepTotal AnxTotal
+## NtTotal_z       1.00      0.10       0.21     -0.13     0.45     0.37
+## AsTotal_z       0.10      1.00       0.12     -0.05     0.11     0.15
+## ImpTotal_z      0.21      0.12       1.00      0.39     0.14     0.14
+## SsTotal_z      -0.13     -0.05       0.39      1.00    -0.04    -0.05
+## DepTotal        0.45      0.11       0.14     -0.04     1.00     0.84
+## AnxTotal        0.37      0.15       0.14     -0.05     0.84     1.00
+## Sample Size 
+## [1] 1618
+## Probability values (Entries above the diagonal are adjusted for multiple tests.) 
+##            NtTotal_z AsTotal_z ImpTotal_z SsTotal_z DepTotal AnxTotal
+## NtTotal_z          0      0.00          0      0.00     0.00     0.00
+## AsTotal_z          0      0.00          0      0.08     0.00     0.00
+## ImpTotal_z         0      0.00          0      0.00     0.00     0.00
+## SsTotal_z          0      0.03          0      0.00     0.11     0.11
+## DepTotal           0      0.00          0      0.09     0.00     0.00
+## AnxTotal           0      0.00          0      0.05     0.00     0.00
+## 
+##  To see confidence intervals of the correlations, print with the short=FALSE option</code></pre>
+</div>
+<div id="contingency-tables-for-categorical-data" class="section level3 hasAnchor" number="9.5.2">
+<h3><span class="header-section-number">9.5.2</span> Contingency tables for categorical data<a href="real-world-data-example.html#contingency-tables-for-categorical-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To generate cross-tabs or contigency tables for categorical
+variables, we can use <code>table()</code>, which we’ve already seen
+earlier:</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="real-world-data-example.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(real<span class="sc">$</span>Group, real<span class="sc">$</span>Sex)</span></code></pre></div>
+<pre><code>##            
+##             Female Male
+##   Control      305  423
+##   Treatment    386  502</code></pre>
+<p>If we want to do some basic testing to see if the
+proportions of males and females differ, we can use <code>chisq.test()</code></p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="real-world-data-example.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(real<span class="sc">$</span>Group, real<span class="sc">$</span>Sex)</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  real$Group and real$Sex
+## X-squared = 0.34263, df = 1, p-value = 0.5583</code></pre>
+<p>If we wanted to visualize these numbers instead,
+that’s easy to achieve in <code>ggplot</code>:</p>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="real-world-data-example.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(real, <span class="fu">aes</span>(<span class="at">x =</span> Group, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb306-2"><a href="real-world-data-example.html#cb306-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&#39;dodge&#39;</span>, <span class="at">colour =</span> <span class="st">&#39;black&#39;</span>)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/real_ggplot_bar_example-1.png" width="480" /></p>
+</div>
+<div id="understanding-complex-data" class="section level3 hasAnchor" number="9.5.3">
+<h3><span class="header-section-number">9.5.3</span> Understanding complex data<a href="real-world-data-example.html#understanding-complex-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before trying to do analysis, it can be useful to try
+to understand some of the more complex features of your
+data. In this study, one important feature is the
+cluster randomization, where participants are grouped
+in schools - we’ll need to account for this in our analysis
+so it’s worth trying to get a picture of how it looks.</p>
+<p>We’ll try to look at the means of some variables in each
+school. Complex grouped data like this is where the
+<code>tidyverse</code> starts to be really useful, so we’ll
+start making heavy use of it. We’ll start by generating
+a table:</p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="real-world-data-example.html#cb307-1" aria-hidden="true" tabindex="-1"></a>dep_tab <span class="ot">=</span> real <span class="sc">%&gt;%</span></span>
+<span id="cb307-2"><a href="real-world-data-example.html#cb307-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Group, SchoolId) <span class="sc">%&gt;%</span></span>
+<span id="cb307-3"><a href="real-world-data-example.html#cb307-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb307-4"><a href="real-world-data-example.html#cb307-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">DepMean =</span> <span class="fu">mean</span>(DepTotal, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb307-5"><a href="real-world-data-example.html#cb307-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">SchoolSize =</span> <span class="fu">n</span>()</span>
+<span id="cb307-6"><a href="real-world-data-example.html#cb307-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb307-7"><a href="real-world-data-example.html#cb307-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb307-8"><a href="real-world-data-example.html#cb307-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dep_tab)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+## # Groups:   Group [1]
+##   Group   SchoolId DepMean SchoolSize
+##   &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;      &lt;int&gt;
+## 1 Control        1    3.03         39
+## 2 Control        2    2.72         40
+## 3 Control        3    2.48         44
+## 4 Control        4    1.17         30
+## 5 Control        5    2.84         32
+## 6 Control        6    2.12         32</code></pre>
+<p>Once we’ve got this information in a table, it’s
+easy to create a <code>ggplot</code> plot to visualize it</p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="real-world-data-example.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dep_tab, <span class="fu">aes</span>(<span class="at">x =</span> Group, <span class="at">y =</span> DepMean, </span>
+<span id="cb309-2"><a href="real-world-data-example.html#cb309-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colour =</span> Group)) <span class="sc">+</span></span>
+<span id="cb309-3"><a href="real-world-data-example.html#cb309-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">size =</span> SchoolSize), <span class="at">alpha=</span> <span class="fl">0.5</span>,</span>
+<span id="cb309-4"><a href="real-world-data-example.html#cb309-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">height =</span> <span class="dv">0</span>)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/complex_mean_plot-1.png" width="672" /></p>
+<div class="note">
+<p>
+You can calculate means and summaries within <code>ggplot2</code>, feeding in your full dataset and using functions like <code>stat_summary()</code>. But I’d recommend using <code>tidyverse</code> functions to create a simple summary table instead,as you’ll often run into things <code>ggplot</code> can’t do without a lot of effort.
+</p>
+</div>
+</div>
+</div>
+<div id="analysis-1" class="section level2 hasAnchor" number="9.6">
+<h2><span class="header-section-number">9.6</span> Analysis<a href="real-world-data-example.html#analysis-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="simple-but-wrong-logistic-regression" class="section level3 hasAnchor" number="9.6.1">
+<h3><span class="header-section-number">9.6.1</span> Simple but wrong: Logistic regression<a href="real-world-data-example.html#simple-but-wrong-logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We’ll start with a simple analysis, just comparing
+the <strong>odds</strong> of drinking (a binary outcome) between
+the groups. Since this is a binary outcome,
+we’ll use logistic regression, which is available
+in R through the <code>glm()</code> function. This isn’t quite
+the right approach here, since it doesn’t account
+for potential correlations between participants in
+the same school.</p>
+<p><code>glm()</code> works similarly to <code>lm()</code>, which we saw earlier:
+we spell out our model using a formula like <code>outcome ~ predictors</code>.
+For logistic regression we also have to specify
+<code>family = binomial(link = 'logit')</code>, since that’s the distribution
+we’re using to model the binary outcomes:</p>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="real-world-data-example.html#cb310-1" aria-hidden="true" tabindex="-1"></a>simple_glm <span class="ot">=</span> <span class="fu">glm</span>(</span>
+<span id="cb310-2"><a href="real-world-data-example.html#cb310-2" aria-hidden="true" tabindex="-1"></a>  Full6 <span class="sc">~</span> Group,</span>
+<span id="cb310-3"><a href="real-world-data-example.html#cb310-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> real,</span>
+<span id="cb310-4"><a href="real-world-data-example.html#cb310-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>)</span>
+<span id="cb310-5"><a href="real-world-data-example.html#cb310-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb310-6"><a href="real-world-data-example.html#cb310-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb310-7"><a href="real-world-data-example.html#cb310-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(simple_glm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Full6 ~ Group, family = binomial(link = &quot;logit&quot;), 
+##     data = real)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.3595  -0.3595  -0.3197  -0.3197   2.4492  
+## 
+## Coefficients:
+##                Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     -2.7066     0.1540 -17.579   &lt;2e-16 ***
+## GroupTreatment  -0.2416     0.2208  -1.094    0.274    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 671.54  on 1561  degrees of freedom
+## Residual deviance: 670.34  on 1560  degrees of freedom
+##   (56 observations deleted due to missingness)
+## AIC: 674.34
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<div id="better-output-with-tab_model" class="section level4 unnumbered hasAnchor">
+<h4>Better output with <code>tab_model()</code><a href="real-world-data-example.html#better-output-with-tab_model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>While <code>summary()</code> gives us lots of useful info about
+the model, it’s not particularly readable or nice looking.
+We’ll use <code>tab_model()</code> for nicer output:</p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="real-world-data-example.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(simple_glm)</span></code></pre></div>
+<table style="border-collapse:collapse; border:none;">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Full 6
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Odds Ratios
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.07
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.05 – 0.09
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+Group [Treatment]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.79
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.51 – 1.21
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.274
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+1562
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> Tjur
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.001
+</td>
+</tr>
+</table>
+</div>
+<div id="visualizing-our-model-with-plot_model" class="section level4 unnumbered hasAnchor">
+<h4>Visualizing our model with <code>plot_model()</code><a href="real-world-data-example.html#visualizing-our-model-with-plot_model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>It can be difficult to understand how logistic
+regression relates to the actual probability
+of the outcome. Thankfully <code>plot_model()</code> can
+automatically convert the intervention
+effect in the model to <strong>predicted probabilities</strong>:</p>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="real-world-data-example.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(simple_glm,</span>
+<span id="cb313-2"><a href="real-world-data-example.html#cb313-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">&quot;pred&quot;</span>,</span>
+<span id="cb313-3"><a href="real-world-data-example.html#cb313-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">terms =</span> <span class="st">&quot;Group&quot;</span>)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/simple_glm_plot_model-1.png" width="480" /></p>
+</div>
+</div>
+<div id="more-complex-modelling-mixed-models-with-lme4" class="section level3 hasAnchor" number="9.6.2">
+<h3><span class="header-section-number">9.6.2</span> More complex modelling: Mixed models with <code>lme4</code><a href="real-world-data-example.html#more-complex-modelling-mixed-models-with-lme4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To account for the clustering in the data,
+we’ll use a <strong>mixed model</strong> from the <code>lme4</code>
+package. Adapting our model from above to
+the mixed model approach doesn’t require
+many changes, since the models use basically
+the <strong>same syntax</strong> and we can use some
+of the same <strong>reporting and visualization
+tools</strong> to help interpret them.</p>
+<p>Instead of the <code>glm()</code> function, we’ll use <code>glmer()</code>
+from the <code>lme4</code> package. To add <strong>random intercepts</strong>
+for each school into the model, we just need to tweak
+the syntax slightly:</p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="real-world-data-example.html#cb314-1" aria-hidden="true" tabindex="-1"></a>mixed_glm <span class="ot">=</span> <span class="fu">glmer</span>(</span>
+<span id="cb314-2"><a href="real-world-data-example.html#cb314-2" aria-hidden="true" tabindex="-1"></a>  Full6 <span class="sc">~</span> Group <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SchoolId),</span>
+<span id="cb314-3"><a href="real-world-data-example.html#cb314-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> real,</span>
+<span id="cb314-4"><a href="real-world-data-example.html#cb314-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>)</span>
+<span id="cb314-5"><a href="real-world-data-example.html#cb314-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb314-6"><a href="real-world-data-example.html#cb314-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb314-7"><a href="real-world-data-example.html#cb314-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mixed_glm)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) [&#39;glmerMod&#39;]
+##  Family: binomial  ( logit )
+## Formula: Full6 ~ Group + (1 | SchoolId)
+##    Data: real
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    676.2    692.3   -335.1    670.2     1559 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -0.2702 -0.2548 -0.2367 -0.2254  4.5686 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  SchoolId (Intercept) 0.02679  0.1637  
+## Number of obs: 1562, groups:  SchoolId, 20
+## 
+## Fixed effects:
+##                Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     -2.7200     0.1637 -16.616   &lt;2e-16 ***
+## GroupTreatment  -0.2414     0.2210  -1.092    0.275    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr)
+## GroupTrtmnt -0.657</code></pre>
+<div id="using-tab_model-again" class="section level4 hasAnchor" number="9.6.2.1">
+<h4><span class="header-section-number">9.6.2.1</span> Using <code>tab_model()</code> again<a href="real-world-data-example.html#using-tab_model-again" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="real-world-data-example.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(mixed_glm)</span></code></pre></div>
+<table style="border-collapse:collapse; border:none;">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Full 6
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Odds Ratios
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.07
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.05 – 0.09
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+Group [Treatment]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.79
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.51 – 1.21
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.275
+</td>
+</tr>
+<tr>
+<td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+Random Effects
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+σ<sup>2</sup>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+3.29
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+τ<sub>00</sub> <sub>SchoolId</sub>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.03
+</td>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+ICC
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.01
+</td>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+N <sub>SchoolId</sub>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+20
+</td>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+1562
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.004 / 0.012
+</td>
+</tr>
+</table>
+</div>
+<div id="and-plot_model-again" class="section level4 hasAnchor" number="9.6.2.2">
+<h4><span class="header-section-number">9.6.2.2</span> And <code>plot_model()</code> again<a href="real-world-data-example.html#and-plot_model-again" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="real-world-data-example.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(mixed_glm,</span>
+<span id="cb317-2"><a href="real-world-data-example.html#cb317-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="st">&#39;pred&#39;</span>,</span>
+<span id="cb317-3"><a href="real-world-data-example.html#cb317-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">terms =</span> <span class="st">&#39;Group&#39;</span>)</span></code></pre></div>
+<p><img src="Rad_files/figure-html/glmer_plot_model-1.png" width="480" /></p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="8">
+<li id="fn8"><p>All the data used here was simulated with
+<a href="https://cran.r-project.org/web/packages/synthpop/index.html">synthpop</a>,
+so it doesn’t contain data from any actual participants.<a href="real-world-data-example.html#fnref8" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="better-plots-with-ggplot2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="learning-moregetting-help.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Hi-Vis/Marius_edits2/09-real_data_example.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

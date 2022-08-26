@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 5 Functions | Matilda Intro to R Workshop</title>
+  <meta name="description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 5 Functions | Matilda Intro to R Workshop" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://bookdown.org/rachel_visontay/Rad/Images/Cover.png" />
+  <meta property="og:description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 5 Functions | Matilda Intro to R Workshop" />
+  
+  <meta name="twitter:description" content="An accessible introduction to R that doesn’t assume programming experience" />
+  <meta name="twitter:image" content="https://bookdown.org/rachel_visontay/Rad/Images/Cover.png" />
+
+<meta name="author" content="Marius Mather (with tweaks by Rachel Visontay)" />
+
+
+<meta name="date" content="2022-08-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="Images/rad_logo_r.png" type="image/x-icon" />
+<link rel="prev" href="dataframes-and-more.html"/>
+<link rel="next" href="an-example-analysis.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="installing.html"><a href="installing.html"><i class="fa fa-check"></i><b>1</b> Getting started with R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="installing.html"><a href="installing.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing R</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="installing.html"><a href="installing.html#windows-instructions"><i class="fa fa-check"></i><b>1.1.1</b> Windows instructions</a></li>
+<li class="chapter" data-level="1.1.2" data-path="installing.html"><a href="installing.html#mac-os-x-instructions"><i class="fa fa-check"></i><b>1.1.2</b> Mac OS X instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="installing.html"><a href="installing.html#installing-rstudio"><i class="fa fa-check"></i><b>1.2</b> Installing RStudio</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="installing.html"><a href="installing.html#mac-os-x-notes"><i class="fa fa-check"></i><b>1.2.1</b> Mac OS X notes</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="installing.html"><a href="installing.html#running-rstudio"><i class="fa fa-check"></i><b>1.3</b> Running RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="installing.html"><a href="installing.html#installing-your-first-packages"><i class="fa fa-check"></i><b>1.4</b> Installing your first packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html"><i class="fa fa-check"></i><b>2</b> Tips for effective R programming</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#use-rstudios-projects-feature"><i class="fa fa-check"></i><b>2.1</b> Use RStudio’s “projects” feature</a></li>
+<li class="chapter" data-level="2.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#using-scripts"><i class="fa fa-check"></i><b>2.2</b> Using scripts</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#script-layout"><i class="fa fa-check"></i><b>2.2.1</b> Script layout</a></li>
+<li class="chapter" data-level="2.2.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#a-tip-for-better-reproducibility"><i class="fa fa-check"></i><b>2.2.2</b> A tip for better reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#long-or-wide-data"><i class="fa fa-check"></i><b>2.3</b> Long or wide data</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#wide-to-long"><i class="fa fa-check"></i><b>2.3.1</b> Going from wide to long</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#writing-readable-code"><i class="fa fa-check"></i><b>2.4</b> Writing readable code</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#basic-formatting-tips"><i class="fa fa-check"></i><b>2.4.1</b> Basic formatting tips</a></li>
+<li class="chapter" data-level="2.4.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#keeping-a-consistent-style"><i class="fa fa-check"></i><b>2.4.2</b> Keeping a consistent style</a></li>
+<li class="chapter" data-level="2.4.3" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#writing-comments"><i class="fa fa-check"></i><b>2.4.3</b> Writing comments</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#dont-panic-dealing-with-spss-withdrawal"><i class="fa fa-check"></i><b>2.5</b> Don’t panic: dealing with SPSS withdrawal</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#rstudio-has-a-data-viewer"><i class="fa fa-check"></i><b>2.5.1</b> RStudio has a data viewer</a></li>
+<li class="chapter" data-level="2.5.2" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#r-can-read-spss-files"><i class="fa fa-check"></i><b>2.5.2</b> R can read SPSS files</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="tips-for-effective-r-programming.html"><a href="tips-for-effective-r-programming.html#here-be-dragons-the-bad-parts-of-r"><i class="fa fa-check"></i><b>2.6</b> Here be dragons: the bad parts of R</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html"><i class="fa fa-check"></i><b>3</b> The Basics of R</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#basic-data-types"><i class="fa fa-check"></i><b>3.1</b> Basic data types</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#numbers"><i class="fa fa-check"></i><b>3.1.1</b> Numbers</a></li>
+<li class="chapter" data-level="3.1.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#characters-text"><i class="fa fa-check"></i><b>3.1.2</b> Characters (text)</a></li>
+<li class="chapter" data-level="3.1.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#logical-truefalse"><i class="fa fa-check"></i><b>3.1.3</b> Logical (True/False)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#converting-between-types"><i class="fa fa-check"></i><b>3.2</b> Converting between types</a></li>
+<li class="chapter" data-level="3.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#variables-storing-results"><i class="fa fa-check"></i><b>3.3</b> Variables: Storing Results</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#copying-variables"><i class="fa fa-check"></i><b>3.3.1</b> Copying Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#vectors"><i class="fa fa-check"></i><b>3.4</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#calculating-with-vectors"><i class="fa fa-check"></i><b>3.4.1</b> Calculating with vectors</a></li>
+<li class="chapter" data-level="3.4.2" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#missing-values"><i class="fa fa-check"></i><b>3.4.2</b> Missing values</a></li>
+<li class="chapter" data-level="3.4.3" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#indexing-accessing-parts-of-vectors"><i class="fa fa-check"></i><b>3.4.3</b> Indexing: accessing parts of vectors</a></li>
+<li class="chapter" data-level="3.4.4" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#logical-indexing-filtering-your-data-based-on-conditions"><i class="fa fa-check"></i><b>3.4.4</b> Logical indexing: filtering your data based on conditions</a></li>
+<li class="chapter" data-level="3.4.5" data-path="the-basics-of-r.html"><a href="the-basics-of-r.html#changing-vectors"><i class="fa fa-check"></i><b>3.4.5</b> Changing vectors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html"><i class="fa fa-check"></i><b>4</b> Dataframes and More</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#factors-categorical-data"><i class="fa fa-check"></i><b>4.1</b> Factors (categorical data)</a></li>
+<li class="chapter" data-level="4.2" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#lists"><i class="fa fa-check"></i><b>4.2</b> Lists</a></li>
+<li class="chapter" data-level="4.3" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#dataframes"><i class="fa fa-check"></i><b>4.3</b> Dataframes!</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="dataframes-and-more.html"><a href="dataframes-and-more.html#accessing-parts-of-dataframes"><i class="fa fa-check"></i><b>4.3.1</b> Accessing parts of dataframes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#arguments"><i class="fa fa-check"></i><b>5.1</b> Arguments</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="functions.html"><a href="functions.html#positional-or-named-arguments"><i class="fa fa-check"></i><b>5.1.1</b> Positional or Named Arguments</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#writing-your-own-functions"><i class="fa fa-check"></i><b>5.2</b> Writing your own functions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="an-example-analysis.html"><a href="an-example-analysis.html"><i class="fa fa-check"></i><b>6</b> An Example Analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#loading-libraries"><i class="fa fa-check"></i><b>6.1</b> Loading libraries</a></li>
+<li class="chapter" data-level="6.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#loading-data"><i class="fa fa-check"></i><b>6.2</b> Loading data</a></li>
+<li class="chapter" data-level="6.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#recoding"><i class="fa fa-check"></i><b>6.3</b> Recoding</a></li>
+<li class="chapter" data-level="6.4" data-path="an-example-analysis.html"><a href="an-example-analysis.html#descriptive-statistics"><i class="fa fa-check"></i><b>6.4</b> Descriptive Statistics</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#quick-data-summary"><i class="fa fa-check"></i><b>6.4.1</b> Quick data summary</a></li>
+<li class="chapter" data-level="6.4.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#frequency-tables"><i class="fa fa-check"></i><b>6.4.2</b> Frequency tables</a></li>
+<li class="chapter" data-level="6.4.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#histograms-distributions-of-continuous-variables"><i class="fa fa-check"></i><b>6.4.3</b> Histograms: distributions of continuous variables</a></li>
+<li class="chapter" data-level="6.4.4" data-path="an-example-analysis.html"><a href="an-example-analysis.html#scatterplots-relationship-between-two-continuous-variables"><i class="fa fa-check"></i><b>6.4.4</b> Scatterplots: relationship between two continuous variables</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="an-example-analysis.html"><a href="an-example-analysis.html#analysis"><i class="fa fa-check"></i><b>6.5</b> Analysis</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="an-example-analysis.html"><a href="an-example-analysis.html#t-test"><i class="fa fa-check"></i><b>6.5.1</b> T-test</a></li>
+<li class="chapter" data-level="6.5.2" data-path="an-example-analysis.html"><a href="an-example-analysis.html#formulas-a-simple-mini-language-for-expressing-models"><i class="fa fa-check"></i><b>6.5.2</b> Formulas: a simple mini-language for expressing models</a></li>
+<li class="chapter" data-level="6.5.3" data-path="an-example-analysis.html"><a href="an-example-analysis.html#regression"><i class="fa fa-check"></i><b>6.5.3</b> Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="an-example-analysis.html"><a href="an-example-analysis.html#pointless-flashy-nonsense"><i class="fa fa-check"></i><b>6.6</b> Pointless flashy nonsense</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="tidyverse.html"><a href="tidyverse.html"><i class="fa fa-check"></i><b>7</b> Easier analysis with the tidyverse</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="tidyverse.html"><a href="tidyverse.html#introduction-to-the-tidyverse"><i class="fa fa-check"></i><b>7.1</b> Introduction to the tidyverse</a></li>
+<li class="chapter" data-level="7.2" data-path="tidyverse.html"><a href="tidyverse.html#dplyr-turning-complex-analyses-into-simple-steps"><i class="fa fa-check"></i><b>7.2</b> <code>dplyr</code>: Turning complex analyses into simple steps</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="tidyverse.html"><a href="tidyverse.html#bending-the-rules-non-standard-evaluation"><i class="fa fa-check"></i><b>7.2.1</b> Bending the rules: Non-standard evaluation</a></li>
+<li class="chapter" data-level="7.2.2" data-path="tidyverse.html"><a href="tidyverse.html#pipes"><i class="fa fa-check"></i><b>7.2.2</b> Pipes: <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="7.2.3" data-path="tidyverse.html"><a href="tidyverse.html#common-tasks-with-dplyr"><i class="fa fa-check"></i><b>7.2.3</b> Common tasks with <code>dplyr</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html"><i class="fa fa-check"></i><b>8</b> Better plots with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#using-ggplot2-properly"><i class="fa fa-check"></i><b>8.1</b> Using <code>ggplot2</code> properly</a></li>
+<li class="chapter" data-level="8.2" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#mapping-aesthetics"><i class="fa fa-check"></i><b>8.2</b> Mapping aesthetics</a></li>
+<li class="chapter" data-level="8.3" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#geoms-representing-the-data-with-different-components"><i class="fa fa-check"></i><b>8.3</b> geoms: representing the data with different components</a></li>
+<li class="chapter" data-level="8.4" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#combining-geoms"><i class="fa fa-check"></i><b>8.4</b> Combining geoms</a></li>
+<li class="chapter" data-level="8.5" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#scales-and-themes-changing-the-look-of-your-plot"><i class="fa fa-check"></i><b>8.5</b> Scales and themes: changing the look of your plot</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#scales"><i class="fa fa-check"></i><b>8.5.1</b> Scales</a></li>
+<li class="chapter" data-level="8.5.2" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#themes"><i class="fa fa-check"></i><b>8.5.2</b> Themes</a></li>
+<li class="chapter" data-level="8.5.3" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#finding-extra-scales-and-themes"><i class="fa fa-check"></i><b>8.5.3</b> Finding extra scales and themes</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="better-plots-with-ggplot2.html"><a href="better-plots-with-ggplot2.html#other-packages-use-ggplot2-too"><i class="fa fa-check"></i><b>8.6</b> Other packages use <code>ggplot2</code> too</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="real-world-data-example.html"><a href="real-world-data-example.html"><i class="fa fa-check"></i><b>9</b> Real world data example</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#data-overview"><i class="fa fa-check"></i><b>9.1</b> Data overview</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#surps-overview"><i class="fa fa-check"></i><b>9.1.1</b> SURPS overview</a></li>
+<li class="chapter" data-level="9.1.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#bsi-overview"><i class="fa fa-check"></i><b>9.1.2</b> BSI overview</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#basic-setup"><i class="fa fa-check"></i><b>9.2</b> Basic setup</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#load-libraries"><i class="fa fa-check"></i><b>9.2.1</b> Load libraries</a></li>
+<li class="chapter" data-level="9.2.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#load-the-data"><i class="fa fa-check"></i><b>9.2.2</b> Load the data</a></li>
+<li class="chapter" data-level="9.2.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#solve-major-issues"><i class="fa fa-check"></i><b>9.2.3</b> Solve major issues</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#recoding-and-scoring"><i class="fa fa-check"></i><b>9.3</b> Recoding and scoring</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-surps-the-easy-way"><i class="fa fa-check"></i><b>9.3.1</b> Scoring SURPS the easy way</a></li>
+<li class="chapter" data-level="9.3.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-surps-the-harder-way"><i class="fa fa-check"></i><b>9.3.2</b> Scoring SURPS the harder way</a></li>
+<li class="chapter" data-level="9.3.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#scoring-the-bsi-scales"><i class="fa fa-check"></i><b>9.3.3</b> Scoring the BSI scales</a></li>
+<li class="chapter" data-level="9.3.4" data-path="real-world-data-example.html"><a href="real-world-data-example.html#recoding-1"><i class="fa fa-check"></i><b>9.3.4</b> Recoding</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="real-world-data-example.html"><a href="real-world-data-example.html#saving-data"><i class="fa fa-check"></i><b>9.4</b> Saving data</a></li>
+<li class="chapter" data-level="9.5" data-path="real-world-data-example.html"><a href="real-world-data-example.html#descriptive-statistics-1"><i class="fa fa-check"></i><b>9.5</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#correlations-between-variables"><i class="fa fa-check"></i><b>9.5.1</b> Correlations between variables</a></li>
+<li class="chapter" data-level="9.5.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#contingency-tables-for-categorical-data"><i class="fa fa-check"></i><b>9.5.2</b> Contingency tables for categorical data</a></li>
+<li class="chapter" data-level="9.5.3" data-path="real-world-data-example.html"><a href="real-world-data-example.html#understanding-complex-data"><i class="fa fa-check"></i><b>9.5.3</b> Understanding complex data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="real-world-data-example.html"><a href="real-world-data-example.html#analysis-1"><i class="fa fa-check"></i><b>9.6</b> Analysis</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="real-world-data-example.html"><a href="real-world-data-example.html#simple-but-wrong-logistic-regression"><i class="fa fa-check"></i><b>9.6.1</b> Simple but wrong: Logistic regression</a></li>
+<li class="chapter" data-level="9.6.2" data-path="real-world-data-example.html"><a href="real-world-data-example.html#more-complex-modelling-mixed-models-with-lme4"><i class="fa fa-check"></i><b>9.6.2</b> More complex modelling: Mixed models with <code>lme4</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html"><i class="fa fa-check"></i>Learning more/Getting help</a>
+<ul>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#more-coursesbooks"><i class="fa fa-check"></i>More courses/books</a></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#checking-out-the-r-community"><i class="fa fa-check"></i>Checking out the R community</a></li>
+<li class="chapter" data-level="" data-path="learning-moregetting-help.html"><a href="learning-moregetting-help.html#getting-help"><i class="fa fa-check"></i>Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html"><i class="fa fa-check"></i>Why R is Good</a>
+<ul>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-is-a-language"><i class="fa fa-check"></i>R is a Language</a></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-is-a-programming-language"><i class="fa fa-check"></i>R is a programming language</a></li>
+<li class="chapter" data-level="" data-path="why-r-is-good.html"><a href="why-r-is-good.html#r-has-an-active-community"><i class="fa fa-check"></i>R has an active community</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencesresources-used.html"><a href="referencesresources-used.html"><i class="fa fa-check"></i>References/Resources used</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Matilda Intro to R Workshop</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="functions" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Section 5</span> Functions<a href="functions.html#functions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>So far, we’ve used a few built-in tools like <code>mean()</code> - if you’re
+coming from a language like SPSS you might think of these tools as “commands,”
+but in R we call them <strong>functions</strong>. Functions are basically reusable chunks of
+code, that take a certain set of inputs (also called <strong>arguments</strong>) and either
+produce an output (a <strong>return value</strong>), or just do a task like showing a plot.
+When you plug a specific set of inputs into the function and “run” it, we say
+that you’re <strong>calling</strong> the function.</p>
+<p>The <code>mean()</code> function in R can take a vector of numbers as an input,
+and return a single number as an output:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="functions.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">4</span>))</span></code></pre></div>
+<pre><code>## [1] 4.833333</code></pre>
+<div id="arguments" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Arguments<a href="functions.html#arguments" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The arguments of a function are the set of inputs it accepts. Some
+of the inputs will be used to calculate the output, while some
+might be different options that affect how the calculation happens.</p>
+<p>If we look at the arguments for the default <code>mean()</code> function in R,
+accessed by entering <code>?mean</code> in the console, we see:</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="functions.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">trim =</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>, ...)</span></code></pre></div>
+<p>Since the first argument <code>x</code> appears on its own, it’s a <strong>mandatory</strong> argument.
+You have to provide a value for <code>x</code>, otherwise you get an error:</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="functions.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>()</span>
+<span id="cb161-2"><a href="functions.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Error in mean.default() : argument &quot;x&quot; is missing, with no default</span></span></code></pre></div>
+<p>Arguments like <code>trim = 0</code> are <strong>optional</strong> when you’re calling the function:
+the value after the <code>=</code> is the <strong>default value</strong> that will be used if you don’t
+supply one. The default values tell you what types of input
+that argument accepts (numeric, logical, character, etc.), but it’s also good
+to read the information on the function’s help page for more detail.</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="functions.html#cb162-1" aria-hidden="true" tabindex="-1"></a>random_scores <span class="ot">=</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">20</span>)</span>
+<span id="cb162-2"><a href="functions.html#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(random_scores)</span></code></pre></div>
+<pre><code>## [1] 21.2</code></pre>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="functions.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the same as above, since this is already the default</span></span>
+<span id="cb164-2"><a href="functions.html#cb164-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(random_scores, <span class="at">trim =</span> <span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## [1] 21.2</code></pre>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="functions.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A different setting from the default</span></span>
+<span id="cb166-2"><a href="functions.html#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(random_scores, <span class="at">trim =</span> <span class="fl">0.1</span>)</span></code></pre></div>
+<pre><code>## [1] 20.375</code></pre>
+<div id="positional-or-named-arguments" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Positional or Named Arguments<a href="functions.html#positional-or-named-arguments" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If you provide arguments for a function without specifying an argument name,
+they will be used in order, left to right, i.e. by <strong>position</strong>. R has a
+<code>plot(x, y)</code> function, and if you call it with <code>plot(1:5, 10:6)</code>, <code>1:5</code>
+will be matched up with <code>x</code> and <code>10:6</code> will be matched up with <code>y</code>. Most
+functions take a vector or dataframe as their first argument, so you often
+end up passing the first argument by position.</p>
+<p>If you specify the argument name, you are passing the argument by <strong>name</strong>.
+It doesn’t matter which order you pass named arguments in, and you can
+skip over any arguments you don’t want to provide. Because the order doesn’t
+matter, both of these are equivalent to <code>plot(1:5, 10:6)</code>:</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="functions.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">y =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb168-2"><a href="functions.html#cb168-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
+<p>You can provide arguments by both position <em>and</em> name. Usually, you
+provide one or two positional arguments first, and then as many named
+arguments as you need<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>:</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="functions.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First two arguments by position, the rest named</span></span>
+<span id="cb169-2"><a href="functions.html#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">10</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">main =</span> <span class="st">&quot;A scatter plot&quot;</span>)</span></code></pre></div>
+<p>If in doubt, just name all the arguments.</p>
+</div>
+</div>
+<div id="writing-your-own-functions" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Writing your own functions<a href="functions.html#writing-your-own-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You can write your own functions in R. In fact, there’s no real difference
+between functions you write yourself and those that are built-in or provided
+by other packages. Generally, using existing functions saves a lot of time
+(and debugging), but there’s nothing stopping you from creating your
+own tools if the existing ones don’t quite give you what you need.</p>
+<p>The basic template for creating a function is:</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="functions.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Just a template, not runnable code</span></span>
+<span id="cb170-2"><a href="functions.html#cb170-2" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(arg, <span class="at">optional_arg =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb170-3"><a href="functions.html#cb170-3" aria-hidden="true" tabindex="-1"></a>   result <span class="ot">=</span> arg <span class="sc">+</span> <span class="dv">3</span> </span>
+<span id="cb170-4"><a href="functions.html#cb170-4" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span> (optional_arg) {</span>
+<span id="cb170-5"><a href="functions.html#cb170-5" aria-hidden="true" tabindex="-1"></a>       result <span class="ot">=</span> result <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb170-6"><a href="functions.html#cb170-6" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb170-7"><a href="functions.html#cb170-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(result)</span>
+<span id="cb170-8"><a href="functions.html#cb170-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>We set out what arguments are going to be used within the parentheses <code>()</code> after
+<code>function</code>. Then, within the braces <code>{}</code> (called the <strong>body</strong> of the function),
+we write code to transform the inputs into whatever form we need.
+<code>return(result)</code> specificies that we want the <strong>output</strong> of the function to
+be the value of the <code>result</code> variable<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
+<p>A simple example of a useful function you might write yourself is:</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="functions.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co"># It&#39;s good to write a quick comment explaining what the</span></span>
+<span id="cb171-2"><a href="functions.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   function does and what inputs it needs:</span></span>
+<span id="cb171-3"><a href="functions.html#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get_percent: return the proportion of TRUE values as a percentage</span></span>
+<span id="cb171-4"><a href="functions.html#cb171-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Arguments:</span></span>
+<span id="cb171-5"><a href="functions.html#cb171-5" aria-hidden="true" tabindex="-1"></a><span class="co"># x: a logical vector</span></span>
+<span id="cb171-6"><a href="functions.html#cb171-6" aria-hidden="true" tabindex="-1"></a>get_percent <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
+<span id="cb171-7"><a href="functions.html#cb171-7" aria-hidden="true" tabindex="-1"></a>   percent <span class="ot">=</span> <span class="fu">sum</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x) <span class="sc">*</span> <span class="dv">100</span> </span>
+<span id="cb171-8"><a href="functions.html#cb171-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(percent)</span>
+<span id="cb171-9"><a href="functions.html#cb171-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb171-10"><a href="functions.html#cb171-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb171-11"><a href="functions.html#cb171-11" aria-hidden="true" tabindex="-1"></a>random_scores <span class="ot">=</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">20</span>)</span>
+<span id="cb171-12"><a href="functions.html#cb171-12" aria-hidden="true" tabindex="-1"></a><span class="fu">get_percent</span>(random_scores <span class="sc">&gt;</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>## [1] 65</code></pre>
+<p>The advantages of writing functions are:</p>
+<ul>
+<li>If you’re doing the same thing multiple times on different pieces of data,
+you can create a function and stop writing the same code over and over.</li>
+<li>A function with a sensible name can make it clearer what is happening
+in the code: e.g. <code>get_percent(score)</code> vs <code>sum(score) / length(score)</code>.</li>
+<li>You can share functions you’ve written with other people - they’re
+flexible by nature so they’re not tied to your specific data.</li>
+</ul>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>You can mix and match positional and named arguments in
+different ways, but it gets confusing and is not recommended.<a href="functions.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p><code>return()</code> is not strictly needed in R: R will return
+the last value you calculate in the function by default, but <code>return()</code>
+makes it clearer.<a href="functions.html#fnref5" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dataframes-and-more.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="an-example-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Hi-Vis/Marius_edits2/05-functions.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

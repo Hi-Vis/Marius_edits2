@@ -1,10 +1,11 @@
 --- 
 title: "Matilda Intro to R Workshop"
-author: "Marius Mather (with tweaks by Rachel Visontay"
+author: "Marius Mather (with tweaks by Rachel Visontay)"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
+output: bookdown::gitbook
 documentclass: book
-bibliography: [book.bib, packages.bib]
+bibliography: [book.bib]
 biblio-style: plain
 link-citations: yes
 nocite: | 
@@ -12,18 +13,20 @@ nocite: |
 colorlinks: yes
 monofontoptions: "Scale=0.7"
 description: "An accessible introduction to R that doesn't assume programming experience"
-url: "https://bookdown.org/marius_mather/Rad/"
+url: "https://bookdown.org/rachel_visontay/Rad/"
 cover-image: "Images/Cover.png"
 favicon: "Images/rad_logo_r.png"
+bookdown::html_book:
+    css: custom.css
 ---
 
 ```{r setup, include=FALSE}
 req_packages = c('car', 'carData', 'sjPlot', 'effects', 
                  'readxl', 'tidyr', 'svglite',
                  'lme4')
-
+#RV had to add the repos argument
 lapply(req_packages, function(pkg) {
-  if (system.file(package = pkg) == '') install.packages(pkg)
+  if (system.file(package = pkg) == '') install.packages(pkg, repos = "http://cran.us.r-project.org")
 })
 ```
 

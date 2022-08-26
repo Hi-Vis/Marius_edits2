@@ -1,6 +1,8 @@
 book_filename: "Rad"
-edit: "https://gitlab.com/warsquid/rad/blob/master/%s"
+edit: "https://github.com/Hi-Vis/Marius_edits2/%s"
 delete_merged_file: true
 language:
   ui:
     chapter_name: "Section "
+    
+    
