@@ -1,6 +1,6 @@
 --- 
-title: "Rad: R for academics"
-author: "Marius Mather"
+title: "Matilda Intro to R Workshop"
+author: "Marius Mather (with tweaks by Rachel Visontay"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -28,43 +28,13 @@ lapply(req_packages, function(pkg) {
 ```
 
 
-# Introduction {-}
+# Welcome {-}
 
-![](Images/rad_logo.png "Rad logo")
+![](Images/Green Modern Matrix Code Coming Soon Instagram Story (2).png "Green Modern Matrix Code Coming Soon Instagram Story (2)")
 
-This is an experiment in running some short, informal training
-sessions to get people started with a programming approach to data
-management and analysis. We'll be using R, but a lot of the concepts
-in R will transfer to other software.
+This course has been adapted from ex-Matilda Marius Mather's R for Academics course. 
 
-There may also be some room to include some info about basic web design or
-other related topics - some of this can be done through R, and more
-info can be provided if needed.
+This session is designed to get people started with a programming approach to data management and analysis. We’ll be using R, but a lot of the concepts in R will transfer to other software.
 
-Training will be pitched at the beginner level - you don't
-need to know the difference between a CSS and a CSV file
-to get started.
-
-I'll run short lunchtime sessions, working through
-each topic at a relaxed pace with plenty of time
-for questions.
-
-What to bring:
-
-* Your fancy new laptop: these will be practical, 
-  hands-on sessions.
-* Your lunch: don't skip food in favour of programming.
-
-Please join us for the first session: [Getting Started With R](#installing)
-
-## Can't attend? {-}
-
-Material that I put together for these sessions will be
-added to this blog, which will hopefully grow into
-a useful resource as the sessions continue.
-
-You can also download PDF and epub versions of all the material
-using the toolbar at the top. Right now the material is being
-regularly updated, so please remember to check for updates:
 
 ![](Images/Cover.png "Book cover")
